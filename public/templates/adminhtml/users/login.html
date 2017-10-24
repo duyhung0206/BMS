@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-md-4 col-md-offset-4" id="page-login">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="form-horizontal" name="loginForm" ng-submit="doLogin(loginForm)">
+                    <fieldset>
+                        <legend>Admin Learning Marketing</legend>
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" id="inputEmail" placeholder="Email" ng-model="login.username">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+                            <div class="col-lg-10">
+                                <input type="password" class="form-control" id="inputPassword" placeholder="Password" ng-model="login.password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <button type="submit" class="btn btn-success">Login</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
