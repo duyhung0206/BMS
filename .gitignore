@@ -8,5 +8,6 @@ Homestead.json
 /bootstrap
 .idea
 /.idea
-bootstrap
-tests
+/storage
+artisan
+server.php
