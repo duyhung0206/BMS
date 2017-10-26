@@ -37,5 +37,23 @@ myApp.controller('categoryController', ['$scope', '$rootScope', 'categoryModel',
                 $scope.formSubmitted = true;
             }
         },
+        editCategory: function (categoryId) {
+            console.log(categoryId);
+            console.log('editCategory');
+        },
+        deleteCategory: function (categoryId, categoryName) {
+            data = {
+                titleDialog: 'Confirm Delete Category: '+categoryName,
+                messageDialog: null,
+                titleClose: null,
+                titleOk: null,
+                functionExecute: function () {
+                    categoryModel.deleteCategory(categoryId);
+                }
+            }
+            $scope.$emit('showDialogConfig', data);
+        }
+
+
     });
 }]);

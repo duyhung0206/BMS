@@ -93,7 +93,7 @@
                                 <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
                             </a>
                         </th>
-                        <th width="55%">
+                        <th width="50%">
                             <a href="javascript:void(0)" ng-click="sortType = 'description'; sortReverse = !sortReverse">
                                 Description
                                 <span ng-show="sortType == 'description' && !sortReverse" class="fa fa-caret-down"></span>
@@ -107,6 +107,7 @@
                                 <span ng-show="sortType == 'is_active' && sortReverse" class="fa fa-caret-up"></span>
                             </a>
                         </th>
+                        <th width="5%">Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -121,7 +122,8 @@
                         <td>{{category.id}}</td>
                         <td>{{category.name}}</td>
                         <td>{{category.description}}</td>
-                        <td>{{category.is_active}}</td>
+                        <td>{{category.is_active==1?'Yes':'No'}}</td>
+                        <td><a href="javascript:void(0)" ng-click="editCategory(category.id)">Edit</a>/<a href="javascript:void(0)" ng-click="deleteCategory(category.id, category.name)">Delete</a></td>
                     </tr>
                     </tbody>
                 </table>

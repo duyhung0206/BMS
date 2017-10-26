@@ -60,6 +60,16 @@ myApp.factory('categoryModel', ['$http', function($http){
                 method: "GET",
             });
         },
+        deleteCategory: function (categoryId) {
+            console.log(categoryId);
+            return $http({
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                url: baseUrl + 'category/delete/'+ categoryId,
+                method: 'POST'
+            });
+        }
     };
 }])
 //# sourceMappingURL=models.js.map

@@ -12,6 +12,7 @@
 	</script>
 </head>
 <body ng-controller="globalController">
+	<div ng-include="'templates/adminhtml/partials/confirmDelete.html'" ng-controller="confirmDeleteController"></div>
 	<div class="container">
 		<div ng-view></div>
 	</div>

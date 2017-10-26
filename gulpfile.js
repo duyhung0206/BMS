@@ -19,7 +19,7 @@ elixir(function(mix) {
     mix.scripts([
         'adminhtml/app.js',
         'adminhtml/route.js',
-        'adminhtml/auth.js'
+        'adminhtml/auth.js',
     ], 'public/js/adminhtml/app.js');
 
     mix.scripts([
@@ -33,7 +33,8 @@ elixir(function(mix) {
         'adminhtml/controllers/userController.js',
         'adminhtml/controllers/navController.js',
         'adminhtml/controllers/categoryController.js',
-        'adminhtml/controllers/postController.js'
+        'adminhtml/controllers/postController.js',
+        'adminhtml/controllers/confirmDeleteController.js'
     ], 'public/js/adminhtml/controllers.js');
 
     mix.version([

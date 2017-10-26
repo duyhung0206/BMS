@@ -20,6 +20,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::group(['middleware' => 'auth-api'], function () {
         Route::resource('category', 'CategoryController');
+        Route::post('category/delete/{categoryId}', 'CategoryController@destroy');
     });
 });
 

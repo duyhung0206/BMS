@@ -102,5 +102,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         //
+        var_dump($id);
+        die();
     }
 }
