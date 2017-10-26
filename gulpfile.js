@@ -18,7 +18,8 @@ elixir(function(mix) {
     /*adminhtml*/
     mix.scripts([
         'adminhtml/app.js',
-        'adminhtml/route.js'
+        'adminhtml/route.js',
+        'adminhtml/auth.js'
     ], 'public/js/adminhtml/app.js');
 
     mix.scripts([

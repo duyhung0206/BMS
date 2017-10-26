@@ -1,11 +1,7 @@
 <?php
 
-namespace Database\Seeds;
-
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-
-use Hades\Edu\Database\Seeds\UserTableSeeder;
 
 class DatabaseSeeder extends Seeder
 {

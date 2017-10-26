@@ -18,6 +18,8 @@ class CreateCategoryTable extends Migration
             $table->char('page_title', 255);
             $table->longText('description');
             $table->boolean('is_active');
+            $table->integer('created_by_id');
+            $table->char('created_by', 255);
             $table->timestamps();
         });
     }

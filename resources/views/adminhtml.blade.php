@@ -6,7 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('css/superhero/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{asset('bower_components/font-awesome/css/font-awesome.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
-	<script>
+	<script type="text/javascript">
         var baseUrl = "{{url('/')}}/admin/";
         var csrfToken = "{{csrf_token()}}";
 	</script>
@@ -21,6 +21,8 @@
 	<script type="text/javascript" src="{{asset('bower_components/angular/angular.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-route/angular-route.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-cookies/angular-cookies.min.js')}}"></script>
+
+	<script type="text/javascript" src="{{asset('bower_components/dirPagination/dirPagination.js')}}"></script>
 
 	<script type="text/javascript" src="{{asset('js/adminhtml/app.js')}}"></script>
 	<script type="text/javascript" src="{{asset('js/adminhtml/controllers.js')}}"></script>

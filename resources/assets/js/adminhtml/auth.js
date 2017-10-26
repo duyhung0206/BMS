@@ -1,17 +1,19 @@
-myApp.factory('errorInterceptor', ['$location', '$rootScope', '$cookies' , '$window',
-    function ($location, $rootScope, $cookies, $window) {
-        return {
+myApp.factory('errorInterceptor', ['$location', '$rootScope', '$cookies' , '$window', '$q',
+    function ($location, $rootScope, $cookies, $window, $q) {
+
+        var requestRecoverer = {
             responseError: function (response) {
                 if (response && response.status === 501) {
                     if($location.url() != '/'){
                         $cookies.remove('auth');
-                        console.log(response);
                         $window.location.href = baseUrl;
                     }
                 }
-
+                return $q.reject(response);
             }
         };
+
+        return requestRecoverer;
     }]);
 
 myApp.config(function ($httpProvider) {
