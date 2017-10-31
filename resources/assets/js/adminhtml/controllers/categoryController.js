@@ -27,11 +27,25 @@ myApp.controller('categoryController', ['$scope', '$rootScope', 'categoryModel',
                 .then(function(response) {
                     if(response.status == 201){
                         $scope.categories.push(response.data);
-                        console.log($scope.categories);
+                        $scope.n_category = {
+                            name: '',
+                                description: '',
+                                is_active: '1',
+                                page_title: '',
+                        }
+                        $scope.$emit('showMessage', ['success', 'Success', 'Create category: ' + response.data.name + ' success !']);
                     }
                 })
                 .catch(function(response) {
-                    console.log(response);
+                    messageError = '';
+                    response.data.forEach(function (value, index) {
+                        messageError += value;
+                        if(index != (response.data.length -1)){
+                            messageError += '<br/>';
+                        }
+                    });
+                    messageError = messageError==''?'Error while process function !':messageError;
+                    $scope.$emit('showMessage', ['danger', 'Error', messageError]);
                 });
             }else{
                 $scope.formSubmitted = true;
@@ -39,7 +53,6 @@ myApp.controller('categoryController', ['$scope', '$rootScope', 'categoryModel',
         },
         editCategory: function (categoryId) {
             console.log(categoryId);
-            console.log('editCategory');
         },
         deleteCategory: function (categoryId, categoryName) {
             data = {
@@ -48,7 +61,15 @@ myApp.controller('categoryController', ['$scope', '$rootScope', 'categoryModel',
                 titleClose: null,
                 titleOk: null,
                 functionExecute: function () {
-                    categoryModel.deleteCategory(categoryId);
+                    categoryModel.deleteCategory(categoryId)
+                        .then(function(response) {
+                            $scope.categories = response.data;
+                        })
+                        .catch(function(response) {
+                            console.log(response);
+                        }).finally(function () {
+                            $scope.$emit('hideDialogConfig', data);
+                        });
                 }
             }
             $scope.$emit('showDialogConfig', data);

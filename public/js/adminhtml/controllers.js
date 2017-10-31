@@ -98,11 +98,25 @@ myApp.controller('categoryController', ['$scope', '$rootScope', 'categoryModel',
                 .then(function(response) {
                     if(response.status == 201){
                         $scope.categories.push(response.data);
-                        console.log($scope.categories);
+                        $scope.n_category = {
+                            name: '',
+                                description: '',
+                                is_active: '1',
+                                page_title: '',
+                        }
+                        $scope.$emit('showMessage', ['success', 'Success', 'Create category: ' + response.data.name + ' success !']);
                     }
                 })
                 .catch(function(response) {
-                    console.log(response);
+                    messageError = '';
+                    response.data.forEach(function (value, index) {
+                        messageError += value;
+                        if(index != (response.data.length -1)){
+                            messageError += '<br/>';
+                        }
+                    });
+                    messageError = messageError==''?'Error while process function !':messageError;
+                    $scope.$emit('showMessage', ['danger', 'Error', messageError]);
                 });
             }else{
                 $scope.formSubmitted = true;
@@ -110,7 +124,6 @@ myApp.controller('categoryController', ['$scope', '$rootScope', 'categoryModel',
         },
         editCategory: function (categoryId) {
             console.log(categoryId);
-            console.log('editCategory');
         },
         deleteCategory: function (categoryId, categoryName) {
             data = {
@@ -119,7 +132,15 @@ myApp.controller('categoryController', ['$scope', '$rootScope', 'categoryModel',
                 titleClose: null,
                 titleOk: null,
                 functionExecute: function () {
-                    categoryModel.deleteCategory(categoryId);
+                    categoryModel.deleteCategory(categoryId)
+                        .then(function(response) {
+                            $scope.categories = response.data;
+                        })
+                        .catch(function(response) {
+                            console.log(response);
+                        }).finally(function () {
+                            $scope.$emit('hideDialogConfig', data);
+                        });
                 }
             }
             $scope.$emit('showDialogConfig', data);
@@ -170,6 +191,9 @@ myApp.controller('confirmDeleteController', ['$scope', '$rootScope', function($s
     $rootScope.$on('showDialogConfig', function(event, args) {
         $scope.showDialogConfig(args.titleDialog, args.messageDialog, args.titleClose, args.titleOk, args.functionExecute);
     });
+    $rootScope.$on('hideDialogConfig', function(event, args) {
+        $('#configDialog').modal('hide');
+    });
 }]);
 
 function stringGen(len)
@@ -182,4 +206,30 @@ function stringGen(len)
         text += charset.charAt(Math.floor(Math.random() * charset.length));
     return text;
 }
+myApp.controller('notifyController', ['$scope', '$rootScope', '$timeout', function($scope, $rootScope, $timeout){
+
+    /*variables*/
+    angular.extend($scope, {
+        alerts:[]
+    });
+    /*functions*/
+    angular.extend($scope, {
+        showMessage: function (type, title, message) {
+            $scope.alerts.unshift({
+                type: type,
+                title: title,
+                message: message
+            });
+            $timeout( function(){
+                $scope.alerts.pop();
+            }, 5000 );
+        }
+
+    });
+    $rootScope.$on('showMessage', function(event, args) {
+        $scope.showMessage(args[0], args[1], args[2]);
+    });
+
+}]);
+
 //# sourceMappingURL=controllers.js.map

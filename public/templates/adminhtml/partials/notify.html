@@ -1,0 +1,9 @@
+<div class="notify-area" data-position="top">
+  <div ng-repeat="alert in alerts">
+      <div class="alert alert-dismissible alert-{{alert.type}}">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <h4 ng-show="alert.title!= null">{{alert.title}}</h4>
+          <p>{{alert.message}}</p>
+      </div>
+  </div>
+</div>

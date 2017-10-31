@@ -38,6 +38,9 @@ myApp.controller('confirmDeleteController', ['$scope', '$rootScope', function($s
     $rootScope.$on('showDialogConfig', function(event, args) {
         $scope.showDialogConfig(args.titleDialog, args.messageDialog, args.titleClose, args.titleOk, args.functionExecute);
     });
+    $rootScope.$on('hideDialogConfig', function(event, args) {
+        $('#configDialog').modal('hide');
+    });
 }]);
 
 function stringGen(len)

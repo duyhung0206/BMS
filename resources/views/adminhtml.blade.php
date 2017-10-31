@@ -6,20 +6,23 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('css/superhero/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{asset('bower_components/font-awesome/css/font-awesome.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('bower_components/angular-loading-bar/build/loading-bar.css')}}">
 	<script type="text/javascript">
         var baseUrl = "{{url('/')}}/admin/";
         var csrfToken = "{{csrf_token()}}";
 	</script>
 </head>
 <body ng-controller="globalController">
-	<div ng-include="'templates/adminhtml/partials/confirmDelete.html'" ng-controller="confirmDeleteController"></div>
 	<div class="container">
+		<div ng-include="'templates/adminhtml/partials/confirmDelete.html'" ng-controller="confirmDeleteController"></div>
+		<div id="divNotification" ng-include="'templates/adminhtml/partials/notify.html'" ng-controller="notifyController" class="container"></div>
 		<div ng-view></div>
 	</div>
 
 	<script type="text/javascript" src="{{asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular/angular.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('bower_components/angular-loading-bar/build/loading-bar.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-route/angular-route.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-cookies/angular-cookies.min.js')}}"></script>
 

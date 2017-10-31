@@ -101,8 +101,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
-        var_dump($id);
-        die();
+        $category = Category::find($id);
+        if($category){
+            $category->delete();
+            return Category::all();
+        }else{
+            return response('Not found category', 422);
+        }
     }
 }

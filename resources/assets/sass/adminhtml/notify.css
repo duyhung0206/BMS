@@ -1,0 +1,56 @@
+#divNotification {
+    padding-right: 30px;
+    padding-left: 0px;
+    margin: 0px;
+    position: fixed;
+    z-index: 999;
+}
+
+.alert {
+    margin-bottom: 5px;
+}
+
+.notify-area[data-position='top'] .alert {
+    animation: slideInFromTop 5s forwards;
+    -webkit-animation: slideInFromTop 5s forwards;
+    transform-origin: top left;
+    -webkit-transform-origin: top left;
+}
+
+@keyframes slideInFromTop {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    30%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+    70%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes slideInFromTop {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    30%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+    70%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}

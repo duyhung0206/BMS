@@ -5,6 +5,7 @@ Homestead.json
 .env
 /tests
 /bootstrap
+/bower_components
 .idea
 /.idea
 /storage

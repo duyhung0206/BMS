@@ -12,7 +12,9 @@ var elixir = require('laravel-elixir');
 
 elixir(function(mix) {
     mix.sass([
-        'adminhtml/general.css'
+        'adminhtml/general.css',
+        'adminhtml/loading-bar.css',
+        'adminhtml/notify.css'
     ]);
 
     /*adminhtml*/
@@ -20,6 +22,7 @@ elixir(function(mix) {
         'adminhtml/app.js',
         'adminhtml/route.js',
         'adminhtml/auth.js',
+        'adminhtml/angular-loading-bar-custom.js',
     ], 'public/js/adminhtml/app.js');
 
     mix.scripts([
@@ -34,7 +37,8 @@ elixir(function(mix) {
         'adminhtml/controllers/navController.js',
         'adminhtml/controllers/categoryController.js',
         'adminhtml/controllers/postController.js',
-        'adminhtml/controllers/confirmDeleteController.js'
+        'adminhtml/controllers/partials/confirmDeleteController.js',
+        'adminhtml/controllers/partials/notifyController.js'
     ], 'public/js/adminhtml/controllers.js');
 
     mix.version([
