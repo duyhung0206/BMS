@@ -36,9 +36,8 @@ elixir(function(mix) {
         'adminhtml/controllers/userController.js',
         'adminhtml/controllers/navController.js',
         'adminhtml/controllers/seasonController.js',
-        'adminhtml/controllers/postController.js',
         'adminhtml/controllers/partials/confirmDeleteController.js',
-        'adminhtml/controllers/partials/notifyController.js'
+        'adminhtml/controllers/partials/notifyController.js',
     ], 'public/js/adminhtml/controllers.js');
 
     mix.version([

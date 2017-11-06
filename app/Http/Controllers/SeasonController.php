@@ -10,6 +10,7 @@ use App\Models\Season;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
+use DateTime;
 class SeasonController extends Controller
 {
     /**
@@ -49,10 +50,14 @@ class SeasonController extends Controller
         if ($validator->fails()) {
             return response($validator->errors()->all(), 422);
         }
+
+        $startDate =  DateTime::createFromFormat('d/m/Y', $request->input('start'))->format('Y-m-d');
+        $endDate =  DateTime::createFromFormat('d/m/Y', $request->input('end'))->format('Y-m-d');
+
         $season = Season::create([
             'name' => $request->input('name'),
-            'start' => $request->input('start'),
-            'end' => $request->input('end'),
+            'start' => $startDate,
+            'end' => $endDate,
             'description' => $request->input('description'),
             'is_active' => $request->input('is_active'),
         ]);
