@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html ng-app="myApp">
 <head>
-	<title>Learn-marketing</title>
-	{{--<link rel="stylesheet" type="text/css" href="{{asset('css/lumen/bootstrap.min.css')}}">--}}
-	<link rel="stylesheet" type="text/css" href="{{asset('css/superhero/bootstrap.min.css')}}">
+	<title>BMS</title>
+	<link rel="stylesheet" type="text/css" href="{{asset('css/lumen/bootstrap.min.css')}}">
+{{--	<link rel="stylesheet" type="text/css" href="{{asset('css/united/bootstrap.min.css')}}">--}}
 	<link rel="stylesheet" href="{{asset('bower_components/font-awesome/css/font-awesome.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('bower_components/angular-loading-bar/build/loading-bar.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css')}}">
 	<script type="text/javascript">
         var baseUrl = "{{url('/')}}/admin/";
         var csrfToken = "{{csrf_token()}}";
@@ -26,7 +27,10 @@
 	<script type="text/javascript" src="{{asset('bower_components/angular-route/angular-route.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-cookies/angular-cookies.min.js')}}"></script>
 
+	{{--load library--}}
 	<script type="text/javascript" src="{{asset('bower_components/dirPagination/dirPagination.js')}}"></script>
+	<script type="text/javascript" src="{{asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('bower_components/bootstrap-datepicker/js/locales/bootstrap-datepicker.vi.js')}}"></script>
 
 	<script type="text/javascript" src="{{asset('js/adminhtml/app.js')}}"></script>
 	<script type="text/javascript" src="{{asset('js/adminhtml/controllers.js')}}"></script>

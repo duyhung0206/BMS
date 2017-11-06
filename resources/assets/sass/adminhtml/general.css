@@ -15,3 +15,7 @@ body{
 .page-header {
     margin: 0px 0 21px !important;
 }
+
+.navbar .make-active {
+    font-weight: bold;
+}

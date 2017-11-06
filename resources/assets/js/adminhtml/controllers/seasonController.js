@@ -1,39 +1,52 @@
-myApp.controller('categoryController', ['$scope', '$rootScope', 'categoryModel', 'data', function($scope, $rootScope, categoryModel, data){
+myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'data', function($scope, $rootScope, seasonModel, data){
     angular.extend($scope, {
-        n_category:{
+        n_season:{
             name: '',
+            start: '',
+            end: '',
             description: '',
             is_active: '1',
-            page_title: '',
         },
         currentPage : 1,
-        pageSize_category: 10,
+        pageSize_season: 10,
     });
 
-    /*Getting all the categories*/
-    if (data && data.categories != undefined) {
-        data.categories.then(function(response) {
-            $scope.categories = response.data;
-            $scope.showCategory = true;
+    /*Getting all the seasons*/
+    if (data && data.seasons != undefined) {
+        data.seasons.then(function(response) {
+            $scope.seasons = response.data;
+            $scope.showSeason = true;
         });
     }
 
+    $('#season_datepicker').datepicker({
+        format: "dd/mm/yyyy",
+        orientation: "bottom auto",
+        language: "vi",
+        todayHighlight: true,
+        todayBtn: true,
+        clearBtn: true,
+        autoclose: true
+    });
+
     /*functions*/
     angular.extend($scope, {
-        addNewCategory: function (addCategoryForm) {
-            if(addCategoryForm.$valid){
+        addNewSeason: function (addSeasonForm) {
+            console.log(addSeasonForm);
+            if(addSeasonForm.$valid){
                 $scope.formSubmitted = false;
-                categoryModel.addNewCategory($scope.n_category)
+                seasonModel.addNewSeason($scope.n_season)
                 .then(function(response) {
                     if(response.status == 201){
-                        $scope.categories.push(response.data);
-                        $scope.n_category = {
+                        $scope.seasons.push(response.data);
+                        $scope.n_season = {
                             name: '',
-                                description: '',
-                                is_active: '1',
-                                page_title: '',
+                            start: '',
+                            end: '',
+                            description: '',
+                            is_active: '1',
                         }
-                        $scope.$emit('showMessage', ['success', 'Success', 'Create category: ' + response.data.name + ' success !']);
+                        $scope.$emit('showMessage', ['success', 'Success', 'Create season: ' + response.data.name + ' success !']);
                     }
                 })
                 .catch(function(response) {
@@ -51,19 +64,19 @@ myApp.controller('categoryController', ['$scope', '$rootScope', 'categoryModel',
                 $scope.formSubmitted = true;
             }
         },
-        editCategory: function (categoryId) {
-            console.log(categoryId);
+        editSeason: function (seasonId) {
+            console.log(seasonId);
         },
-        deleteCategory: function (categoryId, categoryName) {
+        deleteSeason: function (seasonId, seasonName) {
             data = {
-                titleDialog: 'Confirm Delete Category: '+categoryName,
+                titleDialog: 'Confirm Delete Season: '+seasonName,
                 messageDialog: null,
                 titleClose: null,
                 titleOk: null,
                 functionExecute: function () {
-                    categoryModel.deleteCategory(categoryId)
+                    seasonModel.deleteSeason(seasonId)
                         .then(function(response) {
-                            $scope.categories = response.data;
+                            $scope.seasons = response.data;
                         })
                         .catch(function(response) {
                             console.log(response);

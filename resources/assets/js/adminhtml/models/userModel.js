@@ -13,7 +13,7 @@ myApp.factory('userModel', ['$http', '$cookies', function($http, $cookies){
                 $cookies.put('auth', JSON.stringify(response));
             },
             function errorCallback(response) {
-                return 'Faild';
+                $cookies.remove('auth');
             }
         );
     };

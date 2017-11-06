@@ -27,7 +27,7 @@ elixir(function(mix) {
 
     mix.scripts([
         'adminhtml/models/userModel.js',
-        'adminhtml/models/categoryModel.js',
+        'adminhtml/models/seasonModel.js',
     ], 'public/js/adminhtml/models.js');
 
 
@@ -35,7 +35,7 @@ elixir(function(mix) {
         'adminhtml/controllers/globalController.js',
         'adminhtml/controllers/userController.js',
         'adminhtml/controllers/navController.js',
-        'adminhtml/controllers/categoryController.js',
+        'adminhtml/controllers/seasonController.js',
         'adminhtml/controllers/postController.js',
         'adminhtml/controllers/partials/confirmDeleteController.js',
         'adminhtml/controllers/partials/notifyController.js'

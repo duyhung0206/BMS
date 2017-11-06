@@ -9,6 +9,10 @@ myApp.factory('errorInterceptor', ['$location', '$rootScope', '$cookies' , '$win
                         $window.location.href = baseUrl;
                     }
                 }
+                if (response && response.status === 404) {
+                    console.log('test');
+                    $rootScope.$emit('showMessage', ['danger', 'Error', 'Request 404 not found !']);
+                }
                 return $q.reject(response);
             }
         };

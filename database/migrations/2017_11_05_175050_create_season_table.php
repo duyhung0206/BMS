@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePostTable extends Migration
+class CreateSeasonTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,13 @@ class CreatePostTable extends Migration
      */
     public function up()
     {
-        Schema::create('post', function (Blueprint $table) {
+        Schema::create('season', function (Blueprint $table) {
             $table->increments('id');
+            $table->char('name', 255)->unique('name');
+            $table->date('start');
+            $table->date('end');
+            $table->longText('description');
+            $table->boolean('is_active');
             $table->timestamps();
         });
     }
@@ -25,6 +30,6 @@ class CreatePostTable extends Migration
      */
     public function down()
     {
-        Schema::drop('post');
+        Schema::drop('season');
     }
 }

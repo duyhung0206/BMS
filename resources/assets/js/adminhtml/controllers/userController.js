@@ -3,8 +3,9 @@ myApp.controller('userController', ['$scope', 'userModel', '$location', function
     /*variables*/
     angular.extend($scope, {
         login:{
-            username: 'admin@example.com',
-            password: 'admin'
+            username: 'hades@trueplus.vn',
+            password: '123',
+            error: false
         }
     });
 
@@ -17,9 +18,13 @@ myApp.controller('userController', ['$scope', 'userModel', '$location', function
             };
             userModel.doLogin(data).then(
                 function() {
+                    $scope.login.error = true;
                     $location.path('/dashboard');
                 }
-            );
+            ).catch(function(response) {
+                console.log('dasdasd');
+                $scope.login.error = false;
+            });
         },
         doLogout: function(){
             userModel.doLogout();

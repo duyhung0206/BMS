@@ -22,17 +22,23 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
         authenticated:true
     });
 
-    $routeProvider.when('/category', {
-        templateUrl:'templates/adminhtml/category/index.html',
-        controller:'categoryController',
+    $routeProvider.when('/season', {
+        templateUrl:'templates/adminhtml/season/index.html',
+        controller:'seasonController',
         resolve: {
-            data: function(categoryModel) {
+            data: function(seasonModel) {
                 return {
-                    categories: categoryModel.getAllCategories()
+                    seasons: seasonModel.getAllSeasons()
                 };
             }
         },
         authenticated:true,
+    });
+
+    $routeProvider.when('/post/add', {
+        templateUrl:'templates/adminhtml/post/add.html',
+        controller:'postController',
+        authenticated:true
     });
 
     $routeProvider.otherwise('/');

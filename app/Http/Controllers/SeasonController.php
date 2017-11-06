@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\Season;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
-class CategoryController extends Controller
+class SeasonController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +20,7 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        return Category::all();
+        return Season::all();
     }
 
     /**
@@ -42,21 +42,21 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:category',
-            'page_title' => 'required',
+            'name' => 'required|unique:season',
+            'start' => 'required',
+            'end' => 'required',
         ]);
         if ($validator->fails()) {
             return response($validator->errors()->all(), 422);
         }
-        $category = Category::create([
+        $season = Season::create([
             'name' => $request->input('name'),
+            'start' => $request->input('start'),
+            'end' => $request->input('end'),
             'description' => $request->input('description'),
-            'page_title' => $request->input('page_title'),
             'is_active' => $request->input('is_active'),
-            'created_by_id' => Auth::user()->id,
-            'created_by' => Auth::user()->name,
         ]);
-        return response($category, 201);
+        return response($season, 201);
     }
 
     /**
@@ -101,12 +101,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::find($id);
-        if($category){
-            $category->delete();
-            return Category::all();
+        $season = Season::find($id);
+        if($season){
+            $season->delete();
+            return Season::all();
         }else{
-            return response('Not found category', 422);
+            return response('Not found season', 422);
         }
     }
 }

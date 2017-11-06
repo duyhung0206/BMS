@@ -10,13 +10,10 @@ myApp.controller('navController', ['$scope', '$location', 'userModel', function(
             }, {
                 link: 'Add New',
                 url: '/post/add'
-            },{
-                link: 'Categories',
-                url: '/category'
             }]
-        }, {
-            link: 'Comments',
-            url: '/comment'
+        },{
+            link: 'Season',
+            url: '/season'
         }, {
             link: 'Settings',
             url: '/setting'

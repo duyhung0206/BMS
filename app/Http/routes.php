@@ -19,8 +19,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('auth', 'UserController@checkAuth');
 
     Route::group(['middleware' => 'auth-api'], function () {
-        Route::resource('category', 'CategoryController');
-        Route::post('category/delete/{categoryId}', 'CategoryController@destroy');
+        Route::resource('season', 'SeasonController');
+        Route::post('season/delete/{seasonId}', 'SeasonController@destroy');
     });
 });
 
