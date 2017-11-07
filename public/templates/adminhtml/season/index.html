@@ -121,8 +121,8 @@
                     <tr dir-paginate="season in seasons | orderBy:sortType:sortReverse | filter:search_season | itemsPerPage: pageSize_season  " current-page="currentPage">
                         <td>{{season.id}}</td>
                         <td>{{season.name}}</td>
-                        <td>{{season.start}}</td>
-                        <td>{{season.end}}</td>
+                        <td>{{season.start | date : 'dd/MM/yyyy'}}</td>
+                        <td>{{season.end | date : 'dd/MM/yyyy'}}</td>
                         <td>{{season.is_active==1?'Yes':'No'}}</td>
                         <td><a href="javascript:void(0)" ng-click="editSeason(season.id)">Edit</a>/<a href="javascript:void(0)" ng-click="deleteSeason(season.id, season.name)">Delete</a></td>
                     </tr>
