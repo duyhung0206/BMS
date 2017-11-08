@@ -76,6 +76,7 @@
                     </div>
                 </div>
                 <table class="table table-striped table-hover">
+                    <caption>Total {{total_season.length}} result(s)</caption>
                     <thead>
                     <tr>
                         <th>
@@ -118,7 +119,7 @@
                     </thead>
                     <tbody>
                     <tr ng-show="!seasons.length"><td></td><td colspan="5">No data table</td></tr>
-                    <tr dir-paginate="season in seasons | orderBy:sortType:sortReverse | filter:search_season | itemsPerPage: pageSize_season  " current-page="currentPage">
+                    <tr dir-paginate="season in seasons | orderBy:sortType:sortReverse | filter:search_season | itemsPerPage: pageSize_season as total_season" current-page="currentPage">
                         <td>{{season.id}}</td>
                         <td>{{season.name}}</td>
                         <td>{{season.start | date : 'dd/MM/yyyy'}}</td>

@@ -21,6 +21,18 @@ Route::group(['prefix' => 'admin'], function () {
     Route::group(['middleware' => 'auth-api'], function () {
         Route::resource('season', 'SeasonController');
         Route::post('season/delete/{seasonId}', 'SeasonController@destroy');
+
+        Route::resource('customer', 'CustomerController');
+        Route::post('customer/delete/{customerId}', 'CustomerController@destroy');
+
+        Route::resource('supplier', 'SupplierController');
+        Route::post('supplier/delete/{supplierId}', 'SupplierController@destroy');
+
+        Route::resource('product', 'ProductController');
+        Route::post('product/delete/{productId}', 'ProductController@destroy');
+
+        Route::resource('order', 'OrderController');
+        Route::post('order/delete/{orderId}', 'OrderController@destroy');
     });
 });
 

@@ -8,7 +8,6 @@ myApp.controller('confirmDeleteController', ['$scope', '$rootScope', function($s
             titleOk: 'OK',
             titleClose: 'Close',
             clickOk: function () {
-                console.log('test');
             },
             verification: stringGen(10),
             inputVerification: ''

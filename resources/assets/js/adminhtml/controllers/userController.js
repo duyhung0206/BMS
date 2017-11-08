@@ -22,7 +22,6 @@ myApp.controller('userController', ['$scope', 'userModel', '$location', function
                     $location.path('/dashboard');
                 }
             ).catch(function(response) {
-                console.log('dasdasd');
                 $scope.login.error = false;
             });
         },

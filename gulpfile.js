@@ -28,6 +28,10 @@ elixir(function(mix) {
     mix.scripts([
         'adminhtml/models/userModel.js',
         'adminhtml/models/seasonModel.js',
+        'adminhtml/models/customerModel.js',
+        'adminhtml/models/supplierModel.js',
+        'adminhtml/models/productModel.js',
+        'adminhtml/models/orderModel.js',
     ], 'public/js/adminhtml/models.js');
 
 
@@ -36,6 +40,10 @@ elixir(function(mix) {
         'adminhtml/controllers/userController.js',
         'adminhtml/controllers/navController.js',
         'adminhtml/controllers/seasonController.js',
+        'adminhtml/controllers/productController.js',
+        'adminhtml/controllers/customerController.js',
+        'adminhtml/controllers/supplierController.js',
+        'adminhtml/controllers/orderController.js',
         'adminhtml/controllers/partials/confirmDeleteController.js',
         'adminhtml/controllers/partials/notifyController.js',
     ], 'public/js/adminhtml/controllers.js');

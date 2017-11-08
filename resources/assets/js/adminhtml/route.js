@@ -10,16 +10,30 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
         authenticated:true
     });
 
-    $routeProvider.when('/post', {
-        templateUrl:'templates/adminhtml/post/index.html',
-        controller:'postController',
-        authenticated:true
+    $routeProvider.when('/customer', {
+        templateUrl:'templates/adminhtml/customer/index.html',
+        controller:'customerController',
+        resolve: {
+            data: function(customerModel) {
+                return {
+                    customers: customerModel.getAllCustomers()
+                };
+            }
+        },
+        authenticated:true,
     });
 
-    $routeProvider.when('/post/add', {
-        templateUrl:'templates/adminhtml/post/add.html',
-        controller:'postController',
-        authenticated:true
+    $routeProvider.when('/supplier', {
+        templateUrl:'templates/adminhtml/supplier/index.html',
+        controller:'supplierController',
+        resolve: {
+            data: function(supplierModel) {
+                return {
+                    suppliers: supplierModel.getAllSuppliers()
+                };
+            }
+        },
+        authenticated:true,
     });
 
     $routeProvider.when('/season', {
@@ -35,10 +49,51 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
         authenticated:true,
     });
 
-    $routeProvider.when('/post/add', {
-        templateUrl:'templates/adminhtml/post/add.html',
-        controller:'postController',
-        authenticated:true
+    $routeProvider.when('/product', {
+        templateUrl:'templates/adminhtml/product/index.html',
+        controller:'productController',
+        resolve: {
+            data: function(productModel,supplierModel) {
+                return {
+                    products: productModel.getAllProducts(),
+                    suppliers: supplierModel.getAllSuppliers()
+                };
+            }
+        },
+        authenticated:true,
+    });
+
+    $routeProvider.when('/order/add', {
+        templateUrl: 'templates/adminhtml/order/order-add.html',
+        controller: 'orderController',
+        resolve: {
+            data: function(orderModel, productModel, customerModel) {
+                return {
+                    products: productModel.getAllProducts(),
+                    customers: customerModel.getAllCustomers()
+                };
+            }
+        },
+        authenticated: true
+    });
+
+    $routeProvider.when('/order/view', {
+        templateUrl: 'templates/adminhtml/order/order-view.html',
+        controller: 'orderController',
+        resolve: {
+            data: function(orderModel) {
+                return {
+                    orders: orderModel.getAllOrders()
+                };
+            }
+        },
+        authenticated: true
+    });
+
+    $routeProvider.when('/setting', {
+        templateUrl:'templates/adminhtml/setting/index.html',
+        controller:'userController',
+        authenticated:true,
     });
 
     $routeProvider.otherwise('/');

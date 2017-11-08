@@ -2,17 +2,29 @@ myApp.controller('navController', ['$scope', '$location', 'userModel', function(
 	angular.extend($scope, {
 		user: userModel.getUserObject(),
 	 	navUrl: [{
-            link: 'Posts',
-            url: '/post',
+            link: 'Customers',
+            url: '/customer'
+        },{
+            link: 'Orders',
+            url: '/order',
             subMenu: [{
-                link: 'All posts',
-                url: '/post'
+                link: 'View all Order',
+                url: '/order/view'
             }, {
-                link: 'Add New',
-                url: '/post/add'
+                link: 'Add new order',
+                url: '/order/add'
             }]
         },{
-            link: 'Season',
+            link: 'Suppliers',
+            url: '/supplier'
+        },{
+            link: 'P.O',
+            url: '/purchaseorder'
+        },{
+            link: 'Products',
+            url: '/product'
+        },{
+            link: 'Seasons',
             url: '/season'
         }, {
             link: 'Settings',
@@ -28,6 +40,11 @@ myApp.controller('navController', ['$scope', '$location', 'userModel', function(
         checkActiveLink: function(routeLink){
             if($location.path() == routeLink){
                 return 'make-active';
+            }
+        },
+        checkActiveLiLink: function(routeLink){
+            if($location.path() == routeLink){
+                return 'active';
             }
         }
 	});

@@ -8,7 +8,6 @@ myApp.factory('confirmDelete', ['$scope', function($scope){
             titleOk: 'OK',
             titleClose: 'Close',
             clickOk: function () {
-                console.log('test');
             },
             verification: stringGen(10),
             inputVerification: ''

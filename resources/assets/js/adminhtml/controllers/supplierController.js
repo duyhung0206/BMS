@@ -1,25 +1,27 @@
-myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'data', function($scope, $rootScope, seasonModel, data){
+myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel', 'data', function($scope, $rootScope, supplierModel, data){
     angular.extend($scope, {
-        n_season:{
+        n_supplier:{
             name: '',
-            start: '',
-            end: '',
+            email: '',
+            address: '',
             description: '',
+            phone: '',
+            note: '',
             is_active: '1',
         },
         currentPage : 1,
-        pageSize_season: 10,
+        pageSize_supplier: 10,
     });
 
-    /*Getting all the seasons*/
-    if (data && data.seasons != undefined) {
-        data.seasons.then(function(response) {
-            $scope.seasons = response.data;
-            $scope.showSeason = true;
+    /*Getting all the suppliers*/
+    if (data && data.suppliers != undefined) {
+        data.suppliers.then(function(response) {
+            $scope.suppliers = response.data;
+            $scope.showSupplier = true;
         });
     }
 
-    $('#season_datepicker').datepicker({
+    $('#supplier_datepicker').datepicker({
         format: "dd/mm/yyyy",
         orientation: "bottom auto",
         language: "vi",
@@ -31,21 +33,23 @@ myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'da
 
     /*functions*/
     angular.extend($scope, {
-        addNewSeason: function (addSeasonForm) {
-            if(addSeasonForm.$valid){
+        addNewSupplier: function (addSupplierForm) {
+            if(addSupplierForm.$valid){
                 $scope.formSubmitted = false;
-                seasonModel.addNewSeason($scope.n_season)
+                supplierModel.addNewSupplier($scope.n_supplier)
                 .then(function(response) {
                     if(response.status == 201){
-                        $scope.seasons.push(response.data);
-                        $scope.n_season = {
+                        $scope.suppliers.push(response.data);
+                        $scope.n_supplier = {
                             name: '',
-                            start: '',
-                            end: '',
+                            email: '',
+                            address: '',
                             description: '',
+                            phone: '',
+                            note: '',
                             is_active: '1',
                         }
-                        $scope.$emit('showMessage', ['success', 'Success', 'Create season: ' + response.data.name + ' success !']);
+                        $scope.$emit('showMessage', ['success', 'Success', 'Create supplier: ' + response.data.name + ' success !']);
                     }
                 })
                 .catch(function(response) {
@@ -63,18 +67,19 @@ myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'da
                 $scope.formSubmitted = true;
             }
         },
-        editSeason: function (seasonId) {
+        editSupplier: function (supplierId) {
+            console.log(supplierId);
         },
-        deleteSeason: function (seasonId, seasonName) {
+        deleteSupplier: function (supplierId, supplierName) {
             data = {
-                titleDialog: 'Confirm Delete Season: '+seasonName,
+                titleDialog: 'Confirm Delete Supplier: '+supplierName,
                 messageDialog: null,
                 titleClose: null,
                 titleOk: null,
                 functionExecute: function () {
-                    seasonModel.deleteSeason(seasonId)
+                    supplierModel.deleteSupplier(supplierId)
                         .then(function(response) {
-                            $scope.seasons = response.data;
+                            $scope.suppliers = response.data;
                         })
                         .catch(function(response) {
                         }).finally(function () {

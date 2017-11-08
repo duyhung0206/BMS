@@ -1,25 +1,34 @@
-myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'data', function($scope, $rootScope, seasonModel, data){
+myApp.controller('productController', ['$scope', '$rootScope', 'productModel', 'data', function($scope, $rootScope, productModel, data){
     angular.extend($scope, {
-        n_season:{
+        n_product:{
+            sku: '',
             name: '',
-            start: '',
-            end: '',
             description: '',
+            supplier_id : 0,
+            supplier_name: '',
             is_active: '1',
         },
         currentPage : 1,
-        pageSize_season: 10,
+        pageSize_product: 10,
     });
 
-    /*Getting all the seasons*/
-    if (data && data.seasons != undefined) {
-        data.seasons.then(function(response) {
-            $scope.seasons = response.data;
-            $scope.showSeason = true;
+    /*Getting all the products*/
+    if (data && data.products != undefined) {
+        data.products.then(function(response) {
+            $scope.products = response.data;
+            if (data && data.suppliers != undefined) {
+                data.suppliers.then(function(response) {
+                    response.data.push({id:0,name:'Other'});
+                    $scope.suppliers = response.data;
+                });
+            }
+            $scope.showProduct = true;
         });
     }
 
-    $('#season_datepicker').datepicker({
+
+
+    $('#product_datepicker').datepicker({
         format: "dd/mm/yyyy",
         orientation: "bottom auto",
         language: "vi",
@@ -31,21 +40,23 @@ myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'da
 
     /*functions*/
     angular.extend($scope, {
-        addNewSeason: function (addSeasonForm) {
-            if(addSeasonForm.$valid){
+        addNewProduct: function (addProductForm) {
+            if(addProductForm.$valid){
                 $scope.formSubmitted = false;
-                seasonModel.addNewSeason($scope.n_season)
+                productModel.addNewProduct($scope.n_product)
                 .then(function(response) {
                     if(response.status == 201){
-                        $scope.seasons.push(response.data);
-                        $scope.n_season = {
+                        $scope.products.push(response.data);
+                        $scope.n_product = {
                             name: '',
-                            start: '',
-                            end: '',
+                            email: '',
+                            address: '',
                             description: '',
+                            phone: '',
+                            note: '',
                             is_active: '1',
                         }
-                        $scope.$emit('showMessage', ['success', 'Success', 'Create season: ' + response.data.name + ' success !']);
+                        $scope.$emit('showMessage', ['success', 'Success', 'Create product: ' + response.data.name + ' success !']);
                     }
                 })
                 .catch(function(response) {
@@ -63,18 +74,19 @@ myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'da
                 $scope.formSubmitted = true;
             }
         },
-        editSeason: function (seasonId) {
+        editProduct: function (productId) {
+            console.log(productId);
         },
-        deleteSeason: function (seasonId, seasonName) {
+        deleteProduct: function (productId, productName) {
             data = {
-                titleDialog: 'Confirm Delete Season: '+seasonName,
+                titleDialog: 'Confirm Delete Product: '+productName,
                 messageDialog: null,
                 titleClose: null,
                 titleOk: null,
                 functionExecute: function () {
-                    seasonModel.deleteSeason(seasonId)
+                    productModel.deleteProduct(productId)
                         .then(function(response) {
-                            $scope.seasons = response.data;
+                            $scope.products = response.data;
                         })
                         .catch(function(response) {
                         }).finally(function () {

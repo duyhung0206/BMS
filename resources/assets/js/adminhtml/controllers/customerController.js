@@ -1,25 +1,27 @@
-myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'data', function($scope, $rootScope, seasonModel, data){
+myApp.controller('customerController', ['$scope', '$rootScope', 'customerModel', 'data', function($scope, $rootScope, customerModel, data){
     angular.extend($scope, {
-        n_season:{
+        n_customer:{
             name: '',
-            start: '',
-            end: '',
+            email: '',
+            address: '',
             description: '',
+            phone: '',
+            note: '',
             is_active: '1',
         },
         currentPage : 1,
-        pageSize_season: 10,
+        pageSize_customer: 10,
     });
 
-    /*Getting all the seasons*/
-    if (data && data.seasons != undefined) {
-        data.seasons.then(function(response) {
-            $scope.seasons = response.data;
-            $scope.showSeason = true;
+    /*Getting all the customers*/
+    if (data && data.customers != undefined) {
+        data.customers.then(function(response) {
+            $scope.customers = response.data;
+            $scope.showCustomer = true;
         });
     }
 
-    $('#season_datepicker').datepicker({
+    $('#customer_datepicker').datepicker({
         format: "dd/mm/yyyy",
         orientation: "bottom auto",
         language: "vi",
@@ -31,21 +33,23 @@ myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'da
 
     /*functions*/
     angular.extend($scope, {
-        addNewSeason: function (addSeasonForm) {
-            if(addSeasonForm.$valid){
+        addNewCustomer: function (addCustomerForm) {
+            if(addCustomerForm.$valid){
                 $scope.formSubmitted = false;
-                seasonModel.addNewSeason($scope.n_season)
+                customerModel.addNewCustomer($scope.n_customer)
                 .then(function(response) {
                     if(response.status == 201){
-                        $scope.seasons.push(response.data);
-                        $scope.n_season = {
+                        $scope.customers.push(response.data);
+                        $scope.n_customer = {
                             name: '',
-                            start: '',
-                            end: '',
+                            email: '',
+                            address: '',
                             description: '',
+                            phone: '',
+                            note: '',
                             is_active: '1',
                         }
-                        $scope.$emit('showMessage', ['success', 'Success', 'Create season: ' + response.data.name + ' success !']);
+                        $scope.$emit('showMessage', ['success', 'Success', 'Create customer: ' + response.data.name + ' success !']);
                     }
                 })
                 .catch(function(response) {
@@ -63,18 +67,19 @@ myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'da
                 $scope.formSubmitted = true;
             }
         },
-        editSeason: function (seasonId) {
+        editCustomer: function (customerId) {
+            console.log(customerId);
         },
-        deleteSeason: function (seasonId, seasonName) {
+        deleteCustomer: function (customerId, customerName) {
             data = {
-                titleDialog: 'Confirm Delete Season: '+seasonName,
+                titleDialog: 'Confirm Delete Customer: '+customerName,
                 messageDialog: null,
                 titleClose: null,
                 titleOk: null,
                 functionExecute: function () {
-                    seasonModel.deleteSeason(seasonId)
+                    customerModel.deleteCustomer(customerId)
                         .then(function(response) {
-                            $scope.seasons = response.data;
+                            $scope.customers = response.data;
                         })
                         .catch(function(response) {
                         }).finally(function () {

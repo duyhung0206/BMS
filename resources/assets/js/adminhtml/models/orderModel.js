@@ -1,30 +1,30 @@
-myApp.factory('seasonModel', ['$http', function($http){
+myApp.factory('orderModel', ['$http', function($http){
     return {
-        addNewSeason: function(SeasonData){
+        addNewOrder: function(OrderData){
             return $http({
                 headers:{
                     'Content-Type':'application/json'
                 },
-                url: baseUrl + 'season',
+                url: baseUrl + 'order',
                 method: 'POST',
-                data: SeasonData
+                data: OrderData
             });
         },
-        getAllSeasons: function () {
+        getAllOrders: function () {
             return $http({
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                url: baseUrl + 'season',
+                url: baseUrl + 'order',
                 method: "GET",
             });
         },
-        deleteSeason: function (seasonId) {
+        deleteOrder: function (orderId) {
             return $http({
                 headers:{
                     'Content-Type':'application/json'
                 },
-                url: baseUrl + 'season/delete/'+ seasonId,
+                url: baseUrl + 'order/delete/'+ orderId,
                 method: 'POST'
             });
         }
