@@ -19,3 +19,40 @@ body{
 .navbar .make-active {
     font-weight: bold;
 }
+
+.partition{
+    margin: 15px 0px;
+    border-top: 1px solid #e5e5e5;
+}
+
+select.refund {
+    color: #ffffff;
+    background-color: #158cba;
+}
+
+.panel .overlay{
+    z-index: 50;
+    background: rgba(255,255,255,0.7);
+    border-radius: 3px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.panel .overlay i.fa-refresh{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -15px;
+    margin-top: -15px;
+    color: #000;
+    font-size: 30px;
+}
+
+#order_note{
+    position: absolute;
+    z-index: 50;
+    margin-top: 41px;
+}

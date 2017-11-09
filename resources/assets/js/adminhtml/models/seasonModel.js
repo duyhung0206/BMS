@@ -24,8 +24,8 @@ myApp.factory('seasonModel', ['$http', function($http){
                 headers:{
                     'Content-Type':'application/json'
                 },
-                url: baseUrl + 'season/delete/'+ seasonId,
-                method: 'POST'
+                url: baseUrl + 'season/'+ seasonId,
+                method: 'DELETE'
             });
         }
     };

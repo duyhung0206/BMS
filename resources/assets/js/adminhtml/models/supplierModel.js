@@ -25,8 +25,8 @@ myApp.factory('supplierModel', ['$http', function($http){
                 headers:{
                     'Content-Type':'application/json'
                 },
-                url: baseUrl + 'supplier/delete/'+ supplierId,
-                method: 'POST'
+                url: baseUrl + 'supplier/'+ supplierId,
+                method: 'DELETE'
             });
         }
     };

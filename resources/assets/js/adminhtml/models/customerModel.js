@@ -25,8 +25,8 @@ myApp.factory('customerModel', ['$http', function($http){
                 headers:{
                     'Content-Type':'application/json'
                 },
-                url: baseUrl + 'customer/delete/'+ customerId,
-                method: 'POST'
+                url: baseUrl + 'customer/'+ customerId,
+                method: 'DELETE'
             });
         }
     };

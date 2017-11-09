@@ -20,25 +20,31 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::group(['middleware' => 'auth-api'], function () {
         Route::resource('season', 'SeasonController');
-        Route::post('season/delete/{seasonId}', 'SeasonController@destroy');
 
         Route::resource('customer', 'CustomerController');
-        Route::post('customer/delete/{customerId}', 'CustomerController@destroy');
 
         Route::resource('supplier', 'SupplierController');
-        Route::post('supplier/delete/{supplierId}', 'SupplierController@destroy');
 
         Route::resource('product', 'ProductController');
-        Route::post('product/delete/{productId}', 'ProductController@destroy');
 
         Route::resource('order', 'OrderController');
-        Route::post('order/delete/{orderId}', 'OrderController@destroy');
+        Route::post('order/show/{orderId}', 'OrderController@show');
     });
 });
 
 use Illuminate\Support\Facades\Auth;
+use App\Models\OrderProduct;
 Route::get('test', function ()
 {
-    Auth::logout();
+//    Auth::logout();
+    OrderProduct::create([
+        'order_id' => 9,
+        'product_id' => 2,
+        'sku' => 'test',
+        'product_name' => 'test',
+        'type' => true,
+        'price' => 20.42,
+        'row_total' => 20.42
+    ]);
 });
 
