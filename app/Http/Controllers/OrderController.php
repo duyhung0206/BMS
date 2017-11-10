@@ -52,8 +52,8 @@ class OrderController extends Controller
         $customerId = $request->input('customer_id');
         $customerEmail = '';
         if($request->input('customer_id') == 0){
-            $customer = Customer::where('name', $request->input('customer_name'))->get();
-            if($customer->id){
+            $customer = Customer::where('name', $request->input('customer_name'))->first();
+            if($customer != null){
                 return response($request->input('customer_name').' exists !', 422);
             }else{
                 if($request->input('create_new_customer') == true){
@@ -90,7 +90,6 @@ class OrderController extends Controller
         $incrementId = str_pad($order->id, 10, "0", STR_PAD_LEFT);
         $order->increment_id = $incrementId;
         $order->save();
-
         try{
             $orderItems = $request->input('items');
             foreach ($orderItems as $item){
@@ -111,7 +110,7 @@ class OrderController extends Controller
                     'product_name' => $productName,
                     'price' => $item['price'],
                     'qty' => $item['qty'],
-                    'row_total' => $item['rowtotal'],
+                    'row_total' => $item['row_total'],
                     'type' => $item['type'],
                 ]);
             }
@@ -129,7 +128,7 @@ class OrderController extends Controller
             $order->delete();
         }
 
-        return response($order, 201);
+        return response($this->show($order->id), 201);
     }
 
     /**
@@ -140,7 +139,12 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $order = Order::find($id);
+        $orderItems = OrderProduct::where('order_id', $order->id)->get();
+        $order->items = $orderItems;
+        $orderFees = OrderAttribute::where('order_id', $order->id)->get();
+        $order->fees = $orderFees;
+        return $order;
     }
 
     /**

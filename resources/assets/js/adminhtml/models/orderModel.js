@@ -24,9 +24,14 @@ myApp.factory('orderModel', ['$http', function($http){
                 headers:{
                     'Content-Type':'application/json'
                 },
-                url: baseUrl + 'order/delete/'+ orderId,
-                method: 'POST'
+                url: baseUrl + 'order/'+ orderId,
+                method: 'DELETE'
             });
+        },
+        getGalleryById: function (orderId) {
+            return $http.get(
+                baseUrl + 'order/' + orderId
+            );
         }
     };
 }])

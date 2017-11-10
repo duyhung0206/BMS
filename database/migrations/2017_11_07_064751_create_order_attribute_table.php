@@ -16,7 +16,7 @@ class CreateOrderAttributeTable extends Migration
                 $table->increments('id');
                 $table->integer('order_id')->unsigned();
                 $table->string('title');
-                $table->string('value');
+                $table->decimal('value', 11, 2);;
                 $table->integer('type');
                 $table->foreign('order_id')->references('id')->on('order')->onDelete('cascade');
                 $table->timestamps();

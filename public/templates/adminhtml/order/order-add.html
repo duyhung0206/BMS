@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="page-header">
-                <h1 id="forms">Orders
+                <h1 id="forms">{{head_order}}
                     <p class="bs-component pull-right">
                         <a href="#/order/view" class="btn btn-danger">Cancel</a>
                         <a href="javascript:void(0)" class="btn btn-primary">Preview</a>
@@ -54,10 +54,10 @@
                                 </a>
                             </th>
                             <th width="20%">
-                                <a href="javascript:void(0)" ng-click="sortType = 'rowtotal'; sortReverse = !sortReverse">
+                                <a href="javascript:void(0)" ng-click="sortType = 'row_total'; sortReverse = !sortReverse">
                                     Subtotal
-                                    <span ng-show="sortType == 'rowtotal' && !sortReverse" class="fa fa-caret-down"></span>
-                                    <span ng-show="sortType == 'rowtotal' && sortReverse" class="fa fa-caret-up"></span>
+                                    <span ng-show="sortType == 'row_total' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'row_total' && sortReverse" class="fa fa-caret-up"></span>
                                 </a>
                             </th>
                             <th width="5%">Action</th>
@@ -68,18 +68,18 @@
                             <tr ng-repeat="item in n_order.items| orderBy:sortType:sortReverse" ng-class="{true: 'danger', false: ''}[item.error == true]">
                                 <td><input type="checkbox" ng-click="item.type = !item.type"></td>
                                 <td>
-                                    <select class="form-control" ng-model="item.product_id" class="order_product_id" ng-class="{true: 'refund', false: ''}[item.type == true]">
-                                        <option ng-repeat="product in products" value="{{product.id}}">{{product.name}}</option>
+                                    <select class="form-control" ng-model="item.product_id" class="order_product_id" ng-class="{true: 'refund', false: ''}[item.type == true]" convert-to-number>
+                                        <option ng-repeat="product in products" value='{{product.id}}'>{{product.name}}</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="number" class="form-control" name="order_product_qty" ng-model="item.qty">
+                                    <input type="text" class="form-control" name="order_product_qty" ng-model="item.qty">
                                 </td>
                                 <td>
-                                    <input type="number" class="form-control"name="order_product_price" ng-model="item.price">
+                                    <input type="text" class="form-control"name="order_product_price" ng-model="item.price">
                                 </td>
                                 <td>
-                                    <input type="number" class="form-control" name="order_product_rowtotal" ng-model="item.rowtotal">
+                                    <input type="text" class="form-control" name="order_product_rowtotal" ng-model="item.row_total">
                                 </td>
                                 <td><a href="javascript:void(0)" ng-click="removeOrderItem($index)">Delete</a></td>
                             </tr>
@@ -136,8 +136,8 @@
                                     <div class="form-group">
                                         <label for="order_customer_id" class="col-lg-3 control-label">Customer</label>
                                         <div class="col-lg-9">
-                                            <select class="form-control" name="order_customer_id" id="order_customer_id" ng-model="n_order.customer_id">
-                                                <option ng-repeat="customer in customers" value="{{customer.id}}" title="{{customer.address}}">{{customer.name}}</option>
+                                            <select class="form-control" name="order_customer_id" id="order_customer_id" ng-model="n_order.customer_id" convert-to-number>
+                                                <option ng-repeat="customer in customers" value='{{customer.id}}' title="{{customer.address}}">{{customer.name}}</option>
                                             </select>
                                             <input ng-if="n_order.customer_id == 0" type="text" class="form-control" name="order_customer_name" id="order_customer_name" ng-model="n_order.customer_name">
                                             <div class="checkbox" ng-if="n_order.customer_id == 0">
@@ -179,7 +179,7 @@
                                     <div class="form-group">
                                         <label for="total_paid" class="col-lg-5 control-label">Paid</label>
                                         <div class="col-lg-7">
-                                            <input class="form-control" id="total_paid" name="total_paid" ng-model="n_order.total_paid" type="number">
+                                            <input class="form-control" id="total_paid" name="total_paid" ng-model="n_order.total_paid" type="text">
                                         </div>
                                     </div>
                                     <div ng-if="n_order.fees.length != 0" class="row partition"></div>
@@ -187,7 +187,7 @@
                                         <div class="col-lg-1"><button type="button" class="btn btn-primary btn-xs" ng-click="removeFee($index)" title="Remove this fee">-</button></div>
                                         <div class="col-lg-4"><input class="form-control" name="fee_label" ng-model="fee.title"></div>
                                         <div class="col-lg-7">
-                                            <input class="form-control" id="fee[{{$index}}]" name="fee_value" ng-model="fee.value" type="number">
+                                            <input class="form-control" id="fee[{{$index}}]" name="fee_value" ng-model="fee.value" type="text">
                                         </div>
                                     </div>
                                     <div class="row partition"></div>

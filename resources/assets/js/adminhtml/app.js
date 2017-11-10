@@ -7,3 +7,17 @@ myApp.config(['$locationProvider', function($locationProvider) {
 myApp.config(['$qProvider', function ($qProvider) {
     $qProvider.errorOnUnhandledRejections(false);
 }]);
+
+myApp.directive('convertToNumber', function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, element, attrs, ngModel) {
+            ngModel.$parsers.push(function(val) {
+                return parseInt(val, 10);
+            });
+            ngModel.$formatters.push(function(val) {
+                return '' + val;
+            });
+        }
+    };
+});
