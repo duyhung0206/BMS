@@ -10,7 +10,7 @@
                 {{confirmDelete.messageDialog}}
                 <br>
                 <div class="form-group" ng-class="{'has-error' : confirmDelete.error}">
-                    <span>Verification: </span><span class="text-info"><a href="javascript:void(0)">{{confirmDelete.verification}}</a></span>
+                    <span>Verification: </span><span class="text-info"><a href="javascript:void(0)" ng-click="copyVerification()">{{confirmDelete.verification}}</a></span>
                     <input type="text" class="form-control" id="inputVerification" ng-model="confirmDelete.inputVerification" value="confirmDelete.inputVerification">
                     <p ng-show="confirmDelete.error" class="help-block">Error</p>
                 </div>

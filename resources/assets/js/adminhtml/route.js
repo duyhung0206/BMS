@@ -70,7 +70,7 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
             data: function(orderModel, productModel, customerModel) {
                 return {
                     products: productModel.getAllProducts(),
-                    customers: customerModel.getAllCustomers()
+                    customers: customerModel.getAllCustomers(),
                 };
             }
         },
@@ -96,9 +96,9 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
         resolve: {
             data: function(orderModel, $route, productModel, customerModel) {
                 return {
-                    order: orderModel.getGalleryById($route.current.params.id),
                     products: productModel.getAllProducts(),
-                    customers: customerModel.getAllCustomers()
+                    customers: customerModel.getAllCustomers(),
+                    order: orderModel.getGalleryById($route.current.params.id),
                 };
             }
         },

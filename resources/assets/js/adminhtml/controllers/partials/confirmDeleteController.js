@@ -33,6 +33,9 @@ myApp.controller('confirmDeleteController', ['$scope', '$rootScope', function($s
             };
             $('#configDialog').modal('show');
         },
+        copyVerification: function () {
+            $scope.confirmDelete.inputVerification = $scope.confirmDelete.verification;
+        }
     });
     $rootScope.$on('showDialogConfig', function(event, args) {
         $scope.showDialogConfig(args.titleDialog, args.messageDialog, args.titleClose, args.titleOk, args.functionExecute);

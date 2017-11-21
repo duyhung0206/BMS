@@ -77,7 +77,7 @@
                     <tr dir-paginate="order in orders | orderBy:sortType:sortReverse | filter:search_order | itemsPerPage: pageSize_order as total_order" current-page="currentPage">
                         <td>{{order.increment_id}}</td>
                         <td>{{order.order_date}}</td>
-                        <td>{{order.customer_name}}</td>
+                        <td>{{order.customer_name==''?'Other':order.customer_name}}</td>
                         <td>{{order.total_due}}</td>
                         <td>{{order.total_paid}}</td>
                         <td>{{order.total_status}}</td>

@@ -8,7 +8,8 @@
                     <p class="bs-component pull-right">
                         <a href="#/order/view" class="btn btn-danger">Cancel</a>
                         <a href="javascript:void(0)" class="btn btn-primary">Preview</a>
-                        <a href="javascript:void(0)" class="btn btn-primary" ng-click="placeOrder()">Submit order</a>
+                        <a href="javascript:void(0)" class="btn btn-primary" ng-if="new_order" ng-click="placeOrder()">Submit order</a>
+                        <a href="javascript:void(0)" class="btn btn-primary" ng-if="!new_order" ng-click="saveOrder()">Save order</a>
                     </p>
                 </h1>
             </div>
@@ -73,13 +74,13 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" name="order_product_qty" ng-model="item.qty">
+                                    <input input-currency type="text" class="form-control text-right" name="order_product_qty" ng-model="item.qty">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control"name="order_product_price" ng-model="item.price">
+                                    <input input-currency type="text" class="form-control text-right"name="order_product_price" ng-model="item.price">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" name="order_product_rowtotal" ng-model="item.row_total">
+                                    <input input-currency type="text" class="form-control text-right" name="order_product_rowtotal" ng-model="item.row_total">
                                 </td>
                                 <td><a href="javascript:void(0)" ng-click="removeOrderItem($index)">Delete</a></td>
                             </tr>
@@ -87,10 +88,10 @@
                         <tfoot ng-if="n_order.items.length != 0">
                             <tr>
                                 <th></th>
-                                <th>{{n_order.items.length}}</th>
-                                <th>{{n_order.total_qty_orderd}}</th>
+                                <th class="text-right">{{n_order.items.length | currency:'': 0}}</th>
+                                <th class="text-right">{{n_order.total_qty_orderd | currency:'': 0}}</th>
                                 <th></th>
-                                <th>{{n_order.subtotal}}</th>
+                                <th class="text-right">{{n_order.subtotal | currency:'': 0}}</th>
                                 <th></th>
                             </tr>
                         </tfoot>
@@ -172,14 +173,14 @@
                                 <fieldset>
                                     <div class="form-group">
                                         <label class="col-lg-5 control-label">Subtotal</label>
-                                        <div class="col-lg-7">
-                                            <label class="control-label" id="subtotal" name="subtotal">{{n_order.subtotal}}</label>
+                                        <div class="col-lg-7 text-right">
+                                            <label class="control-label label-currency" id="subtotal" name="subtotal">{{n_order.subtotal | currency:'': 0}}</label>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="total_paid" class="col-lg-5 control-label">Paid</label>
                                         <div class="col-lg-7">
-                                            <input class="form-control" id="total_paid" name="total_paid" ng-model="n_order.total_paid" type="text">
+                                            <input input-currency class="form-control text-right" id="total_paid" name="total_paid" ng-model="n_order.total_paid" type="text">
                                         </div>
                                     </div>
                                     <div ng-if="n_order.fees.length != 0" class="row partition"></div>
@@ -187,14 +188,14 @@
                                         <div class="col-lg-1"><button type="button" class="btn btn-primary btn-xs" ng-click="removeFee($index)" title="Remove this fee">-</button></div>
                                         <div class="col-lg-4"><input class="form-control" name="fee_label" ng-model="fee.title"></div>
                                         <div class="col-lg-7">
-                                            <input class="form-control" id="fee[{{$index}}]" name="fee_value" ng-model="fee.value" type="text">
+                                            <input class="form-control text-right" id="fee[{{$index}}]" input-currency name="fee_value" ng-model="fee.value" type="text">
                                         </div>
                                     </div>
                                     <div class="row partition"></div>
                                     <div class="form-group">
                                         <label for="total_due" class="col-lg-5 control-label">Grandtotal</label>
-                                        <div class="col-lg-7">
-                                            <label class="control-label" id="total_due" name="total_due">{{n_order.total_due}}</label>
+                                        <div class="col-lg-7 text-right">
+                                            <label class="control-label label-currency" id="total_due" name="total_due">{{n_order.total_due | currency:'': 0}}</label>
                                         </div>
                                     </div>
                                 </fieldset>

@@ -1,6 +1,7 @@
-myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data', '$route', '$location',
-    function($scope, $rootScope, orderModel, data, $route, $location){
-    angular.extend($scope, {
+myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data', '$route', '$location', '$filter', 'customerModel',
+    function($scope, $rootScope, orderModel, data, $route, $location, $filter, customerModel){
+
+    var defaultValue = {
         n_order:{
             order_date:'',
             customer_id: "0",
@@ -27,7 +28,9 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
 
         currentPage : 1,
         pageSize_order: 10,
-    });
+    };
+    angular.extend($scope, defaultValue);
+
 
     /*functions*/
     angular.extend($scope, {
@@ -92,6 +95,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                     total_fee += parseFloat(value.value);
                 })
 
+                $scope.n_order.total_paid = $scope.n_order.total_paid == '' ? 0:$scope.n_order.total_paid;
                 $scope.n_order.total_due = parseFloat($scope.n_order.subtotal) + parseFloat(total_fee) - parseFloat($scope.n_order.total_paid);
                 $scope.loading_order_items = false;
             },
@@ -149,6 +153,16 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                     orderModel.addNewOrder($scope.n_order)
                         .then(function(response) {
                             $scope.$emit('showMessage', ['success', null, 'Create order #'+response.data.increment_id+ ' success !']);
+                            if($scope.n_order.create_new_customer = true){
+                                customerModel.getAllCustomers().then(function(responseCustomer) {
+                                    responseCustomer.data.push({id:0, name:'Other'});
+                                    $scope.customers = responseCustomer.data;
+                                    $scope.n_order.customer_id = String(response.data.customer_id);
+                                    $scope.loading_order_customer = false;
+                                    $scope.n_order.create_new_customer = false;
+                                });
+                            }
+                            $location.path('/order/edit/' + response.data.id);
                         })
                         .catch(function(response) {
                             $scope.$emit('showMessage', ['danger', 'Error', response.data]);
@@ -159,24 +173,46 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
             },
             viewOrder: function (order_id) {
                 $location.path('/order/edit/' + order_id);
+            },
+            saveOrder: function () {
+                this.recalculate();
+                if(this.validateOrder()){
+                    orderModel.saveOrder($scope.n_order)
+                        .then(function(response) {
+                            $scope.$emit('showMessage', ['success', null, 'Save order #'+response.data.increment_id+ ' success !']);
+                            if($scope.n_order.create_new_customer = true){
+                                customerModel.getAllCustomers().then(function(responseCustomer) {
+                                    responseCustomer.data.push({id:0, name:'Other'});
+                                    $scope.customers = responseCustomer.data;
+                                    $scope.n_order.customer_id = String(response.data.customer_id);
+                                    $scope.loading_order_customer = false;
+                                    $scope.n_order.create_new_customer = false;
+                                });
+                            }
+                        })
+                        .catch(function(response) {
+                            $scope.$emit('showMessage', ['danger', 'Error', response.data]);
+                        }).finally(function () {
+
+                    });
+                }
             }
         });
 
-    if($route.current.params.id){
-        if (data && data.order != undefined) {
-            data.order.then(function(response) {
-                $scope.n_order = response.data;
-                $scope.head_order = 'Edit order #' + $scope.n_order.increment_id;
-                $scope.new_order = false;
-                $scope.recalculate();
-            });
-        }
-    }else{
-        $scope.head_order = 'New order';
-        $scope.new_order = true;
-    }
+    $('#order_date').datepicker({
+        format: "dd/mm/yyyy",
+        orientation: "bottom auto",
+        language: "vi",
+        todayHighlight: true,
+        todayBtn: "linked",
+        clearBtn: true,
+        autoclose: true
+    })
+
+
 
     var firstProductId = 0;
+
 
     if (data && data.products != undefined) {
         data.products.then(function(response) {
@@ -201,16 +237,34 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
         });
     }
 
+    if($route.current.params.id){
+        if (data && data.order != undefined) {
+            data.order.then(function(response) {
+                $scope.n_order = response.data;
+                $scope.n_order.order_date = $filter('date')($scope.n_order.order_date, 'dd/MM/yyyy');
+                var customerExist = false;
+                console.log($scope.customers);
+                $scope.customers.forEach(function (value) {
+                    console.log(value);
+                    if(response.data.customer_id == value.id){
+                        customerExist = true;
+                        return;
+                    }
+                });
+                if(!customerExist){
+                    $scope.n_order.customer_id = '0';
+                    $scope.n_order.customer_name =  response.data.customer_name;
+                    $scope.n_order.create_new_customer = true;
+                }
 
-    $('#order_date').datepicker({
-        format: "dd/mm/yyyy",
-        orientation: "bottom auto",
-        language: "vi",
-        todayHighlight: true,
-        todayBtn: true,
-        clearBtn: true,
-        autoclose: true
-    });
-
-
+                $('#order_date').datepicker("setDate",$scope.n_order.order_date);
+                $scope.head_order = 'Edit order #' + $scope.n_order.increment_id;
+                $scope.new_order = false;
+                $scope.recalculate();
+            });
+        }
+    }else{
+        $scope.head_order = 'New order';
+        $scope.new_order = true;
+    }
 }]);

@@ -32,6 +32,16 @@ myApp.factory('orderModel', ['$http', function($http){
             return $http.get(
                 baseUrl + 'order/' + orderId
             );
+        },
+        saveOrder: function (OrderData) {
+            return $http({
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                url: baseUrl + 'order/' + OrderData.id,
+                method: 'PUT',
+                data: OrderData
+            });
         }
     };
 }])
