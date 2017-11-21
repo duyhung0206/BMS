@@ -1,5 +1,5 @@
-myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data', '$route', '$location', '$filter', 'customerModel',
-    function($scope, $rootScope, orderModel, data, $route, $location, $filter, customerModel){
+myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data', '$route', '$location', '$filter', 'customerModel', 'orderModel',
+    function($scope, $rootScope, orderModel, data, $route, $location, $filter, customerModel, orderModel){
 
     var defaultValue = {
         n_order:{
@@ -238,31 +238,27 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
     }
 
     if($route.current.params.id){
-        if (data && data.order != undefined) {
-            data.order.then(function(response) {
-                $scope.n_order = response.data;
-                $scope.n_order.order_date = $filter('date')($scope.n_order.order_date, 'dd/MM/yyyy');
-                var customerExist = false;
-                console.log($scope.customers);
-                $scope.customers.forEach(function (value) {
-                    console.log(value);
-                    if(response.data.customer_id == value.id){
-                        customerExist = true;
-                        return;
-                    }
-                });
-                if(!customerExist){
-                    $scope.n_order.customer_id = '0';
-                    $scope.n_order.customer_name =  response.data.customer_name;
-                    $scope.n_order.create_new_customer = true;
+        orderModel.getGalleryById($route.current.params.id).then(function(response) {
+            $scope.n_order = response.data;
+            $scope.n_order.order_date = $filter('date')($scope.n_order.order_date, 'dd/MM/yyyy');
+            var customerExist = false;
+            $scope.customers.forEach(function (value) {
+                if(response.data.customer_id == value.id){
+                    customerExist = true;
+                    return;
                 }
-
-                $('#order_date').datepicker("setDate",$scope.n_order.order_date);
-                $scope.head_order = 'Edit order #' + $scope.n_order.increment_id;
-                $scope.new_order = false;
-                $scope.recalculate();
             });
-        }
+            if(!customerExist){
+                $scope.n_order.customer_id = '0';
+                $scope.n_order.customer_name =  response.data.customer_name;
+                $scope.n_order.create_new_customer = true;
+            }
+            $('#order_date').datepicker("setDate",$scope.n_order.order_date);
+            $scope.head_order = 'Edit order #' + response.data.increment_id;
+            $scope.new_order = false;
+
+            $scope.recalculate();
+        });
     }else{
         $scope.head_order = 'New order';
         $scope.new_order = true;

@@ -94,11 +94,10 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
         templateUrl: 'templates/adminhtml/order/order-add.html',
         controller: 'orderController',
         resolve: {
-            data: function(orderModel, $route, productModel, customerModel) {
+            data: function(productModel, customerModel) {
                 return {
                     products: productModel.getAllProducts(),
                     customers: customerModel.getAllCustomers(),
-                    order: orderModel.getGalleryById($route.current.params.id),
                 };
             }
         },

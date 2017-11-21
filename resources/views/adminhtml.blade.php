@@ -8,6 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('bower_components/angular-loading-bar/build/loading-bar.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('bower_components/angular-ui-select/dist/select.css')}}">
 	<script type="text/javascript">
         var baseUrl = "{{url('/')}}/admin/";
         var csrfToken = "{{csrf_token()}}";
@@ -26,6 +27,7 @@
 	<script type="text/javascript" src="{{asset('bower_components/angular-loading-bar/build/loading-bar.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-route/angular-route.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-cookies/angular-cookies.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('bower_components/angular-ui-select/dist/select.js')}}"></script>
 
 	{{--load library--}}
 	<script type="text/javascript" src="{{asset('bower_components/dirPagination/dirPagination.js')}}"></script>
