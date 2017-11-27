@@ -86,7 +86,7 @@ class OrderController extends Controller
             'note' => $request->input('note'),
         ]);
 
-        $incrementId = str_pad($order->id, 10, "0", STR_PAD_LEFT);
+        $incrementId = str_pad($order->id, 7, "0", STR_PAD_LEFT);
         $order->increment_id = $incrementId;
         $order->save();
         try{
