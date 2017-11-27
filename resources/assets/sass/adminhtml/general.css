@@ -78,3 +78,7 @@ td.refund .ui-select-container .ui-select-match span.btn.btn-default{
     color: #ffffff;
     background-color: #158cba;
 }
+
+.ui-select-container span.btn:hover{
+    margin-top: 0px;
+}

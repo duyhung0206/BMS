@@ -263,6 +263,7 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        die('dasdas');
     }
 }

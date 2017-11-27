@@ -6,7 +6,8 @@
             <div class="page-header">
                 <h1 id="forms">{{head_order}}
                     <p class="bs-component pull-right">
-                        <a href="#/order/view" class="btn btn-danger">Cancel</a>
+                        <a href="#/order/view" class="btn btn-danger">Back</a>
+                        <a href="javascript:void(0)" class="btn btn-danger" ng-if="!new_order" ng-click="deleteOrder()">Delete</a>
                         <a href="javascript:void(0)" class="btn btn-primary">Preview</a>
                         <a href="javascript:void(0)" class="btn btn-primary" ng-if="new_order" ng-click="placeOrder()">Submit order</a>
                         <a href="javascript:void(0)" class="btn btn-primary" ng-if="!new_order" ng-click="saveOrder()">Save order</a>
@@ -146,9 +147,18 @@
                                     <div class="form-group">
                                         <label for="order_customer_id" class="col-lg-3 control-label">Customer</label>
                                         <div class="col-lg-9">
-                                            <select class="form-control" name="order_customer_id" id="order_customer_id" ng-model="n_order.customer_id" convert-to-number>
-                                                <option ng-repeat="customer in customers" value='{{customer.id}}' title="{{customer.address}}">{{customer.name}}</option>
-                                            </select>
+                                            <ui-select ng-model="n_order.customer_id" id="order_customer_id">
+                                                <ui-select-match>{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="customer.id as customer in (customers | filter: $select.search)">
+                                                    <div ng-bind="customer.name"></div>
+                                                </ui-select-choices>
+                                                <ui-select-no-choice>
+                                                    Please select customer to place order !
+                                                </ui-select-no-choice>
+                                            </ui-select>
+                                            <!--<select class="form-control" name="order_customer_id" id="order_customer_id" ng-model="n_order.customer_id" convert-to-number>-->
+                                                <!--<option ng-repeat="customer in customers" value='{{customer.id}}' title="{{customer.address}}">{{customer.name}}</option>-->
+                                            <!--</select>-->
                                             <input ng-if="n_order.customer_id == 0" type="text" class="form-control" name="order_customer_name" id="order_customer_name" ng-model="n_order.customer_name">
                                             <div class="checkbox" ng-if="n_order.customer_id == 0">
                                                 <label>

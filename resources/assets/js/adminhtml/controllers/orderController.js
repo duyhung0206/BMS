@@ -157,7 +157,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                                 customerModel.getAllCustomers().then(function(responseCustomer) {
                                     responseCustomer.data.push({id:0, name:'Other'});
                                     $scope.customers = responseCustomer.data;
-                                    $scope.n_order.customer_id = String(response.data.customer_id);
+                                    $scope.n_order.customer_id = (response.data.customer_id);
                                     $scope.loading_order_customer = false;
                                     $scope.n_order.create_new_customer = false;
                                 });
@@ -184,7 +184,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                                 customerModel.getAllCustomers().then(function(responseCustomer) {
                                     responseCustomer.data.push({id:0, name:'Other'});
                                     $scope.customers = responseCustomer.data;
-                                    $scope.n_order.customer_id = String(response.data.customer_id);
+                                    $scope.n_order.customer_id = (response.data.customer_id);
                                     $scope.loading_order_customer = false;
                                     $scope.n_order.create_new_customer = false;
                                 });
@@ -196,6 +196,28 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
 
                     });
                 }
+            },
+            deleteOrder: function () {
+                var order_id = $scope.n_order.id;
+                data = {
+                    titleDialog: 'Confirm delete order: #'+$scope.n_order.increment_id,
+                    messageDialog: null,
+                    titleClose: null,
+                    titleOk: null,
+                    functionExecute: function () {
+                        orderModel.deleteOrder(order_id)
+                            .then(function(response) {
+                                $location.path('/order/view');
+                                $scope.$emit('showMessage', ['success', null, 'Delete order #'+$scope.n_order.increment_id+ ' success !']);
+                            })
+                            .catch(function(response) {
+
+                            }).finally(function () {
+                            $scope.$emit('hideDialogConfig', data);
+                            });
+                    }
+                }
+                $scope.$emit('showDialogConfig', data);
             }
         });
 
