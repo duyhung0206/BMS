@@ -73,7 +73,8 @@ class OrderController extends Controller
             $customerEmail = $customer->email;
         }
         $order_date =  DateTime::createFromFormat('d/m/Y', $request->input('order_date'))->format('Y-m-d');
-
+        $customerName = $customerName == ''? 'Other': $customerName;
+        
         $order = Order::create([
             'order_date' => $order_date,
             'customer_id' => $customerId,
@@ -86,7 +87,7 @@ class OrderController extends Controller
             'note' => $request->input('note'),
         ]);
 
-        $incrementId = str_pad($order->id, 7, "0", STR_PAD_LEFT);
+        $incrementId = str_pad($order->id, 10, "0", STR_PAD_LEFT);
         $order->increment_id = $incrementId;
         $order->save();
         try{
@@ -166,8 +167,6 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-
         $customerId = $request->input('customer_id');
         $customerEmail = '';
         if($request->input('customer_id') == 0){
@@ -193,7 +192,7 @@ class OrderController extends Controller
             $customerEmail = $customer->email;
         }
         $order_date =  DateTime::createFromFormat('d/m/Y', $request->input('order_date'))->format('Y-m-d');
-
+        $customerName = $customerName == ''? 'Other': $customerName;
         $order = Order::find($id);
         if($order->id){
             $order->update([
@@ -263,7 +262,17 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-
-        die('dasdas');
+        $orderId = $id;
+        try{
+            /*Delete fees*/
+            OrderAttribute::where('order_id', $orderId)->delete();
+            /*Delete order items*/
+            OrderProduct::where('order_id', $orderId)->delete();
+            /*Delete order*/
+            Order::destroy($orderId);
+            return response('Order delete success !', 201);
+        }catch (Exception $e){
+            return response($e->getMessage(), 422);
+        }
     }
 }

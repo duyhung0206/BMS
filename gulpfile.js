@@ -14,7 +14,8 @@ elixir(function(mix) {
     mix.sass([
         'adminhtml/general.css',
         'adminhtml/loading-bar.css',
-        'adminhtml/notify.css'
+        'adminhtml/notify.css',
+        'adminhtml/customer.css'
     ]);
 
     /*adminhtml*/

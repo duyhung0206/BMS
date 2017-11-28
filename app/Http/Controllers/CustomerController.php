@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\OrderAttribute;
 use Illuminate\Support\Facades\Validator;
+
 class CustomerController extends Controller
 {
     /**
@@ -52,6 +56,7 @@ class CustomerController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'address' => $request->input('address'),
+            'note' => $request->input('note'),
             'is_active' => $request->input('is_active')
         ]);
         return response($customer, 201);
@@ -65,7 +70,33 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        //
+        /*get info customer*/
+        $customer = Customer::find($id);
+
+        $orders = Order::where('customer_id', $id)->get();
+        $totalBuy = 0;
+        $totalReturn = 0;
+        foreach ($orders as $key => $order){
+            $orderItems = OrderProduct::where('order_id', $order->id)->get();
+            $orders[$key]->items = $orderItems;
+            foreach ($orderItems as $item){
+                if($item->type != 1){
+                    $totalBuy += $item->qty;
+                }else{
+                    $totalReturn += $item->qty;
+                }
+            }
+            $orderFees = OrderAttribute::where('order_id', $order->id)->get();
+            $orders[$key]->fees = $orderFees;
+        }
+        $customer->orders = [
+            'list' => $orders,
+            'total' => $orders->count(),
+            'totalBuy' => $totalBuy,
+            'totalReturn' => $totalReturn,
+        ];
+
+        return $customer;
     }
 
     /**
@@ -88,7 +119,21 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $customer = Customer::find($id);
+        if($customer->id){
+            $customer->update([
+                'avatar' => '',
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'address' => $request->input('address'),
+                'note' => $request->input('note'),
+                'is_active' => $request->input('is_active')
+            ]);
+
+            return response($this->show($customer->id), 201);
+        }else{
+            return response('Customer does not exist !', 422);
+        }
     }
 
     /**

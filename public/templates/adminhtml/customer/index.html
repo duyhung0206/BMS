@@ -49,7 +49,7 @@
                         <div class="form-group" ng-class="{'has-error' : addCustomerForm.customer_is_active.$invalid && formSubmitted}">
                             <label for="customer_is_active" class="col-lg-3 control-label">Is active</label>
                             <div class="col-lg-9">
-                                <select class="form-control" id="customer_is_active" name="customer_is_active" ng-model="n_customer.is_active" required>
+                                <select class="form-control" id="customer_is_active" name="customer_is_active" ng-model="n_customer.is_active" required convert-to-number>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
                                 </select>

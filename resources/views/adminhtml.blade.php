@@ -27,6 +27,7 @@
 	<script type="text/javascript" src="{{asset('bower_components/angular-loading-bar/build/loading-bar.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-route/angular-route.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-cookies/angular-cookies.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('bower_components/angular-ui-router/release/angular-ui-router.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-ui-select/dist/select.js')}}"></script>
 
 	{{--load library--}}

@@ -23,6 +23,19 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
         authenticated:true,
     });
 
+    $routeProvider.when('/customer/edit/:id', {
+        templateUrl: 'templates/adminhtml/customer/edit.html',
+        controller: 'customerController',
+        resolve: {
+            data: function($route, customerModel) {
+                return {
+                    n_customer: customerModel.getDataCustomer($route.current.params.id),
+                };
+            }
+        },
+        authenticated: true
+    });
+
     $routeProvider.when('/supplier', {
         templateUrl:'templates/adminhtml/supplier/index.html',
         controller:'supplierController',

@@ -1,4 +1,5 @@
-var myApp = angular.module('myApp', ['ngRoute', 'ngCookies', 'angularUtils.directives.dirPagination', 'angular-loading-bar', 'ui.select']);
+var myApp = angular.module('myApp', ['ngRoute', 'ngCookies', 'angularUtils.directives.dirPagination',
+    'angular-loading-bar', 'ui.select', 'ui.router']);
 
 myApp.config(['$locationProvider', function($locationProvider) {
     $locationProvider.hashPrefix('');
