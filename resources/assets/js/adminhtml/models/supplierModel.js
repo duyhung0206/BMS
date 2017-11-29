@@ -28,6 +28,25 @@ myApp.factory('supplierModel', ['$http', function($http){
                 url: baseUrl + 'supplier/'+ supplierId,
                 method: 'DELETE'
             });
+        },
+        getDataSupplier: function (supplierId) {
+            return $http({
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                url: baseUrl + 'supplier/'+ supplierId,
+                method: 'GET'
+            });
+        },
+        saveSupplier: function (SupplierData) {
+            return $http({
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                url: baseUrl + 'supplier/' + SupplierData.id,
+                method: 'PUT',
+                data: SupplierData
+            });
         }
     };
 }])

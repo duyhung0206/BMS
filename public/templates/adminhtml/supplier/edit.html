@@ -15,36 +15,36 @@
             <ul class="list-group">
                 <li class="list-group-item">
                     <img class="profile-user-img img-responsive img-circle" src="https://adminlte.io/themes/AdminLTE/dist/img/user4-128x128.jpg" alt="User profile picture">
-                    <h3 class="profile-username text-center">{{n_customer.name}}</h3>
-                    <p class="text-muted text-center">{{n_customer.address}}</p>
+                    <h3 class="profile-username text-center">{{n_supplier.name}}</h3>
+                    <p class="text-muted text-center">{{n_supplier.address}}</p>
                 </li>
                 <li class="list-group-item">
-                    <span class="badge">{{n_customer.orders.total | number}}</span>
-                    Total order
+                    <span class="badge">{{n_supplier.orders.total | number}}</span>
+                    Total purchaseorder
                 </li>
                 <li class="list-group-item">
-                    <span class="badge">{{n_customer.orders.totalBuy | number}}</span>
+                    <span class="badge">{{n_supplier.orders.totalBuy | number}}</span>
                     Total Buy
                 </li>
                 <li class="list-group-item">
-                    <span class="badge">{{n_customer.orders.totalReturn | number}}</span>
+                    <span class="badge">{{n_supplier.orders.totalReturn | number}}</span>
                     Total Refund
                 </li>
             </ul>
         </div>
         <div class="col-lg-9">
             <ul class="nav nav-tabs">
-                <li ui-sref="customer-tab-orders" ui-sref-active="active"><a href="javascript:void(0)">Orders</a></li>
-                <li ui-sref="customer-tab-info" ui-sref-active="active"><a href="javascript:void(0)">Info</a></li>
-                <li ui-sref="customer-tab-report" ui-sref-active="active"><a href="javascript:void(0)">Report</a></li>
+                <li ui-sref="supplier-tab-orders" ui-sref-active="active"><a href="javascript:void(0)">Orders</a></li>
+                <li ui-sref="supplier-tab-info" ui-sref-active="active"><a href="javascript:void(0)">Info</a></li>
+                <li ui-sref="supplier-tab-report" ui-sref-active="active"><a href="javascript:void(0)">Report</a></li>
                 <p class="bs-component pull-right" style="margin-bottom: 0px">
                     <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-danger">Back</a>
-                    <a href="javascript:void(0)" class="btn btn-danger" ng-click="deleteCustomer(n_customer.id, n_customer.name)">Delete</a>
-                    <a href="javascript:void(0)" class="btn btn-primary">Create Order</a>
+                    <a href="javascript:void(0)" class="btn btn-danger" ng-click="deleteSupplier(n_supplier.id, n_supplier.name)">Delete</a>
+                    <a href="javascript:void(0)" class="btn btn-primary">Create Purchaseorder</a>
                 </p>
             </ul>
-            <div class="ui-view-customer">
-                <ui-view ng-init="go('customer-tab-orders')"></ui-view>
+            <div class="ui-view-supplier">
+                <ui-view ng-init="go('supplier-tab-orders')"></ui-view>
             </div>
         </div>
     </div>

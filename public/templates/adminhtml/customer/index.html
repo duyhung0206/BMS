@@ -126,7 +126,10 @@
                         <td>{{customer.name}}</td>
                         <td>{{customer.email}}</td>
                         <td>{{customer.address}}</td>
-                        <td>{{customer.is_active==1?'Yes':'No'}}</td>
+                        <td style="font-size: 110%">
+                            <span class="label label-success" ng-if="customer.is_active == 1">Active</span>
+                            <span class="label label-danger" ng-if="customer.is_active == 0">Inactive</span>
+                        </td>
                         <td><a href="javascript:void(0)" ng-click="editCustomer(customer.id)">Edit</a>/<a href="javascript:void(0)" ng-click="deleteCustomer(customer.id, customer.name)">Delete</a></td>
                     </tr>
                     </tbody>

@@ -4,13 +4,13 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="page-header">
-                <h1 id="forms">{{head_order}}
+                <h1 id="forms">{{head_purchaseorder}}
                     <p class="bs-component pull-right">
                         <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-danger">Back</a>
-                        <a href="javascript:void(0)" class="btn btn-danger" ng-if="!new_order" ng-click="deleteOrder()">Delete</a>
+                        <a href="javascript:void(0)" class="btn btn-danger" ng-if="!new_purchaseorder" ng-click="deletePurchaseorder()">Delete</a>
                         <a href="javascript:void(0)" class="btn btn-primary">Preview</a>
-                        <a href="javascript:void(0)" class="btn btn-primary" ng-if="new_order" ng-click="placeOrder()">Submit order</a>
-                        <a href="javascript:void(0)" class="btn btn-primary" ng-if="!new_order" ng-click="saveOrder()">Save order</a>
+                        <a href="javascript:void(0)" class="btn btn-primary" ng-if="new_purchaseorder" ng-click="placePurchaseorder()">Submit purchaseorder</a>
+                        <a href="javascript:void(0)" class="btn btn-primary" ng-if="!new_purchaseorder" ng-click="savePurchaseorder()">Save purchaseorder</a>
                     </p>
                 </h1>
             </div>
@@ -20,15 +20,15 @@
     <div class="row">
         <div class="col-lg-8">
             <div class="panel panel-default">
-                <div class="panel-heading">Items Ordered
+                <div class="panel-heading">Items Purchaseordered
                     <p class="bs-component pull-right">
                         <button type="button" class="btn btn-primary btn-xs" ng-init="show_note = false" ng-click="show_note = !show_note">Note</button>
-                        <button type="button" class="btn btn-primary btn-xs" ng-click="addOrderItem()">+ Add product</button>
+                        <button type="button" class="btn btn-primary btn-xs" ng-click="addPurchaseorderItem()">+ Add product</button>
                     </p>
                 </div>
                 <div class="panel-body">
                     <table class="table table-hover">
-                        <caption ng-if="show_error_order_items"><p class="text-danger">Please check order items</p></caption>
+                        <caption ng-if="show_error_purchaseorder_items"><p class="text-danger">Please check purchaseorder items</p></caption>
                         <thead>
                         <tr>
                             <th>
@@ -66,11 +66,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <tr ng-if="n_order.items.length == 0"><td></td><td colspan="6">No data table</td></tr>
-                            <tr ng-repeat="item in n_order.items| orderBy:sortType:sortReverse" ng-class="{true: 'danger', false: ''}[item.error == true]">
+                            <tr ng-if="n_purchaseorder.items.length == 0"><td></td><td colspan="6">No data table</td></tr>
+                            <tr ng-repeat="item in n_purchaseorder.items| orderBy:sortType:sortReverse" ng-class="{true: 'danger', false: ''}[item.error == true]">
                                 <td><input type="checkbox" ng-checked="item.type" ng-click="item.type = !item.type"></td>
                                 <td ng-class="{true: 'refund', false: ''}[item.type == true]">
-                                    <!--<select class="form-control" ng-model="item.product_id" class="order_product_id" ng-class="{true: 'refund', false: ''}[item.type == true]" convert-to-number>-->
+                                    <!--<select class="form-control" ng-model="item.product_id" class="purchaseorder_product_id" ng-class="{true: 'refund', false: ''}[item.type == true]" convert-to-number>-->
                                         <!--<option ng-repeat="product in products" value='{{product.id}}'>{{product.name}}</option>-->
                                     <!--</select>-->
                                     <ui-select ng-model="item.product_id">
@@ -84,35 +84,35 @@
                                     </ui-select>
                                 </td>
                                 <td>
-                                    <input input-currency type="text" class="form-control text-right" ng-class="{true: 'refund', false: ''}[item.type == true]" name="order_product_qty" ng-model="item.qty">
+                                    <input input-currency type="text" class="form-control text-right" ng-class="{true: 'refund', false: ''}[item.type == true]" name="purchaseorder_product_qty" ng-model="item.qty">
                                 </td>
                                 <td>
-                                    <input input-currency type="text" class="form-control text-right" ng-class="{true: 'refund', false: ''}[item.type == true]" name="order_product_price" ng-model="item.price">
+                                    <input input-currency type="text" class="form-control text-right" ng-class="{true: 'refund', false: ''}[item.type == true]" name="purchaseorder_product_price" ng-model="item.price">
                                 </td>
                                 <td>
-                                    <input input-currency type="text" class="form-control text-right" ng-class="{true: 'refund', false: ''}[item.type == true]" name="order_product_rowtotal" ng-model="item.row_total">
+                                    <input input-currency type="text" class="form-control text-right" ng-class="{true: 'refund', false: ''}[item.type == true]" name="purchaseorder_product_rowtotal" ng-model="item.row_total">
                                 </td>
-                                <td><a href="javascript:void(0)" ng-click="removeOrderItem($index)">Delete</a></td>
+                                <td><a href="javascript:void(0)" ng-click="removePurchaseorderItem($index)">Delete</a></td>
                             </tr>
                         </tbody>
-                        <tfoot ng-if="n_order.items.length != 0">
+                        <tfoot ng-if="n_purchaseorder.items.length != 0">
                             <tr>
                                 <th></th>
-                                <th class="text-right">{{n_order.items.length | currency:'': 0}}</th>
-                                <th class="text-right">{{n_order.total_qty_orderd | currency:'': 0}}</th>
+                                <th class="text-right">{{n_purchaseorder.items.length | currency:'': 0}}</th>
+                                <th class="text-right">{{n_purchaseorder.total_qty_ordered | currency:'': 0}}</th>
                                 <th></th>
-                                <th class="text-right">{{n_order.subtotal | currency:'': 0}}</th>
+                                <th class="text-right">{{n_purchaseorder.subtotal | currency:'': 0}}</th>
                                 <th></th>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
-                <div class="overlay" ng-if="loading_order_items">
+                <div class="overlay" ng-if="loading_purchaseorder_items">
                     <i class="fa fa-refresh fa-spin"></i>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-lg-offset-2" id="order_note" ng-if="show_note">
+        <div class="col-lg-4 col-lg-offset-2" id="purchaseorder_note" ng-if="show_note">
             <div class="panel panel-default">
                 <div class="panel-heading">Note</div>
                 <div class="panel-body">
@@ -120,7 +120,7 @@
                         <fieldset>
                             <div class="form-group">
                                 <div class="col-lg-12">
-                                    <textarea class="form-control" rows="6" id="note" name="note" ng-model="n_order.note">
+                                    <textarea class="form-control" rows="6" id="note" name="note" ng-model="n_purchaseorder.note">
                                     </textarea>
                                 </div>
                             </div>
@@ -136,33 +136,33 @@
                         <div class="panel-heading">Account Information</div>
                         <div class="panel-body">
                             <div class="form-horizontal">
-                                <p class="text-danger" ng-if="show_error_order_customer">Please check account infomation</p>
+                                <p class="text-danger" ng-if="show_error_purchaseorder_supplier">Please check account infomation</p>
                                 <fieldset>
                                     <div class="form-group">
                                         <label for="order_date" class="col-lg-3 control-label">Order date</label>
                                         <div class="col-lg-9">
-                                            <input class="form-control" id="order_date" name="order_date" ng-model="n_order.order_date">
+                                            <input class="form-control" id="order_date" name="order_date" ng-model="n_purchaseorder.order_date">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="order_customer_id" class="col-lg-3 control-label">Customer</label>
+                                        <label for="purchaseorder_supplier_id" class="col-lg-3 control-label">Supplier</label>
                                         <div class="col-lg-9">
-                                            <ui-select ng-model="n_order.customer_id" id="order_customer_id">
+                                            <ui-select ng-model="n_purchaseorder.supplier_id" id="purchaseorder_supplier_id">
                                                 <ui-select-match>{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices repeat="customer.id as customer in (customers | filter: $select.search)">
-                                                    <div ng-bind="customer.name"></div>
+                                                <ui-select-choices repeat="supplier.id as supplier in (suppliers | filter: $select.search)">
+                                                    <div ng-bind="supplier.name"></div>
                                                 </ui-select-choices>
                                                 <ui-select-no-choice>
-                                                    Please select customer to place order !
+                                                    Please select supplier to place purchaseorder !
                                                 </ui-select-no-choice>
                                             </ui-select>
-                                            <!--<select class="form-control" name="order_customer_id" id="order_customer_id" ng-model="n_order.customer_id" convert-to-number>-->
-                                                <!--<option ng-repeat="customer in customers" value='{{customer.id}}' title="{{customer.address}}">{{customer.name}}</option>-->
+                                            <!--<select class="form-control" name="purchaseorder_supplier_id" id="purchaseorder_supplier_id" ng-model="n_purchaseorder.supplier_id" convert-to-number>-->
+                                                <!--<option ng-repeat="supplier in suppliers" value='{{supplier.id}}' title="{{supplier.address}}">{{supplier.name}}</option>-->
                                             <!--</select>-->
-                                            <input ng-if="n_order.customer_id == 0" type="text" class="form-control" name="order_customer_name" id="order_customer_name" ng-model="n_order.customer_name">
-                                            <div class="checkbox" ng-if="n_order.customer_id == 0">
+                                            <input ng-if="n_purchaseorder.supplier_id == 0" type="text" class="form-control" name="purchaseorder_supplier_name" id="purchaseorder_supplier_name" ng-model="n_purchaseorder.supplier_name">
+                                            <div class="checkbox" ng-if="n_purchaseorder.supplier_id == 0">
                                                 <label>
-                                                    <input type="checkbox" name="create_new_customer" id="create_new_customer" ng-model="n_order.create_new_customer">Create new customer
+                                                    <input type="checkbox" name="create_new_supplier" id="create_new_supplier" ng-model="n_purchaseorder.create_new_supplier">Create new supplier
                                                 </label>
                                             </div>
                                         </div>
@@ -170,7 +170,7 @@
                                 </fieldset>
                             </div>
                         </div>
-                        <div class="overlay" ng-if="loading_order_customer">
+                        <div class="overlay" ng-if="loading_purchaseorder_supplier">
                             <i class="fa fa-refresh fa-spin"></i>
                         </div>
                 </div>
@@ -181,29 +181,29 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">Order Totals
                             <p class="bs-component pull-right">
-                                <button type="button" class="btn btn-primary btn-xs" ng-click="validateOrder()">Check order</button>
+                                <button type="button" class="btn btn-primary btn-xs" ng-click="validatePurchaseorder()">Check order</button>
                                 <button type="button" class="btn btn-primary btn-xs" ng-click="recalculate()">Recalculate</button>
                                 <button type="button" class="btn btn-primary btn-xs" ng-click="addNewFee()" title="Add new fee">+</button>
                             </p>
                         </div>
                         <div class="panel-body">
                             <div class="form-horizontal">
-                                <p class="text-danger" ng-if="show_error_order_totals">Please check order totals</p>
+                                <p class="text-danger" ng-if="show_error_purchaseorder_totals">Please check purchaseorder totals</p>
                                 <fieldset>
                                     <div class="form-group">
                                         <label class="col-lg-5 control-label">Subtotal</label>
                                         <div class="col-lg-7 text-right">
-                                            <label class="control-label label-currency" id="subtotal" name="subtotal">{{n_order.subtotal | currency:'': 0}}</label>
+                                            <label class="control-label label-currency" id="subtotal" name="subtotal">{{n_purchaseorder.subtotal | currency:'': 0}}</label>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="total_paid" class="col-lg-5 control-label">Paid</label>
                                         <div class="col-lg-7">
-                                            <input input-currency class="form-control text-right" id="total_paid" name="total_paid" ng-model="n_order.total_paid" type="text">
+                                            <input input-currency class="form-control text-right" id="total_paid" name="total_paid" ng-model="n_purchaseorder.total_paid" type="text">
                                         </div>
                                     </div>
-                                    <div ng-if="n_order.fees.length != 0" class="row partition"></div>
-                                    <div class="form-group" ng-repeat="fee in n_order.fees" ng-class="{true: 'has-error', false: ''}[fee.error == true]">
+                                    <div ng-if="n_purchaseorder.fees.length != 0" class="row partition"></div>
+                                    <div class="form-group" ng-repeat="fee in n_purchaseorder.fees" ng-class="{true: 'has-error', false: ''}[fee.error == true]">
                                         <div class="col-lg-1"><button type="button" class="btn btn-primary btn-xs" ng-click="removeFee($index)" title="Remove this fee">-</button></div>
                                         <div class="col-lg-4"><input class="form-control" name="fee_label" ng-model="fee.title"></div>
                                         <div class="col-lg-7">
@@ -214,13 +214,13 @@
                                     <div class="form-group">
                                         <label for="grand_total" class="col-lg-5 control-label">Grandtotal</label>
                                         <div class="col-lg-7 text-right">
-                                            <label class="control-label label-currency" id="grand_total" name="grand_total">{{n_order.grand_total | currency:'': 0}}</label>
+                                            <label class="control-label label-currency" id="grand_total" name="grand_total">{{n_purchaseorder.grand_total | currency:'': 0}}</label>
                                         </div>
                                     </div>
                                 </fieldset>
                             </div>
                         </div>
-                        <div class="overlay" ng-if="loading_order_totals">
+                        <div class="overlay" ng-if="loading_purchaseorder_totals">
                             <i class="fa fa-refresh fa-spin"></i>
                         </div>
                     </div>

@@ -21,3 +21,25 @@
     border-radius: 3px;
     padding: 19px;
 }
+
+
+.border-top-td{
+    border-top: 1px solid black !important;
+    border-color: black !important;
+}
+
+.table-detail-order tfoot tr td{
+    text-align: right;
+}
+
+.ui-view-supplier{
+    margin-bottom: 20px;
+    background: #fff;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    border-radius: 3px;
+    padding: 19px;
+}
+
+.table-detail-purchaseorder tfoot tr td{
+    text-align: right;
+}

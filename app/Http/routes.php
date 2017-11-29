@@ -28,7 +28,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('product', 'ProductController');
 
         Route::resource('order', 'OrderController');
-        Route::post('order/show/{orderId}', 'OrderController@show');
+
+        Route::resource('purchaseorder', 'PurchaseorderController');
+//        Route::post('order/show/{orderId}', 'OrderController@show');
     });
 });
 

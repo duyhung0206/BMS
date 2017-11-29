@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\OrderAttribute;
@@ -56,6 +57,7 @@ class CustomerController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'address' => $request->input('address'),
+            'phone' => $request->input('phone'),
             'note' => $request->input('note'),
             'is_active' => $request->input('is_active')
         ]);
@@ -121,15 +123,22 @@ class CustomerController extends Controller
     {
         $customer = Customer::find($id);
         if($customer->id){
+            $oldName = $customer->name;
             $customer->update([
                 'avatar' => '',
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
                 'address' => $request->input('address'),
+                'phone' => $request->input('phone'),
                 'note' => $request->input('note'),
                 'is_active' => $request->input('is_active')
             ]);
 
+            if($oldName != $customer->name){
+                Order::where('customer_id', $customer->id)->update([
+                    'customer_name' => $customer->name
+                ]);
+            }
             return response($this->show($customer->id), 201);
         }else{
             return response('Customer does not exist !', 422);
@@ -146,6 +155,17 @@ class CustomerController extends Controller
     {
         $customer = Customer::find($id);
         if($customer){
+            /*delete all order*/
+            $orders = Order::where('supplier_id', $customer->id)->get();
+            foreach ($orders as $order){
+                /*Delete fees*/
+                OrderAttribute::where('purchaseorder_id', $order->id)->delete();
+                /*Delete order items*/
+                OrderProduct::where('purchaseorder_id', $order->id)->delete();
+                /*Delete order*/
+                Order::destroy($order->id);
+            }
+
             $customer->delete();
             return Customer::all();
         }else{

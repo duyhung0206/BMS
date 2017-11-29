@@ -1,4 +1,5 @@
-myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel', 'data', function($scope, $rootScope, supplierModel, data){
+myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel', 'data', '$route', '$location', '$state',
+    function($scope, $rootScope, supplierModel, data, $route, $location, $state){
     angular.extend($scope, {
         n_supplier:{
             name: '',
@@ -13,13 +14,28 @@ myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel',
         pageSize_supplier: 10,
     });
 
-    /*Getting all the suppliers*/
-    if (data && data.suppliers != undefined) {
-        data.suppliers.then(function(response) {
-            $scope.suppliers = response.data;
-            $scope.showSupplier = true;
-        });
+    if($route.current.params.id){
+        if(data && data.n_supplier != undefined){
+            data.n_supplier.then(function(response) {
+                $scope.n_supplier = response.data;
+            }).catch(function(response) {
+                $scope.$emit('showMessage', ['danger', null, 'Supplier has id ' + $route.current.params.id + ' don\'t exist !']);
+                $location.path('/supplier');
+            });
+        }
+        $scope.go = function (state) {
+            $state.go(state);
+        }
+    }else{
+        /*Getting all the suppliers*/
+        if (data && data.suppliers != undefined) {
+            data.suppliers.then(function(response) {
+                $scope.suppliers = response.data;
+                $scope.showSupplier = true;
+            });
+        }
     }
+
 
     $('#supplier_datepicker').datepicker({
         format: "dd/mm/yyyy",
@@ -49,7 +65,7 @@ myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel',
                             note: '',
                             is_active: '1',
                         }
-                        $scope.$emit('showMessage', ['success', 'Success', 'Create supplier: ' + response.data.name + ' success !']);
+                        $scope.$emit('showMessage', ['success', null, 'The supplier has been created.']);
                     }
                 })
                 .catch(function(response) {
@@ -61,14 +77,14 @@ myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel',
                         }
                     });
                     messageError = messageError==''?'Error while process function !':messageError;
-                    $scope.$emit('showMessage', ['danger', 'Error', messageError]);
+                    $scope.$emit('showMessage', ['danger', null, messageError]);
                 });
             }else{
                 $scope.formSubmitted = true;
             }
         },
         editSupplier: function (supplierId) {
-            console.log(supplierId);
+            $location.path('/supplier/edit/'+supplierId);
         },
         deleteSupplier: function (supplierId, supplierName) {
             data = {
@@ -79,7 +95,12 @@ myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel',
                 functionExecute: function () {
                     supplierModel.deleteSupplier(supplierId)
                         .then(function(response) {
+                            if($route.current.params.id){
+                                $location.path('/supplier');
+                            }
                             $scope.suppliers = response.data;
+                            $scope.$emit('showMessage', ['success', null, 'The supplier has been deleted.']);
+
                         })
                         .catch(function(response) {
                         }).finally(function () {
@@ -88,8 +109,46 @@ myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel',
                 }
             }
             $scope.$emit('showDialogConfig', data);
+        },
+        saveSupplier: function (editSupplierForm) {
+            if(editSupplierForm.$valid){
+                $scope.formSubmitted = false;
+                supplierModel.saveSupplier($scope.n_supplier)
+                    .then(function(response) {
+                        $scope.$emit('showMessage', ['success', null, 'The supplier has been saved.']);
+                        $scope.n_supplier = response.data;
+                    })
+                    .catch(function(response) {
+
+                    });
+            }else{
+                $scope.formSubmitted = true;
+            }
+        },
+        editPurchaseorder: function (PurchaseorderId) {
+            $location.path('/purchaseorder/edit/' + PurchaseorderId);
         }
-
-
     });
 }]);
+
+myApp.config(['$stateProvider',
+    function($stateProvider) {
+        var infoState = {
+            name: 'supplier-tab-info',
+            templateUrl: 'templates/adminhtml/supplier/tabs/info.html',
+        }
+
+        var ordersState = {
+            name: 'supplier-tab-orders',
+            templateUrl: 'templates/adminhtml/supplier/tabs/orders.html'
+        }
+
+        var reportState = {
+            name: 'supplier-tab-report',
+            templateUrl: 'templates/adminhtml/supplier/tabs/report.html'
+        }
+
+        $stateProvider.state(infoState);
+        $stateProvider.state(ordersState);
+        $stateProvider.state(reportState);
+    }]);

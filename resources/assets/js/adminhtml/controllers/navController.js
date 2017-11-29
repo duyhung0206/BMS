@@ -19,7 +19,14 @@ myApp.controller('navController', ['$scope', '$location', 'userModel', function(
             url: '/supplier'
         },{
             link: 'P.O',
-            url: '/purchaseorder'
+            url: '/purchaseorder',
+            subMenu: [{
+                link: 'View all P.O',
+                url: '/purchaseorder/view'
+            }, {
+                link: 'Add new P.O',
+                url: '/purchaseorder/add'
+            }]
         },{
             link: 'Products',
             url: '/product'

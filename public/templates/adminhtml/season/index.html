@@ -124,7 +124,10 @@
                         <td>{{season.name}}</td>
                         <td>{{season.start | date : 'dd/MM/yyyy'}}</td>
                         <td>{{season.end | date : 'dd/MM/yyyy'}}</td>
-                        <td>{{season.is_active==1?'Yes':'No'}}</td>
+                        <td style="font-size: 110%">
+                            <span class="label label-success" ng-if="season.is_active == 1">Active</span>
+                            <span class="label label-danger" ng-if="season.is_active == 0">Inactive</span>
+                        </td>
                         <td><a href="javascript:void(0)" ng-click="editSeason(season.id)">Edit</a>/<a href="javascript:void(0)" ng-click="deleteSeason(season.id, season.name)">Delete</a></td>
                     </tr>
                     </tbody>

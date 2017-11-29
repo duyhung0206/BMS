@@ -14,7 +14,7 @@ class CreatePurchaseorderTable extends Migration
     {
         Schema::create('purchaseorder', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('increment_id');
+            $table->string('increment_id');
             $table->integer('product_id');
             $table->date('order_date');
             $table->integer('supplier_id');
@@ -22,8 +22,9 @@ class CreatePurchaseorderTable extends Migration
             $table->string('supplier_email');
             $table->decimal('total_item_count', 11, 2);
             $table->decimal('total_qty_ordered', 11, 2);
-            $table->decimal('total_due', 11, 2);
             $table->decimal('total_paid', 11, 2);
+            $table->decimal('subtotal', 11, 2);
+            $table->decimal('grand_total', 11, 2);
             $table->longText('note');
             $table->timestamps();
         });

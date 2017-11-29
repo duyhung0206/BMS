@@ -33,6 +33,7 @@ elixir(function(mix) {
         'adminhtml/models/supplierModel.js',
         'adminhtml/models/productModel.js',
         'adminhtml/models/orderModel.js',
+        'adminhtml/models/purchaseorderModel.js',
     ], 'public/js/adminhtml/models.js');
 
 
@@ -45,6 +46,7 @@ elixir(function(mix) {
         'adminhtml/controllers/customerController.js',
         'adminhtml/controllers/supplierController.js',
         'adminhtml/controllers/orderController.js',
+        'adminhtml/controllers/purchaseorderController.js',
         'adminhtml/controllers/partials/confirmDeleteController.js',
         'adminhtml/controllers/partials/notifyController.js',
     ], 'public/js/adminhtml/controllers.js');

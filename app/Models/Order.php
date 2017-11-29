@@ -17,5 +17,5 @@ class Order extends Model
      *
      * @var array
      */
-    protected $fillable = ['increment_id', 'order_date', 'customer_id', 'customer_name', 'customer_email', 'total_item_count', 'total_qty_ordered', 'total_due', 'total_paid', 'note'];
+    protected $fillable = ['increment_id', 'order_date', 'customer_id', 'customer_name', 'customer_email', 'total_item_count', 'total_qty_ordered', 'total_paid', 'subtotal','grand_total', 'note'];
 }

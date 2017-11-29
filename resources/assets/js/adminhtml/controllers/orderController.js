@@ -4,19 +4,19 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
     var defaultValue = {
         n_order:{
             order_date:'',
-            customer_id: "0",
+            customer_id: 0,
             customer_name: '',
             customer_email: '',
             create_new_customer: false,
             total_item_count: 0,
-            total_qty_orderd: 0,
-            total_due: 0,
+            total_qty_ordered: 0,
+            grand_total: 0,
             total_paid: 0,
             note: '',
             items:[],
             subtotal:0,
             fees:[],
-            total_due:0
+            grand_total:0
         },
         loading_order_customer: true,
         loading_order_items: true,
@@ -87,7 +87,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                     }
                 });
 
-                $scope.n_order.total_qty_orderd = total_qty;
+                $scope.n_order.total_qty_ordered = total_qty;
                 $scope.n_order.subtotal = subtotal;
 
                 var total_fee = 0;
@@ -96,7 +96,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                 })
 
                 $scope.n_order.total_paid = $scope.n_order.total_paid == '' ? 0:$scope.n_order.total_paid;
-                $scope.n_order.total_due = parseFloat($scope.n_order.subtotal) + parseFloat(total_fee) - parseFloat($scope.n_order.total_paid);
+                $scope.n_order.grand_total = parseFloat($scope.n_order.subtotal) + parseFloat(total_fee) - parseFloat($scope.n_order.total_paid);
                 $scope.loading_order_items = false;
             },
             validateOrder: function () {
@@ -137,7 +137,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                     $scope.n_order.fees.length == 0 &&
                     $scope.show_error_order_customer == false &&
                     $scope.n_order.total_paid == 0){
-                    $scope.$emit('showMessage', ['danger', 'Error', 'Order don\'t have data. Please check order data again!']);
+                    $scope.$emit('showMessage', ['danger', null, 'Order don\'t have data. Please check order data again!']);
                     return false;
                 }
 
@@ -152,7 +152,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                 if(this.validateOrder()){
                     orderModel.addNewOrder($scope.n_order)
                         .then(function(response) {
-                            $scope.$emit('showMessage', ['success', null, 'Create order #'+response.data.increment_id+ ' success !']);
+                            $scope.$emit('showMessage', ['success', null, 'The order has been created.']);
                             if($scope.n_order.create_new_customer = true){
                                 customerModel.getAllCustomers().then(function(responseCustomer) {
                                     responseCustomer.data.push({id:0, name:'Other'});
@@ -179,7 +179,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                 if(this.validateOrder()){
                     orderModel.saveOrder($scope.n_order)
                         .then(function(response) {
-                            $scope.$emit('showMessage', ['success', null, 'Save order #'+response.data.increment_id+ ' success !']);
+                            $scope.$emit('showMessage', ['success', null, 'The order has been saved.']);
                             if($scope.n_order.create_new_customer = true){
                                 customerModel.getAllCustomers().then(function(responseCustomer) {
                                     responseCustomer.data.push({id:0, name:'Other'});
@@ -191,7 +191,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                             }
                         })
                         .catch(function(response) {
-                            $scope.$emit('showMessage', ['danger', 'Error', response.data]);
+                            $scope.$emit('showMessage', ['danger', null, response.data]);
                         }).finally(function () {
 
                     });
@@ -208,7 +208,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                         orderModel.deleteOrder(order_id)
                             .then(function(response) {
                                 $location.path('/order/view');
-                                $scope.$emit('showMessage', ['success', null, 'Delete order #'+$scope.n_order.increment_id+ ' success !']);
+                                $scope.$emit('showMessage', ['success', null, 'The order has been deleted.']);
                             })
                             .catch(function(response) {
 
@@ -260,7 +260,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
     }
 
     if($route.current.params.id){
-        orderModel.getGalleryById($route.current.params.id).then(function(response) {
+        orderModel.getOrderById($route.current.params.id).then(function(response) {
             $scope.n_order = response.data;
             $scope.n_order.order_date = $filter('date')($scope.n_order.order_date, 'dd/MM/yyyy');
             var customerExist = false;
@@ -271,7 +271,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                 }
             });
             if(!customerExist){
-                $scope.n_order.customer_id = '0';
+                $scope.n_order.customer_id = 0;
                 $scope.n_order.customer_name =  response.data.customer_name;
                 $scope.n_order.create_new_customer = true;
             }

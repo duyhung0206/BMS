@@ -6,16 +6,16 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\Order;
-use App\Models\OrderProduct;
-use App\Models\OrderAttribute;
-use App\Models\Customer;
+use App\Models\Purchaseorder;
+use App\Models\PurchaseorderProduct;
+use App\Models\PurchaseorderAttribute;
+use App\Models\Supplier;
 use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 use DateTime;
 use Mockery\Exception;
 
-class OrderController extends Controller
+class PurchaseorderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +25,7 @@ class OrderController extends Controller
     public function index()
     {
         //
-        return Order::all();
+        return Purchaseorder::all();
     }
 
     /**
@@ -47,53 +47,53 @@ class OrderController extends Controller
     public function store(Request $request)
     {
 
-        $customerName = $request->input('customer_name');
-        $customerId = $request->input('customer_id');
-        $customerEmail = '';
-        if($request->input('customer_id') == 0){
-            $customer = Customer::where('name', $request->input('customer_name'))->first();
-            if($customer != null){
-                return response($request->input('customer_name').' exists !', 422);
+        $supplierName = $request->input('supplier_name');
+        $supplierId = $request->input('supplier_id');
+        $supplierEmail = '';
+        if($request->input('supplier_id') == 0){
+            $supplier = Supplier::where('name', $request->input('supplier_name'))->first();
+            if($supplier != null){
+                return response($request->input('supplier_name').' exists !', 422);
             }else{
-                if($request->input('create_new_customer') == true){
-                    $customer = Customer::create([
-                        'name' => $request->input('customer_name'),
+                if($request->input('create_new_supplier') == true){
+                    $supplier = Supplier::create([
+                        'name' => $request->input('supplier_name'),
                         'is_active' => 1
                     ]);
-                    $customerName = $customer->name;
-                    $customerId = $customer->id;
+                    $supplierName = $supplier->name;
+                    $supplierId = $supplier->id;
                 }else{
-                    $customerName = $request->input('customer_name');
+                    $supplierName = $request->input('supplier_name');
                 }
 
             }
         }else{
-            $customer = Customer::find($customerId);
-            $customerName = $customer->name;
-            $customerEmail = $customer->email;
+            $supplier = Supplier::find($supplierId);
+            $supplierName = $supplier->name;
+            $supplierEmail = $supplier->email;
         }
         $order_date =  DateTime::createFromFormat('d/m/Y', $request->input('order_date'))->format('Y-m-d');
-        $customerName = $customerName == ''? 'Other': $customerName;
+        $supplierName = $supplierName == ''? 'Other': $supplierName;
         
-        $order = Order::create([
+        $purchaseorder = Purchaseorder::create([
             'order_date' => $order_date,
-            'customer_id' => $customerId,
-            'customer_name' => $customerName,
-            'customer_email' => $customerEmail,
+            'supplier_id' => $supplierId,
+            'supplier_name' => $supplierName,
+            'supplier_email' => $supplierEmail,
             'total_item_count' => $request->input('total_item_count'),
-            'total_qty_orderd' => $request->input('total_qty_orderd'),
+            'total_qty_ordered' => $request->input('total_qty_ordered'),
             'total_paid' => $request->input('total_paid'),
             'subtotal' => $request->input('subtotal'),
             'grand_total' => $request->input('grand_total'),
             'note' => $request->input('note'),
         ]);
 
-        $incrementId = str_pad($order->id, 7, "0", STR_PAD_LEFT);
-        $order->increment_id = $incrementId;
-        $order->save();
+        $incrementId = str_pad($purchaseorder->id, 7, "0", STR_PAD_LEFT);
+        $purchaseorder->increment_id = $incrementId;
+        $purchaseorder->save();
         try{
-            $orderItems = $request->input('items');
-            foreach ($orderItems as $item){
+            $purchaseorderItems = $request->input('items');
+            foreach ($purchaseorderItems as $item){
                 if($item['product_id'] != 0){
                     $product = Product::find($item['product_id']);
                     $productId = $product->id;
@@ -104,8 +104,8 @@ class OrderController extends Controller
                     $productSku = '';
                     $productName = 'Other';
                 }
-                OrderProduct::create([
-                    'order_id' => $order->id,
+                PurchaseorderProduct::create([
+                    'purchaseorder_id' => $purchaseorder->id,
                     'product_id' => $productId,
                     'sku' => $productSku,
                     'product_name' => $productName,
@@ -118,18 +118,18 @@ class OrderController extends Controller
 
             $fees = $request->input('fees');
             foreach ($fees as $fee){
-                OrderAttribute::create([
-                    'order_id' => $order->id,
+                PurchaseorderAttribute::create([
+                    'purchaseorder_id' => $purchaseorder->id,
                     'title' => $fee['title'],
                     'value' => $fee['value'],
                     'type' => true,
                 ]);
             }
         } catch (Exception $e) {
-            $order->delete();
+            $purchaseorder->delete();
         }
 
-        return response($this->show($order->id), 201);
+        return response($this->show($purchaseorder->id), 201);
     }
 
     /**
@@ -140,12 +140,12 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $order = Order::find($id);
-        $orderItems = OrderProduct::where('order_id', $order->id)->get();
-        $order->items = $orderItems;
-        $orderFees = OrderAttribute::where('order_id', $order->id)->get();
-        $order->fees = $orderFees;
-        return $order;
+        $purchaseorder = Purchaseorder::find($id);
+        $purchaseorderItems = PurchaseorderProduct::where('purchaseorder_id', $purchaseorder->id)->get();
+        $purchaseorder->items = $purchaseorderItems;
+        $purchaseorderFees = PurchaseorderAttribute::where('purchaseorder_id', $purchaseorder->id)->get();
+        $purchaseorder->fees = $purchaseorderFees;
+        return $purchaseorder;
     }
 
     /**
@@ -168,41 +168,41 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $customerId = $request->input('customer_id');
-        $customerEmail = '';
-        if($request->input('customer_id') == 0){
-            $customer = Customer::where('name', $request->input('customer_name'))->first();
-            if($customer != null){
-                return response($request->input('customer_name').' exists !', 422);
+        $supplierId = $request->input('supplier_id');
+        $supplierEmail = '';
+        if($request->input('supplier_id') == 0){
+            $supplier = Supplier::where('name', $request->input('supplier_name'))->first();
+            if($supplier != null){
+                return response($request->input('supplier_name').' exists !', 422);
             }else{
-                if($request->input('create_new_customer') == true){
-                    $customer = Customer::create([
-                        'name' => $request->input('customer_name'),
+                if($request->input('create_new_supplier') == true){
+                    $supplier = Supplier::create([
+                        'name' => $request->input('supplier_name'),
                         'is_active' => 1
                     ]);
-                    $customerName = $customer->name;
-                    $customerId = $customer->id;
+                    $supplierName = $supplier->name;
+                    $supplierId = $supplier->id;
                 }else{
-                    $customerName = $request->input('customer_name');
+                    $supplierName = $request->input('supplier_name');
                 }
 
             }
         }else{
-            $customer = Customer::find($customerId);
-            $customerName = $customer->name;
-            $customerEmail = $customer->email;
+            $supplier = Supplier::find($supplierId);
+            $supplierName = $supplier->name;
+            $supplierEmail = $supplier->email;
         }
         $order_date =  DateTime::createFromFormat('d/m/Y', $request->input('order_date'))->format('Y-m-d');
-        $customerName = $customerName == ''? 'Other': $customerName;
-        $order = Order::find($id);
-        if($order->id){
-            $order->update([
+        $supplierName = $supplierName == ''? 'Other': $supplierName;
+        $purchaseorder = Purchaseorder::find($id);
+        if($purchaseorder->id){
+            $purchaseorder->update([
                 'order_date' => $order_date,
-                'customer_id' => $customerId,
-                'customer_name' => $customerName,
-                'customer_email' => $customerEmail,
+                'supplier_id' => $supplierId,
+                'supplier_name' => $supplierName,
+                'supplier_email' => $supplierEmail,
                 'total_item_count' => $request->input('total_item_count'),
-                'total_qty_orderd' => $request->input('total_qty_orderd'),
+                'total_qty_ordered' => $request->input('total_qty_ordered'),
                 'total_paid' => $request->input('total_paid'),
                 'subtotal' => $request->input('subtotal'),
                 'grand_total' => $request->input('grand_total'),
@@ -210,9 +210,9 @@ class OrderController extends Controller
             ]);
 
             try{
-                $orderItems = $request->input('items');
-                OrderProduct::where('order_id', $order->id)->delete();
-                foreach ($orderItems as $item){
+                $purchaseorderItems = $request->input('items');
+                PurchaseorderProduct::where('purchaseorder_id', $purchaseorder->id)->delete();
+                foreach ($purchaseorderItems as $item){
                     if($item['product_id'] != 0){
                         $product = Product::find($item['product_id']);
                         $productId = $product->id;
@@ -223,8 +223,8 @@ class OrderController extends Controller
                         $productSku = '';
                         $productName = 'Other';
                     }
-                    OrderProduct::create([
-                        'order_id' => $order->id,
+                    PurchaseorderProduct::create([
+                        'purchaseorder_id' => $purchaseorder->id,
                         'product_id' => $productId,
                         'sku' => $productSku,
                         'product_name' => $productName,
@@ -236,22 +236,22 @@ class OrderController extends Controller
                 }
 
                 $fees = $request->input('fees');
-                OrderAttribute::where('order_id', $order->id)->delete();
+                PurchaseorderAttribute::where('purchaseorder_id', $purchaseorder->id)->delete();
                 foreach ($fees as $fee){
-                    OrderAttribute::create([
-                        'order_id' => $order->id,
+                    PurchaseorderAttribute::create([
+                        'purchaseorder_id' => $purchaseorder->id,
                         'title' => $fee['title'],
                         'value' => $fee['value'],
                         'type' => true,
                     ]);
                 }
             } catch (Exception $e) {
-                $order->delete();
+                $purchaseorder->delete();
             }
 
-            return response($this->show($order->id), 201);
+            return response($this->show($purchaseorder->id), 201);
         }else{
-            return response('Order does not exist !', 422);
+            return response('Purchaseorder does not exist !', 422);
         }
 
     }
@@ -264,15 +264,15 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        $orderId = $id;
+        $purchaseorderId = $id;
         try{
             /*Delete fees*/
-            OrderAttribute::where('order_id', $orderId)->delete();
-            /*Delete order items*/
-            OrderProduct::where('order_id', $orderId)->delete();
-            /*Delete order*/
-            Order::destroy($orderId);
-            return response('Order delete success !', 201);
+            PurchaseorderAttribute::where('purchaseorder_id', $purchaseorderId)->delete();
+            /*Delete purchaseorder items*/
+            PurchaseorderProduct::where('purchaseorder_id', $purchaseorderId)->delete();
+            /*Delete purchaseorder*/
+            Purchaseorder::destroy($purchaseorderId);
+            return response('Purchaseorder delete success !', 201);
         }catch (Exception $e){
             return response($e->getMessage(), 422);
         }

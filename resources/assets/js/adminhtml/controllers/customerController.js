@@ -18,6 +18,9 @@ myApp.controller('customerController', ['$scope', '$rootScope', 'customerModel',
         if(data && data.n_customer != undefined){
             data.n_customer.then(function(response) {
                 $scope.n_customer = response.data;
+            }).catch(function(response) {
+                $scope.$emit('showMessage', ['danger', null, 'Customer has id ' + $route.current.params.id + ' don\'t exist !']);
+                $location.path('/customer');
             });
         }
         $scope.go = function (state) {
@@ -61,7 +64,7 @@ myApp.controller('customerController', ['$scope', '$rootScope', 'customerModel',
                             note: '',
                             is_active: '1',
                         }
-                        $scope.$emit('showMessage', ['success', 'Success', 'Create customer: ' + response.data.name + ' success !']);
+                        $scope.$emit('showMessage', ['success', null, 'The customer \'' + response.data.name + '\' has been created.']);
                     }
                 })
                 .catch(function(response) {
@@ -84,7 +87,7 @@ myApp.controller('customerController', ['$scope', '$rootScope', 'customerModel',
                 $scope.formSubmitted = false;
                 customerModel.saveCustomer($scope.n_customer)
                     .then(function(response) {
-                        $scope.$emit('showMessage', ['success', null, 'Save customer success']);
+                        $scope.$emit('showMessage', ['success', null, 'The customer has been saved.']);
                         $scope.n_customer = response.data;
                     })
                     .catch(function(response) {
@@ -106,7 +109,11 @@ myApp.controller('customerController', ['$scope', '$rootScope', 'customerModel',
                 functionExecute: function () {
                     customerModel.deleteCustomer(customerId)
                         .then(function(response) {
+                            if($route.current.params.id){
+                                $location.path('/customer');
+                            }
                             $scope.customers = response.data;
+                            $scope.$emit('showMessage', ['success', null, 'The customer has been deleted.']);
                         })
                         .catch(function(response) {
                         }).finally(function () {
@@ -115,9 +122,10 @@ myApp.controller('customerController', ['$scope', '$rootScope', 'customerModel',
                 }
             }
             $scope.$emit('showDialogConfig', data);
-        }
-
-
+        },
+        editOrder: function (OrderId) {
+            $location.path('/order/edit/' + OrderId);
+        },
     });
 }]);
 
@@ -133,6 +141,12 @@ myApp.config(['$stateProvider',
         templateUrl: 'templates/adminhtml/customer/tabs/orders.html'
     }
 
+    var reportState = {
+        name: 'customer-tab-report',
+        templateUrl: 'templates/adminhtml/customer/tabs/report.html'
+    }
+
     $stateProvider.state(infoState);
     $stateProvider.state(ordersState);
+    $stateProvider.state(reportState);
 }]);

@@ -1,46 +1,46 @@
-myApp.factory('orderModel', ['$http', function($http){
+myApp.factory('purchaseorderModel', ['$http', function($http){
     return {
-        addNewOrder: function(OrderData){
+        addNewPurchaseorder: function(PurchaseorderData){
             return $http({
                 headers:{
                     'Content-Type':'application/json'
                 },
-                url: baseUrl + 'order',
+                url: baseUrl + 'purchaseorder',
                 method: 'POST',
-                data: OrderData
+                data: PurchaseorderData
             });
         },
-        getAllOrders: function () {
+        getAllPurchaseorders: function () {
             return $http({
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                url: baseUrl + 'order',
+                url: baseUrl + 'purchaseorder',
                 method: "GET",
             });
         },
-        deleteOrder: function (orderId) {
+        deletePurchaseorder: function (purchaseorderId) {
             return $http({
                 headers:{
                     'Content-Type':'application/json'
                 },
-                url: baseUrl + 'order/'+ orderId,
+                url: baseUrl + 'purchaseorder/'+ purchaseorderId,
                 method: 'DELETE'
             });
         },
-        getOrderById: function (orderId) {
+        getPurchaseorderById: function (purchaseorderId) {
             return $http.get(
-                baseUrl + 'order/' + orderId
+                baseUrl + 'purchaseorder/' + purchaseorderId
             );
         },
-        saveOrder: function (OrderData) {
+        savePurchaseorder: function (PurchaseorderData) {
             return $http({
                 headers:{
                     'Content-Type':'application/json'
                 },
-                url: baseUrl + 'order/' + OrderData.id,
+                url: baseUrl + 'purchaseorder/' + PurchaseorderData.id,
                 method: 'PUT',
-                data: OrderData
+                data: PurchaseorderData
             });
         }
     };

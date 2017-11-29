@@ -21,8 +21,9 @@ class CreateOrderTable extends Migration
             $table->string('customer_email');
             $table->decimal('total_item_count', 11, 2);
             $table->decimal('total_qty_ordered', 11, 2);
-            $table->decimal('total_due', 11, 2);
             $table->decimal('total_paid', 11, 2);
+            $table->decimal('subtotal', 11, 2);
+            $table->decimal('grand_total', 11, 2);
             $table->longText('note');
             $table->timestamps();
         });
