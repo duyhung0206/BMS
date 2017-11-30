@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OrderAttribute;
+use App\Models\OrderProduct;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
@@ -47,13 +49,30 @@ class ProductController extends Controller
         if ($validator->fails()) {
             return response($validator->errors()->all(), 422);
         }
-        $supplierId = $request->input('supplier_id');
-        if($supplierId != 0){
-            $supplierName = Supplier::find($supplierId)->name;
-        }else{
-            $supplierName = $request->input('supplier_name');
-        }
 
+        $supplierId = $request->input('supplier_id');
+        if($request->input('supplier_id') == 0){
+            $supplier = Supplier::where('name', $request->input('supplier_name'))->first();
+            if($supplier != null){
+                return response($request->input('supplier_name').' exists !', 422);
+            }else{
+                if($request->input('create_new_supplier') == true){
+                    $supplier = Supplier::create([
+                        'name' => $request->input('supplier_name'),
+                        'is_active' => 1
+                    ]);
+                    $supplierName = $supplier->name;
+                    $supplierId = $supplier->id;
+                }else{
+                    $supplierName = $request->input('supplier_name');
+                }
+
+            }
+        }else{
+            $supplier = Supplier::find($supplierId);
+            $supplierName = $supplier->name;
+            $supplierId = $supplier->id;
+        }
 
         $product = Product::create([
             'sku' => $request->input('sku'),
@@ -74,7 +93,11 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::find($id);
+
+        $listOrder = DB::table('order_product')->where('product_id', $id)->select('order_id')->value('order_id');
+        var_dump($listOrder);
+        return $product;
     }
 
     /**
@@ -97,7 +120,39 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $supplierId = $request->input('supplier_id');
+        if($request->input('supplier_id') == 0){
+            $supplier = Supplier::where('name', $request->input('supplier_name'))->first();
+            if($supplier != null){
+                return response($request->input('supplier_name').' exists !', 422);
+            }else{
+                if($request->input('create_new_supplier') == true){
+                    $supplier = Supplier::create([
+                        'name' => $request->input('supplier_name'),
+                        'is_active' => 1
+                    ]);
+                    $supplierName = $supplier->name;
+                    $supplierId = $supplier->id;
+                }else{
+                    $supplierName = $request->input('supplier_name');
+                }
+
+            }
+        }else{
+            $supplier = Supplier::find($supplierId);
+            $supplierName = $supplier->name;
+            $supplierId = $supplier->id;
+        }
+        $product = Product::find($id);
+        $product->update([
+            'sku' => $request->input('sku'),
+            'name' => $request->input('name'),
+            'supplier_id' => $supplierId,
+            'supplier_name' => $supplierName,
+            'description' => $request->input('description'),
+            'is_active' => $request->input('is_active')
+        ]);
+        return response($product, 201);
     }
 
     /**
@@ -110,6 +165,14 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         if($product){
+            /*Remove assign order item*/
+            $orderItems = OrderProduct::where('product_id', $id);
+            $orderItems->update([
+                'product_id' => 0,
+                'product_name' => 'Other'
+            ]);
+
+            /*Delete product*/
             $product->delete();
             return Product::all();
         }else{

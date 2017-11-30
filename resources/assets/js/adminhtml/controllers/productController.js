@@ -1,4 +1,6 @@
-myApp.controller('productController', ['$scope', '$rootScope', 'productModel', 'data', function($scope, $rootScope, productModel, data){
+myApp.controller('productController',
+    ['$scope', '$rootScope', 'productModel', 'data', '$location', '$route', '$state', 'supplierModel',
+    function($scope, $rootScope, productModel, data, $location, $route, $state, supplierModel){
     angular.extend($scope, {
         n_product:{
             sku: '',
@@ -12,19 +14,41 @@ myApp.controller('productController', ['$scope', '$rootScope', 'productModel', '
         pageSize_product: 10,
     });
 
-    /*Getting all the products*/
-    if (data && data.products != undefined) {
-        data.products.then(function(response) {
-            $scope.products = response.data;
-            if (data && data.suppliers != undefined) {
-                data.suppliers.then(function(response) {
-                    response.data.push({id:0,name:'Other'});
-                    $scope.suppliers = response.data;
-                });
-            }
-            $scope.showProduct = true;
-        });
+
+    if($route.current.params.id){
+        if(data && data.n_product != undefined){
+            data.n_product.then(function(response) {
+                $scope.n_product = response.data;
+            }).catch(function(response) {
+                $scope.$emit('showMessage', ['danger', null, 'Product has id ' + $route.current.params.id + ' don\'t exist !']);
+                $location.path('/product');
+            });
+        }
+        if (data && data.suppliers != undefined) {
+            data.suppliers.then(function(response) {
+                response.data.push({id:0,name:'Other'});
+                $scope.suppliers = response.data;
+            });
+        }
+        $scope.go = function (state) {
+            $state.go(state);
+        }
+    }else{
+        /*Getting all the products*/
+        if (data && data.products != undefined) {
+            data.products.then(function(response) {
+                $scope.products = response.data;
+                if (data && data.suppliers != undefined) {
+                    data.suppliers.then(function(response) {
+                        response.data.push({id:0,name:'Other'});
+                        $scope.suppliers = response.data;
+                    });
+                }
+                $scope.showProduct = true;
+            });
+        }
     }
+
 
 
 
@@ -48,6 +72,7 @@ myApp.controller('productController', ['$scope', '$rootScope', 'productModel', '
                     if(response.status == 201){
                         $scope.products.push(response.data);
                         $scope.n_product = {
+                            create_new_supplier: false,
                             name: '',
                             email: '',
                             address: '',
@@ -68,14 +93,14 @@ myApp.controller('productController', ['$scope', '$rootScope', 'productModel', '
                         }
                     });
                     messageError = messageError==''?'Error while process function !':messageError;
-                    $scope.$emit('showMessage', ['danger', 'Error', messageError]);
+                    $scope.$emit('showMessage', ['danger', null, messageError]);
                 });
             }else{
                 $scope.formSubmitted = true;
             }
         },
         editProduct: function (productId) {
-            console.log(productId);
+            $location.path('/product/edit/'+productId);
         },
         deleteProduct: function (productId, productName) {
             data = {
@@ -86,17 +111,74 @@ myApp.controller('productController', ['$scope', '$rootScope', 'productModel', '
                 functionExecute: function () {
                     productModel.deleteProduct(productId)
                         .then(function(response) {
+                            if($route.current.params.id){
+                                $location.path('/product');
+                            }
                             $scope.products = response.data;
+                            $scope.$emit('showMessage', ['success', null, 'The product has been deleted.']);
                         })
                         .catch(function(response) {
+
                         }).finally(function () {
                             $scope.$emit('hideDialogConfig', data);
                         });
                 }
             }
             $scope.$emit('showDialogConfig', data);
-        }
-
-
+        },
+        saveProduct: function (editProductForm) {
+            if(editProductForm.$valid){
+                $scope.formSubmitted = false;
+                productModel.saveProduct($scope.n_product)
+                    .then(function(response) {
+                        $scope.$emit('showMessage', ['success', null, 'The product has been saved.']);
+                        if($scope.n_product.create_new_supplier = true){
+                            supplierModel.getAllSuppliers().then(function(responseSupplier) {
+                                responseSupplier.data.push({id:0, name:'Other'});
+                                $scope.suppliers = responseSupplier.data;
+                                $scope.n_product.supplier_id = (response.data.supplier_id);
+                                $scope.n_product.create_new_supplier = false;
+                            });
+                        }
+                        $scope.n_product = response.data;
+                    })
+                    .catch(function(response) {
+                        console.log(response);
+                        $scope.$emit('showMessage', ['danger', null, response.data]);
+                    });
+            }else{
+                $scope.formSubmitted = true;
+            }
+        },
     });
 }]);
+
+
+myApp.config(['$stateProvider',
+    function($stateProvider) {
+
+        var infoState = {
+            name: 'product-tab-info',
+            templateUrl: 'templates/adminhtml/product/tabs/info.html',
+        }
+
+        var ordersState = {
+            name: 'product-tab-orders',
+            templateUrl: 'templates/adminhtml/product/tabs/orders.html'
+        }
+
+        var purchaseordersState = {
+            name: 'product-tab-purchaseorders',
+            templateUrl: 'templates/adminhtml/product/tabs/purchaseorders.html'
+        }
+
+        var reportState = {
+            name: 'product-tab-report',
+            templateUrl: 'templates/adminhtml/product/tabs/report.html'
+        }
+
+        $stateProvider.state(infoState);
+        $stateProvider.state(ordersState);
+        $stateProvider.state(purchaseordersState);
+        $stateProvider.state(reportState);
+    }]);

@@ -35,6 +35,11 @@
                                 <select class="form-control" name="product_supplier_id" id="product_supplier_id" ng-model="n_product.supplier_id" ng-options="supplier.id as supplier.name for supplier in suppliers">
                                 </select>
                                 <input ng-if="n_product.supplier_id == 0" type="text" class="form-control" name="product_supplier_name" id="product_supplier_name" ng-model="n_product.supplier_name">
+                                <div class="checkbox" ng-if="n_product.supplier_id == 0">
+                                    <label>
+                                        <input type="checkbox" name="create_new_supplier" id="create_new_supplier" ng-model="n_product.create_new_supplier">Create new supplier
+                                    </label>
+                                </div>
                                 <p ng-show="addProductForm.product_supplier.$invalid && formSubmitted" class="help-block">Supplier of the product is required</p>
                             </div>
                         </div>

@@ -1,4 +1,5 @@
-myApp.controller('notifyController', ['$scope', '$rootScope', '$timeout', function($scope, $rootScope, $timeout){
+myApp.controller('notifyController', ['$scope', '$rootScope', '$timeout', 'Notification',
+    function($scope, $rootScope, $timeout, Notification){
 
     /*variables*/
     angular.extend($scope, {
@@ -19,7 +20,15 @@ myApp.controller('notifyController', ['$scope', '$rootScope', '$timeout', functi
 
     });
     $rootScope.$on('showMessage', function(event, args) {
-        $scope.showMessage(args[0], args[1], args[2]);
+        switch (args[0]){
+            case 'danger':
+                Notification.error(args[2]);
+                break;
+            case 'success':
+                Notification.success(args[2]);
+                break;
+        }
+        //$scope.showMessage(args[0], args[1], args[2]);
     });
 
 }]);

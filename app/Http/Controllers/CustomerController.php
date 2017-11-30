@@ -155,17 +155,13 @@ class CustomerController extends Controller
     {
         $customer = Customer::find($id);
         if($customer){
-            /*delete all order*/
-            $orders = Order::where('supplier_id', $customer->id)->get();
-            foreach ($orders as $order){
-                /*Delete fees*/
-                OrderAttribute::where('purchaseorder_id', $order->id)->delete();
-                /*Delete order items*/
-                OrderProduct::where('purchaseorder_id', $order->id)->delete();
-                /*Delete order*/
-                Order::destroy($order->id);
-            }
+            /*Remove assign all order*/
+            $orders = Order::where('customer_id', $customer->id);
+            $orders->update([
+               'customer_id' => 0
+            ]);
 
+            /*Delete customer*/
             $customer->delete();
             return Customer::all();
         }else{

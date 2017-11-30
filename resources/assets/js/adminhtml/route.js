@@ -90,6 +90,20 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
         authenticated:true,
     });
 
+    $routeProvider.when('/product/edit/:id', {
+        templateUrl: 'templates/adminhtml/product/edit.html',
+        controller: 'productController',
+        resolve: {
+            data: function($route, productModel, supplierModel) {
+                return {
+                    n_product: productModel.getDataProduct($route.current.params.id),
+                    suppliers: supplierModel.getAllSuppliers()
+                };
+            }
+        },
+        authenticated: true
+    });
+
     /*order*/
     $routeProvider.when('/order/add', {
         templateUrl: 'templates/adminhtml/order/order-add.html',

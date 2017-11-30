@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Supplier;
 use App\Models\PurchaseorderAttribute;
 use App\Models\PurchaseorderProduct;
+use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 
 class SupplierController extends Controller
@@ -135,6 +136,10 @@ class SupplierController extends Controller
                 Purchaseorder::where('supplier_id', $supplier->id)->update([
                    'supplier_name' => $supplier->name
                 ]);
+
+                Product::where('supplier_id', $supplier->id)->update([
+                    'supplier_name' => $supplier->name
+                ]);
             }
             return response($this->show($supplier->id), 201);
         }else{
@@ -163,6 +168,13 @@ class SupplierController extends Controller
                 Purchaseorder::destroy($purchaseorder->id);
             }
 
+            /*Remove assign product*/
+            $product = Product::where('supplier_id', $supplier->id);
+            $product->update([
+                'supplier_id' => 0
+            ]);
+
+            /*Delete supplier*/
             $supplier->delete();
             return Supplier::all();
         }else{

@@ -1,0 +1,137 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="bs-component">
+            <div class="row">
+                <div class="col-xs-4 col-lg-offset-6">
+                    <label for="search">Search</label>
+                    <input ng-model="search_order" id="search" class="form-control" placeholder="Filter text">
+                </div>
+                <div class="col-xs-2">
+                    <label for="search">Items per page</label>
+                    <input type="number" min="1" max="100" class="form-control" ng-init="pageSize_order = 10" ng-model="pageSize_order" value="{{pageSize_order}}">
+                </div>
+            </div>
+            <table class="table table-detail-purchaseorder">
+                <caption>Total {{total_order.length}} result(s)</caption>
+                <thead>
+                <tr>
+                    <th>
+                        <a href="javascript:void(0)" ng-click="sortType = 'increment_id'; sortReverse = !sortReverse">
+                            Purchaseorder #
+                            <span ng-show="sortType == 'increment_id' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'increment_id' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </th>
+                    <th width="20%">
+                        <a href="javascript:void(0)" ng-click="sortType = 'order_date'; sortReverse = !sortReverse">
+                            Purchased On
+                            <span ng-show="sortType == 'order_date' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'order_date' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </th>
+                    <th width="20%">
+                        <a href="javascript:void(0)" ng-click="sortType = 'grand_total'; sortReverse = !sortReverse">
+                            Total due
+                            <span ng-show="sortType == 'grand_total' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'grand_total' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </th>
+                    <th width="20%">
+                        <a href="javascript:void(0)" ng-click="sortType = 'total_paid'; sortReverse = !sortReverse">
+                            Total paid
+                            <span ng-show="sortType == 'total_paid' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'total_paid' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </th>
+                    <th width="10%">
+                        <a href="javascript:void(0)" ng-click="sortType = 'status'; sortReverse = !sortReverse">
+                            Status
+                            <span ng-show="sortType == 'status' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'status' && sortReverse" class="fa fa-caret-up"></span>
+                        </a>
+                    </th>
+                    <th width="11%">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-show="!total_order.length"><td></td><td colspan="6">No data table</td></tr>
+                <tr dir-paginate-start="purchaseorder in n_supplier.orders.list | orderBy:sortType:sortReverse | filter:search_order | itemsPerPage: pageSize_order as total_order" current-page="currentPage" ng-init="purchaseorder.showDetail = false">
+                    <td ng-click="purchaseorder.showDetail = !purchaseorder.showDetail">#{{purchaseorder.increment_id}}</td>
+                    <td ng-click="purchaseorder.showDetail = !purchaseorder.showDetail">{{purchaseorder.order_date | date:'dd/MM/yyyy'}}</td>
+                    <td ng-click="purchaseorder.showDetail = !purchaseorder.showDetail">{{purchaseorder.grand_total | currency:'':0}}</td>
+                    <td ng-click="purchaseorder.showDetail = !purchaseorder.showDetail">{{purchaseorder.total_paid | currency:'':0}}</td>
+                    <td ng-click="purchaseorder.showDetail = !purchaseorder.showDetail">{{purchaseorder.total_status}}</td>
+                    <td>
+                        <a href="javascript:void(0)" ng-click="editPurchaseorder(purchaseorder.id)">Edit</a>
+                    </td>
+                </tr>
+                <tr dir-paginate-end ng-if="purchaseorder.showDetail">
+                    <td colspan="6">
+                        <div class="row">
+                            <table class="table table-hover">
+                                <thead ng-if="purchaseorder.items.length > 0">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Product</th>
+                                    <th class="text-right">Qty</th>
+                                    <th class="text-right">Price</th>
+                                    <th class="text-right">Subtotal</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in purchaseorder.items" ng-class="{'active' : item.type == 1}">
+                                    <td>{{item.id}}</td>
+                                    <td width="35%">{{item.product_name}}</td>
+                                    <td width="20%" class="text-right">{{item.qty | number}}</td>
+                                    <td width="20%" class="text-right">{{item.price | number}}</td>
+                                    <td width="20%" class="text-right">{{item.row_total | number}}</td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td width="35%"></td>
+                                    <td width="20%" ></td>
+                                    <td width="20%"  class="border-top-td">Subtotal</td>
+                                    <td width="20%"  class="border-top-td">{{purchaseorder.subtotal | currency:'': 0}}</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td width="35%"></td>
+                                    <td width="20%" ></td>
+                                    <td width="20%" >Total paid</td>
+                                    <td width="20%" >{{purchaseorder.total_paid | currency:'': 0}}</td>
+                                </tr>
+                                <tr ng-repeat="fee in purchaseorder.fees">
+                                    <td></td>
+                                    <td width="35%"></td>
+                                    <td width="20%" ></td>
+                                    <td width="20%" >{{fee.title}}</td>
+                                    <td width="20%" >{{fee.value | currency:'': 0}}</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td width="35%"></td>
+                                    <td width="20%" ></td>
+                                    <td width="20%" >Grandtotal</td>
+                                    <td width="20%" >{{purchaseorder.grand_total | currency:'': 0}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" style="border-bottom: 1px solid black;"></td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+            <div class="other-controller">
+                <div class="text-center">
+                    <dir-pagination-controls boundary-links="true" template-url="bower_components/dirPagination/dirPagination.tpl.html"></dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

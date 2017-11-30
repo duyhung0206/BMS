@@ -188,13 +188,15 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                                     $scope.loading_order_customer = false;
                                     $scope.n_order.create_new_customer = false;
                                 });
+                            }else {
+                                $scope.n_order = response.data;
                             }
                         })
                         .catch(function(response) {
                             $scope.$emit('showMessage', ['danger', null, response.data]);
                         }).finally(function () {
 
-                    });
+                        });
                 }
             },
             deleteOrder: function () {
