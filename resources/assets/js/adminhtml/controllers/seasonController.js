@@ -1,4 +1,5 @@
-myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'data', function($scope, $rootScope, seasonModel, data){
+myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'data', 'Notification',
+    function($scope, $rootScope, seasonModel, data, Notification){
     angular.extend($scope, {
         n_season:{
             name: '',
@@ -45,7 +46,7 @@ myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'da
                             description: '',
                             is_active: '1',
                         }
-                        $scope.$emit('showMessage', ['success', 'Success', 'Create season: ' + response.data.name + ' success !']);
+                        Notification.success('The season has been created.');
                     }
                 })
                 .catch(function(response) {
@@ -56,8 +57,7 @@ myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'da
                             messageError += '<br/>';
                         }
                     });
-                    messageError = messageError==''?'Error while process function !':messageError;
-                    $scope.$emit('showMessage', ['danger', 'Error', messageError]);
+                    Notification.error(messageError);
                 });
             }else{
                 $scope.formSubmitted = true;
@@ -66,6 +66,7 @@ myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'da
         editSeason: function (seasonId) {
         },
         deleteSeason: function (seasonId, seasonName) {
+
             data = {
                 titleDialog: 'Confirm Delete Season: '+seasonName,
                 messageDialog: null,
@@ -75,6 +76,7 @@ myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'da
                     seasonModel.deleteSeason(seasonId)
                         .then(function(response) {
                             $scope.seasons = response.data;
+                            Notification.success('The season has been deleted.');
                         })
                         .catch(function(response) {
                         }).finally(function () {

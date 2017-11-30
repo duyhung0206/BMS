@@ -11,3 +11,16 @@ Homestead.json
 /storage
 artisan
 server.php
+/public/build
+/public/build/
+/public/.htaccess
+/public/favicon.ico
+/public/index.php
+/public/robots.txt
+/public/web.config
+/database/factories
+/app/Jobs
+/app/Listeners
+/app/Policies
+/app/Providers
+

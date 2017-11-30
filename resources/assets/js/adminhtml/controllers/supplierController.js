@@ -133,6 +133,7 @@ myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel',
 
 myApp.config(['$stateProvider',
     function($stateProvider) {
+
         var infoState = {
             name: 'supplier-tab-info',
             templateUrl: 'templates/adminhtml/supplier/tabs/info.html',
@@ -143,6 +144,11 @@ myApp.config(['$stateProvider',
             templateUrl: 'templates/adminhtml/supplier/tabs/orders.html'
         }
 
+        var productsState = {
+            name: 'supplier-tab-products',
+            templateUrl: 'templates/adminhtml/supplier/tabs/products.html'
+        }
+
         var reportState = {
             name: 'supplier-tab-report',
             templateUrl: 'templates/adminhtml/supplier/tabs/report.html'
@@ -150,5 +156,6 @@ myApp.config(['$stateProvider',
 
         $stateProvider.state(infoState);
         $stateProvider.state(ordersState);
+        $stateProvider.state(productsState);
         $stateProvider.state(reportState);
     }]);

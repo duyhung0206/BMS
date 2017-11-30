@@ -51,10 +51,15 @@ elixir(function(mix) {
         'adminhtml/controllers/partials/notifyController.js',
     ], 'public/js/adminhtml/controllers.js');
 
+    mix.scripts([
+        'adminhtml/config/ui-notification.js',
+    ], 'public/js/adminhtml/config.js');
+
     mix.version([
         'js/adminhtml/app.js',
         'js/adminhtml/models.js',
-        'js/adminhtml/controllers.js'
+        'js/adminhtml/controllers.js',
+        'js/adminhtml/config.js'
     ]);
 
 });
