@@ -183,6 +183,17 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $supplierId = $request->input('supplier_id');
+        $checkSkuError = Product::where('id', '<>', $id)->where('sku', $request->input('sku'))->count();
+        $checkNameError = Product::where('id', '<>', $id)->where('name', $request->input('name'))->count();
+
+        if($checkSkuError > 0){
+            return response('The sku has already been taken.', 422);
+        }
+
+        if($checkNameError > 0){
+            return response('The name has already been taken.', 422);
+        }
+
         if($request->input('supplier_id') == 0){
             $supplier = Supplier::where('name', $request->input('supplier_name'))->first();
             if($supplier != null){

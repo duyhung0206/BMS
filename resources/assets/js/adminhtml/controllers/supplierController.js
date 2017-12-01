@@ -119,7 +119,7 @@ myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel',
                         $scope.n_supplier = response.data;
                     })
                     .catch(function(response) {
-
+                        $scope.$emit('showMessage', ['danger', null, response.data]);
                     });
             }else{
                 $scope.formSubmitted = true;

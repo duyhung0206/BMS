@@ -121,6 +121,12 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $checkNameError = Customer::where('id', '<>', $id)->where('name', $request->input('name'))->count();
+
+        if($checkNameError > 0){
+            return response('The name has already been taken.', 422);
+        }
+
         $customer = Customer::find($id);
         if($customer->id){
             $oldName = $customer->name;

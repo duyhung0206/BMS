@@ -91,7 +91,7 @@ myApp.controller('customerController', ['$scope', '$rootScope', 'customerModel',
                         $scope.n_customer = response.data;
                     })
                     .catch(function(response) {
-
+                        $scope.$emit('showMessage', ['danger', null, response.data]);
                     });
             }else{
                 $scope.formSubmitted = true;

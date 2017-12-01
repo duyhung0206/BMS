@@ -119,6 +119,12 @@ class SupplierController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $checkNameError = Supplier::where('id', '<>', $id)->where('name', $request->input('name'))->count();
+
+        if($checkNameError > 0){
+            return response('The name has already been taken.', 422);
+        }
+
         $supplier = Supplier::find($id);
         if($supplier->id){
             $oldName = $supplier->name;

@@ -143,7 +143,6 @@ myApp.controller('productController',
                         $scope.n_product = response.data;
                     })
                     .catch(function(response) {
-                        console.log(response);
                         $scope.$emit('showMessage', ['danger', null, response.data]);
                     });
             }else{
