@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\OrderAttribute;
 use App\Models\OrderProduct;
+use App\Models\PurchaseorderAttribute;
+use App\Models\PurchaseorderProduct;
 use App\Models\Supplier;
+use App\Models\Order;
+use App\Models\Purchaseorder;
+use App\Models\Product;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 class ProductController extends Controller
 {
@@ -94,9 +99,66 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::find($id);
+        if(!$product){
+            return response("Product has id $id don't exists !", 422);
+        }
 
-        $listOrder = DB::table('order_product')->where('product_id', $id)->select('order_id')->value('order_id');
-        var_dump($listOrder);
+        /*get all info order*/
+        $listOrder = array();
+        OrderProduct::where('product_id', $id)->select('order_id')->get()->map(function($item) use(&$listOrder) {
+            $listOrder[] = $item->order_id;
+        });
+        $orders = Order::find($listOrder);
+        $totalBuy = 0;
+        $totalReturn = 0;
+        foreach ($orders as $key => $order){
+            $orderItems = OrderProduct::where('order_id', $order->id)->get();
+            $orders[$key]->items = $orderItems;
+            foreach ($orderItems as $item){
+                if($item->type != 1){
+                    $totalBuy += $item->qty;
+                }else{
+                    $totalReturn += $item->qty;
+                }
+            }
+            $orderFees = OrderAttribute::where('order_id', $order->id)->get();
+            $orders[$key]->fees = $orderFees;
+        }
+        $product->orders = [
+            'list' => $orders,
+            'total' => $orders->count(),
+            'totalBuy' => $totalBuy,
+            'totalReturn' => $totalReturn,
+        ];
+
+        /*get all info purchaseorder*/
+        $listPurchaseorder = array();
+        PurchaseorderProduct::where('product_id', $id)->select('purchaseorder_id')->get()->map(function($item) use(&$listPurchaseorder) {
+            $listPurchaseorder[] = $item->purchaseorder_id;
+        });
+        $purchaseorders = Purchaseorder::find($listPurchaseorder);
+        $totalBuy = 0;
+        $totalReturn = 0;
+        foreach ($purchaseorders as $key => $purchaseorder){
+            $purchaseorderItems = PurchaseorderProduct::where('purchaseorder_id', $purchaseorder->id)->get();
+            $purchaseorders[$key]->items = $purchaseorderItems;
+            foreach ($purchaseorderItems as $item){
+                if($item->type != 1){
+                    $totalBuy += $item->qty;
+                }else{
+                    $totalReturn += $item->qty;
+                }
+            }
+            $purchaseorderFees = PurchaseorderAttribute::where('purchaseorder_id', $purchaseorder->id)->get();
+            $purchaseorders[$key]->fees = $purchaseorderFees;
+        }
+        $product->purchaseorders = [
+            'list' => $purchaseorders,
+            'total' => $purchaseorders->count(),
+            'totalBuy' => $totalBuy,
+            'totalReturn' => $totalReturn,
+        ];
+
         return $product;
     }
 
@@ -144,15 +206,21 @@ class ProductController extends Controller
             $supplierId = $supplier->id;
         }
         $product = Product::find($id);
-        $product->update([
-            'sku' => $request->input('sku'),
-            'name' => $request->input('name'),
-            'supplier_id' => $supplierId,
-            'supplier_name' => $supplierName,
-            'description' => $request->input('description'),
-            'is_active' => $request->input('is_active')
-        ]);
-        return response($product, 201);
+        if($product){
+            $product->update([
+                'sku' => $request->input('sku'),
+                'name' => $request->input('name'),
+                'supplier_id' => $supplierId,
+                'supplier_name' => $supplierName,
+                'description' => $request->input('description'),
+                'is_active' => $request->input('is_active')
+            ]);
+
+            return response($this->show($product->id), 201);
+        }else{
+            return response('Product does not exist !', 422);
+        }
+
     }
 
     /**

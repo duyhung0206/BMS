@@ -218,7 +218,8 @@ myApp.controller('purchaseorderController', ['$scope', '$rootScope', 'purchaseor
                     }
                 }
                 $scope.$emit('showDialogConfig', data);
-            }
+            },
+
         });
 
     $('#order_date').datepicker({
@@ -280,7 +281,10 @@ myApp.controller('purchaseorderController', ['$scope', '$rootScope', 'purchaseor
             $scope.new_purchaseorder = false;
 
             $scope.recalculate();
-        });
+        }).catch(function (response) {
+            $scope.$emit('showMessage', ['danger', null, 'Purchaseorder has id ' + $route.current.params.id + ' don\'t exist !']);
+            $location.path('/purchaseorder/view');
+        })
     }else{
         $scope.head_purchaseorder = 'New purchaseorder';
         $scope.new_purchaseorder = true;

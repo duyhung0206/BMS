@@ -55,7 +55,7 @@
                 </thead>
                 <tbody>
                 <tr ng-show="!total_order.length"><td></td><td colspan="6">No data table</td></tr>
-                <tr dir-paginate-start="purchaseorder in n_supplier.orders.list | orderBy:sortType:sortReverse | filter:search_order | itemsPerPage: pageSize_order as total_order" current-page="currentPage" ng-init="purchaseorder.showDetail = false">
+                <tr dir-paginate-start="purchaseorder in n_product.purchaseorders.list | orderBy:sortType:sortReverse | filter:search_order | itemsPerPage: pageSize_order as total_order" current-page="currentPage" ng-init="purchaseorder.showDetail = false">
                     <td ng-click="purchaseorder.showDetail = !purchaseorder.showDetail">#{{purchaseorder.increment_id}}</td>
                     <td ng-click="purchaseorder.showDetail = !purchaseorder.showDetail">{{purchaseorder.order_date | date:'dd/MM/yyyy'}}</td>
                     <td ng-click="purchaseorder.showDetail = !purchaseorder.showDetail">{{purchaseorder.grand_total | currency:'':0}}</td>

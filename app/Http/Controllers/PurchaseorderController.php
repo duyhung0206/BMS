@@ -141,6 +141,11 @@ class PurchaseorderController extends Controller
     public function show($id)
     {
         $purchaseorder = Purchaseorder::find($id);
+
+        if(!$purchaseorder){
+            return response("Purchaseorder has id $id don't exists !", 422);
+        }
+
         $purchaseorderItems = PurchaseorderProduct::where('purchaseorder_id', $purchaseorder->id)->get();
         $purchaseorder->items = $purchaseorderItems;
         $purchaseorderFees = PurchaseorderAttribute::where('purchaseorder_id', $purchaseorder->id)->get();

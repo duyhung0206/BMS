@@ -150,6 +150,12 @@ myApp.controller('productController',
                 $scope.formSubmitted = true;
             }
         },
+        editPurchaseorder: function (PurchaseorderId) {
+            $location.path('/purchaseorder/edit/' + PurchaseorderId);
+        },
+        editOrder: function (OrderId) {
+            $location.path('/order/edit/' + OrderId);
+        },
     });
 }]);
 
