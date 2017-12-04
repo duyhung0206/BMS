@@ -27,6 +27,25 @@ myApp.factory('seasonModel', ['$http', function($http){
                 url: baseUrl + 'season/'+ seasonId,
                 method: 'DELETE'
             });
+        },
+        getDataSeason: function (seasonId) {
+            return $http({
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                url: baseUrl + 'season/'+ seasonId,
+                method: 'GET'
+            });
+        },
+        saveSeason: function (SeasonData) {
+            return $http({
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                url: baseUrl + 'season/' + SeasonData.id,
+                method: 'PUT',
+                data: SeasonData
+            });
         }
     };
 }])

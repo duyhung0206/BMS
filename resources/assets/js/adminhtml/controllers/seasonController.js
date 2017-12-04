@@ -1,5 +1,5 @@
-myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'data', 'Notification',
-    function($scope, $rootScope, seasonModel, data, Notification){
+myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'data', 'Notification', '$location', '$route', '$state',
+    function($scope, $rootScope, seasonModel, data, Notification, $location, $route, $state){
     angular.extend($scope, {
         n_season:{
             name: '',
@@ -12,13 +12,24 @@ myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'da
         pageSize_season: 10,
     });
 
-    /*Getting all the seasons*/
-    if (data && data.seasons != undefined) {
-        data.seasons.then(function(response) {
-            $scope.seasons = response.data;
-            $scope.showSeason = true;
-        });
+    if($route.current.params.id){
+        if (data && data.n_season != undefined) {
+            data.n_season.then(function(response) {
+                $scope.n_season = response.data;
+            });
+        }
+        $scope.go = function (state) {
+            $state.go(state);
+    }}else{
+        /*Getting all the seasons*/
+        if (data && data.seasons != undefined) {
+            data.seasons.then(function(response) {
+                $scope.seasons = response.data;
+                $scope.showSeason = true;
+            });
+        }
     }
+
 
     $('#season_datepicker').datepicker({
         format: "dd/mm/yyyy",
@@ -85,8 +96,38 @@ myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'da
                 }
             }
             $scope.$emit('showDialogConfig', data);
+        },
+        editSeason: function (seasonId) {
+            $location.path('/season/edit/'+seasonId);
+        },
+    });
+}]);
+
+myApp.config(['$stateProvider',
+    function($stateProvider) {
+
+        var infoState = {
+            name: 'season-tab-info',
+            templateUrl: 'templates/adminhtml/season/tabs/info.html',
         }
 
+        var ordersState = {
+            name: 'season-tab-orders',
+            templateUrl: 'templates/adminhtml/season/tabs/orders.html'
+        }
 
-    });
+        var purchaseordersState = {
+            name: 'season-tab-purchaseorders',
+            templateUrl: 'templates/adminhtml/season/tabs/purchaseorders.html'
+        }
+
+        var reportState = {
+            name: 'season-tab-report',
+            templateUrl: 'templates/adminhtml/season/tabs/report.html'
+        }
+
+        $stateProvider.state(infoState);
+        $stateProvider.state(ordersState);
+        $stateProvider.state(purchaseordersState);
+        $stateProvider.state(reportState);
 }]);

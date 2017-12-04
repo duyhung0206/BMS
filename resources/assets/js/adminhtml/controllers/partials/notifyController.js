@@ -20,12 +20,13 @@ myApp.controller('notifyController', ['$scope', '$rootScope', '$timeout', 'Notif
 
     });
     $rootScope.$on('showMessage', function(event, args) {
+        console.log($rootScope.n_config);
         switch (args[0]){
             case 'danger':
-                Notification.error(args[2]);
+                Notification.error($.extend({message:args[2]}, $rootScope.n_config.notification));
                 break;
             case 'success':
-                Notification.success(args[2]);
+                Notification.success($.extend({message:args[2]}, $rootScope.n_config.notification));
                 break;
         }
         //$scope.showMessage(args[0], args[1], args[2]);

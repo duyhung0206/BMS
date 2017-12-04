@@ -15,7 +15,6 @@ elixir(function(mix) {
         'adminhtml/general.css',
         'adminhtml/loading-bar.css',
         'adminhtml/notify.css',
-        'adminhtml/customer.css'
     ]);
 
     /*adminhtml*/
@@ -40,6 +39,7 @@ elixir(function(mix) {
     mix.scripts([
         'adminhtml/controllers/globalController.js',
         'adminhtml/controllers/userController.js',
+        'adminhtml/controllers/settingController.js',
         'adminhtml/controllers/navController.js',
         'adminhtml/controllers/seasonController.js',
         'adminhtml/controllers/productController.js',

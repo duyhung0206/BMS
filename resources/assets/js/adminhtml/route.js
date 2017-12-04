@@ -75,6 +75,20 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
         authenticated:true,
     });
 
+
+    $routeProvider.when('/season/edit/:id', {
+        templateUrl: 'templates/adminhtml/season/edit.html',
+        controller: 'seasonController',
+        resolve: {
+            data: function($route, seasonModel) {
+                return {
+                    n_season: seasonModel.getDataSeason($route.current.params.id),
+                };
+            }
+        },
+        authenticated: true
+    });
+
     /*product*/
     $routeProvider.when('/product', {
         templateUrl:'templates/adminhtml/product/index.html',
@@ -186,13 +200,6 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
             }
         },
         authenticated: true
-    });
-
-    /*Setting*/
-    $routeProvider.when('/setting', {
-        templateUrl:'templates/adminhtml/setting/index.html',
-        controller:'userController',
-        authenticated:true,
     });
 
     $routeProvider.otherwise('/');

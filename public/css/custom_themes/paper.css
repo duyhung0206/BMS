@@ -1,0 +1,11 @@
+body {
+    padding-top: 68px;
+}
+
+#settingSide > button.btn-primary{
+    position: absolute;
+}
+
+.table-no-border-top>tfoot>tr>td{
+    border-top: none;
+}

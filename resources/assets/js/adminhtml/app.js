@@ -1,5 +1,5 @@
 var myApp = angular.module('myApp', ['ngRoute', 'ngCookies', 'angularUtils.directives.dirPagination',
-    'angular-loading-bar', 'ui.select', 'ui.router', 'ui-notification']);
+    'angular-loading-bar', 'ui.select', 'ui.router', 'ui-notification', 'ngAnimate']);
 
 myApp.config(['$locationProvider', function($locationProvider) {
     $locationProvider.hashPrefix('');
@@ -80,4 +80,4 @@ myApp.directive('inputCurrency', function($filter, $browser) {
             })
         }
     }
-})
+});

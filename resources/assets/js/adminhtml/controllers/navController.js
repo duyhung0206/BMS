@@ -33,9 +33,6 @@ myApp.controller('navController', ['$scope', '$location', 'userModel', function(
         },{
             link: 'Seasons',
             url: '/season'
-        }, {
-            link: 'Settings',
-            url: '/setting'
         }]
 	});
 
