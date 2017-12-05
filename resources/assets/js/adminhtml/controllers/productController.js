@@ -17,7 +17,7 @@ myApp.controller('productController',
     $scope.myJson = {
         "type": "bar",
         "title": {
-            "text": "Change me please!"
+            "text": ""
         },
         "plot": {
             "value-box": {
@@ -35,6 +35,7 @@ myApp.controller('productController',
             "item": {
                 "cursor": "pointer"
             },
+            "draggable": true,
             "drag-handler": "icon"
         },
         "scale-x": {
@@ -55,11 +56,11 @@ myApp.controller('productController',
         },
         "series": [
             {
-                "values": [3,6,9],
+                "values": [3,6,9,3,6,9,3,6,9,3,6,9],
                 "text": "apples"
             },
             {
-                "values": [1,4,3],
+                "values": [1,4,3,1,4,3,1,4,3,1,4,3],
                 "text": "oranges"
             }
         ]
