@@ -1,5 +1,5 @@
 var myApp = angular.module('myApp', ['ngRoute', 'ngCookies', 'angularUtils.directives.dirPagination',
-    'angular-loading-bar', 'ui.select', 'ui.router', 'ui-notification', 'ngAnimate']);
+    'angular-loading-bar', 'ui.select', 'ui.router', 'ui-notification', 'zingchart-angularjs']);
 
 myApp.config(['$locationProvider', function($locationProvider) {
     $locationProvider.hashPrefix('');

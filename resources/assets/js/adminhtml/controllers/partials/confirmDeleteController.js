@@ -3,10 +3,10 @@ myApp.controller('confirmDeleteController', ['$scope', '$rootScope', function($s
     /*variables*/
     angular.extend($scope, {
         confirmDelete:{
-            titleDialog: 'Modal title',
+            titleDialog: 'Xác nhận',
             messageDialog:'...',
-            titleOk: 'OK',
-            titleClose: 'Close',
+            titleOk: 'Xác nhận',
+            titleClose: 'Đóng',
             clickOk: function () {
             },
             verification: stringGen(10),
@@ -16,10 +16,10 @@ myApp.controller('confirmDeleteController', ['$scope', '$rootScope', function($s
     /*functions*/
     angular.extend($scope, {
         showDialogConfig: function (titleDialog, messageDialog, titleClose, titleOk, functionExecute) {
-            $scope.confirmDelete.titleDialog = titleDialog==null?'Confirm Delete':titleDialog;
-            $scope.confirmDelete.messageDialog = messageDialog==null?'Enter the confirmation code !':messageDialog;
-            $scope.confirmDelete.titleClose = titleClose==null?'Close':titleClose;
-            $scope.confirmDelete.titleOk = titleOk==null?'Ok':titleOk;
+            $scope.confirmDelete.titleDialog = titleDialog==null?'Xác nhận':titleDialog;
+            $scope.confirmDelete.messageDialog = messageDialog==null?'Nhập mã xác nhận để thực hiện thao tác !':messageDialog;
+            $scope.confirmDelete.titleClose = titleClose==null?'Đóng':titleClose;
+            $scope.confirmDelete.titleOk = titleOk==null?'Xác nhận':titleOk;
             $scope.confirmDelete.verification = stringGen(10);
             $scope.confirmDelete.inputVerification = '';
             $scope.confirmDelete.error = false;

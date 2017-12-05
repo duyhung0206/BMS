@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html ng-app="myApp">
+<html ng-app="myApp" ng-controller="settingController">
 <head>
 	<title>BMS</title>
-
+	<ng-include src="'templates/adminhtml/setting/linkCss.html'"></ng-include>
 	<link rel="stylesheet" href="{{asset('bower_components/font-awesome/css/font-awesome.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('bower_components/angular-loading-bar/build/loading-bar.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('bower_components/angular-ui-select/dist/select.css')}}">
@@ -13,22 +14,28 @@
         var baseUrl = "{{url('/')}}/admin/";
         var csrfToken = "{{csrf_token()}}";
 	</script>
+
 </head>
 <body>
-	<div id="settingSide" class="panel" ng-show="showConfig" ng-controller="settingController">
-		<button class="btn btn-primary btn-xs button-show-config" ng-init="showConfig = false" ng-click="showConfig = !showConfig"><i style="font-size: 25px;" class="fa fa-gears"></i></button>
-		<div ng-include="'templates/adminhtml/setting/index.html'"></div>
+	<div id="loader-wrapper">
+		<div id="loader"></div>
+		<div class="loader-section section-left"></div>
+		<div class="loader-section section-right"></div>
+
 	</div>
 
-	<div class="container" ng-controller="globalController">
+	<div id="content" class="container" ng-controller="globalController">
 		<div ng-include="'templates/adminhtml/partials/confirmDelete.html'" ng-controller="confirmDeleteController"></div>
 		<div id="divNotification" ng-include="'templates/adminhtml/partials/notify.html'" ng-controller="notifyController" class="container"></div>
 		<div ng-view></div>
 	</div>
 
+
 	<script type="text/javascript" src="{{asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular/angular.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('bower_components/zingchart/client/zingchart.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('bower_components/ZingChart-AngularJS/src/zingchart-angularjs.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-animate/angular-animate.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-css/angular-css.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-loading-bar/build/loading-bar.js')}}"></script>

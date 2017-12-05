@@ -10,6 +10,7 @@ body{
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
     font-size: 13px;
     line-height: 1.4em;
+    min-height: 900px;
 }
 
 .page-header {
@@ -196,4 +197,19 @@ td.refund .ui-select-container .ui-select-match span.btn.btn-default{
     box-shadow: 0 1px 1px rgba(0,0,0,0.1);
     border-radius: 3px;
     padding: 19px;
+}
+
+
+#settingSide.ng-hide.panel {
+    -webkit-transform: translateX(0%);  /* Chrome, Opera 15+, Safari 3.1+ */
+    -ms-transform: translateX(0%);  /* IE 9 */
+    transform: translateX(0%);  /* Firefox 16+, IE 10+, Opera */
+
+    -webkit-transition: all 0.5s 0.2s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+    transition: all 0.5s 0.2s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+}
+
+#settingSide.panel {
+    -webkit-transition: all 0.5s 0.2s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+    transition: all 0.5s 0.2s cubic-bezier(0.645, 0.045, 0.355, 1.000);
 }

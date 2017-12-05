@@ -277,7 +277,7 @@ myApp.controller('purchaseorderController', ['$scope', '$rootScope', 'purchaseor
                 $scope.n_purchaseorder.create_new_supplier = true;
             }
             $('#order_date').datepicker("setDate",$scope.n_purchaseorder.order_date);
-            $scope.head_purchaseorder = 'Edit purchaseorder #' + response.data.increment_id;
+            $scope.head_purchaseorder = 'P.O #' + response.data.increment_id;
             $scope.new_purchaseorder = false;
 
             $scope.recalculate();

@@ -14,6 +14,56 @@ myApp.controller('productController',
         pageSize_product: 10,
     });
 
+    $scope.myJson = {
+        "type": "bar",
+        "title": {
+            "text": "Change me please!"
+        },
+        "plot": {
+            "value-box": {
+                "text": "%v"
+            },
+            "tooltip": {
+                "text": "%v"
+            }
+        },
+        "legend": {
+            "toggle-action": "hide",
+            "header": {
+                "text": "Chúc thích"
+            },
+            "item": {
+                "cursor": "pointer"
+            },
+            "drag-handler": "icon"
+        },
+        "scale-x": {
+            "values": [
+                "T1",
+                "T2",
+                "T3",
+                "T4",
+                "T5",
+                "T6",
+                "T7",
+                "T8",
+                "T9",
+                "T10",
+                "T11",
+                "T12"
+            ]
+        },
+        "series": [
+            {
+                "values": [3,6,9],
+                "text": "apples"
+            },
+            {
+                "values": [1,4,3],
+                "text": "oranges"
+            }
+        ]
+    };
 
     if($route.current.params.id){
         if(data && data.n_product != undefined){

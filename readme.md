@@ -10,8 +10,9 @@ bower install angular-loading-bar --save;
 bower install font-awesome --save;
 bower install bootstrap-datepicker --save;
 bower install angular-ui-select --save;
-bower install angular-ui-notification --save
-bower install angular-ui-route --save
+bower install angular-ui-notification --save;
+bower install angular-ui-route --save;
+bower install zingchart-angularjs --save;
 ```
 
 ```bash

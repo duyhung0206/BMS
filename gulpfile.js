@@ -38,6 +38,7 @@ elixir(function(mix) {
 
     mix.scripts([
         'adminhtml/controllers/globalController.js',
+        'adminhtml/controllers/dashboardController.js',
         'adminhtml/controllers/userController.js',
         'adminhtml/controllers/settingController.js',
         'adminhtml/controllers/navController.js',

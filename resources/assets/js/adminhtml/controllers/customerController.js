@@ -76,7 +76,7 @@ myApp.controller('customerController', ['$scope', '$rootScope', 'customerModel',
                         }
                     });
                     messageError = messageError==''?'Error while process function !':messageError;
-                    $scope.$emit('showMessage', ['danger', 'Error', messageError]);
+                    $scope.$emit('showMessage', ['danger', null, messageError]);
                 });
             }else{
                 $scope.formSubmitted = true;

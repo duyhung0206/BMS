@@ -278,7 +278,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                 $scope.n_order.create_new_customer = true;
             }
             $('#order_date').datepicker("setDate",$scope.n_order.order_date);
-            $scope.head_order = 'Edit order #' + response.data.increment_id;
+            $scope.head_order = 'Order #' + response.data.increment_id;
             $scope.new_order = false;
 
             $scope.recalculate();

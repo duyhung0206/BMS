@@ -1,52 +1,52 @@
 <form class="form-horizontal" ng-submit="saveProduct(editProductForm)" name="editProductForm" novalidate>
     <fieldset>
         <div class="form-group" ng-class="{'has-error' : editProductForm.product_sku.$invalid && formSubmitted}">
-            <label for="product_sku" class="col-lg-3 control-label">Sku</label>
-            <div class="col-lg-9">
+            <label for="product_sku" class="col-lg-3 control-label">Mã sản phẩm</label>
+            <div class="col-lg-6">
                 <input type="text" class="form-control" name="product_sku" id="product_sku" ng-model="n_product.sku" required>
-                <p ng-show="editProductForm.product_sku.$invalid && formSubmitted" class="help-block">Sku of the product is required</p>
+                <p ng-show="editProductForm.product_sku.$invalid && formSubmitted" class="help-block">Mã sản phẩm là trường bắt buộc</p>
             </div>
         </div>
         <div class="form-group" ng-class="{'has-error' : editProductForm.product_name.$invalid && formSubmitted}">
-            <label for="product_name" class="col-lg-3 control-label">Name</label>
-            <div class="col-lg-9">
+            <label for="product_name" class="col-lg-3 control-label">Tên</label>
+            <div class="col-lg-6">
                 <input type="text" class="form-control" name="product_name" id="product_name" ng-model="n_product.name" required>
-                <p ng-show="editProductForm.product_name.$invalid && formSubmitted" class="help-block">Name of the product is required</p>
+                <p ng-show="editProductForm.product_name.$invalid && formSubmitted" class="help-block">Tên là trường bắt buộc</p>
             </div>
         </div>
         <div class="form-group" ng-class="{'has-error' : editProductForm.product_supplier_id.$invalid && formSubmitted}">
-            <label for="product_supplier_id" class="col-lg-3 control-label">Supplier</label>
-            <div class="col-lg-9">
+            <label for="product_supplier_id" class="col-lg-3 control-label">Nhà cung cấp</label>
+            <div class="col-lg-6">
                 <select class="form-control" name="product_supplier_id" id="product_supplier_id" ng-model="n_product.supplier_id" ng-options="supplier.id as supplier.name for supplier in suppliers">
                 </select>
                 <input ng-if="n_product.supplier_id == 0" type="text" class="form-control" name="product_supplier_name" id="product_supplier_name" ng-model="n_product.supplier_name">
                 <div class="checkbox" ng-if="n_product.supplier_id == 0">
                     <label>
-                        <input type="checkbox" name="create_new_supplier" id="create_new_supplier" ng-model="n_product.create_new_supplier">Create new supplier
+                        <input type="checkbox" name="create_new_supplier" id="create_new_supplier" ng-model="n_product.create_new_supplier" ng-required="n_product.create_new_supplier">Tạo nhà cung cấp mới
                     </label>
                 </div>
-                <p ng-show="editProductForm.product_supplier.$invalid && formSubmitted" class="help-block">Supplier of the product is required</p>
+                <p ng-show="editProductForm.product_supplier.$invalid && formSubmitted" class="help-block">Vui lòng chọn nhà cung cấp</p>
             </div>
         </div>
         <div class="form-group">
-            <label for="description" class="col-lg-3 control-label">Description</label>
-            <div class="col-lg-9">
+            <label for="description" class="col-lg-3 control-label">Miêu tả</label>
+            <div class="col-lg-6">
                 <textarea class="form-control" rows="5" id="description" ng-model="n_product.description"></textarea>
             </div>
         </div>
         <div class="form-group" ng-class="{'has-error' : editProductForm.product_is_active.$invalid && formSubmitted}">
-            <label for="product_is_active" class="col-lg-3 control-label">Is active</label>
-            <div class="col-lg-9">
+            <label for="product_is_active" class="col-lg-3 control-label">Hoạt động</label>
+            <div class="col-lg-6">
                 <select class="form-control" id="product_is_active" name="product_is_active" ng-model="n_product.is_active" required convert-to-number>
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                    <option value="1">On</option>
+                    <option value="0">Off</option>
                 </select>
-                <p ng-show="editProductForm.product_is_active.$invalid && formSubmitted" class="help-block">Please select yes/no</p>
+                <p ng-show="editProductForm.product_is_active.$invalid && formSubmitted" class="help-block">Vui lòng chọn On/Off</p>
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-8 col-lg-offset-3">
-                <button class="btn btn-primary">Save</button>
+                <button class="btn btn-primary">Lưu thay đổi</button>
             </div>
         </div>
     </fieldset>

@@ -1,0 +1,21 @@
+<!--<link rel="stylesheet" ng-href="css/{{n_config.themes.choosed}}/bootstrap.min.css">-->
+<!--<link rel="stylesheet" ng-href="css/custom_themes/{{n_config.themes.choosed}}.css">-->
+
+<div ng-switch="n_config.themes.choosed">
+    <div ng-switch-when="lumen">
+        <link rel="stylesheet" ng-href="css/lumen/bootstrap.min.css">
+        <link rel="stylesheet" ng-href="css/custom_themes/lumen.css">
+    </div>
+    <div ng-switch-when="paper">
+        <link rel="stylesheet" ng-href="css/paper/bootstrap.min.css">
+        <link rel="stylesheet" ng-href="css/custom_themes/paper.css">
+    </div>
+    <div ng-switch-when="superhero">
+        <link rel="stylesheet" ng-href="css/superhero/bootstrap.min.css">
+        <link rel="stylesheet" ng-href="css/custom_themes/superhero.css">
+    </div>
+    <div ng-switch-default>
+        <link rel="stylesheet" ng-href="css/lumen/bootstrap.min.css">
+        <link rel="stylesheet" ng-href="css/custom_themes/lumen.css">
+    </div>
+</div>

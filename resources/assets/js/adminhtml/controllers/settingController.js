@@ -1,5 +1,5 @@
-myApp.controller('settingController', ['$scope', '$rootScope', 'Notification', 'seasonModel',
-    function($scope, $rootScope, Notification, seasonModel){
+myApp.controller('settingController', ['$scope', '$rootScope', 'Notification', 'seasonModel', 'userModel', '$timeout',
+    function($scope, $rootScope, Notification, seasonModel, userModel, $timeout){
 
     $rootScope.n_config = {
         notification:{
@@ -17,6 +17,11 @@ myApp.controller('settingController', ['$scope', '$rootScope', 'Notification', '
             list: ['lumen', 'paper', 'united', 'superhero']
         }
     };
+
+    $timeout(function(){
+        $('body').addClass('loaded');
+    }, 700);
+
     /*Getting all the seasons*/
     seasonModel.getAllSeasons().then(function(response) {
         $scope.seasons = response.data;
@@ -25,4 +30,14 @@ myApp.controller('settingController', ['$scope', '$rootScope', 'Notification', '
             name: 'All'
         })
     });
+
+    $scope.changeTheme = function (theme) {
+        $('body').removeClass('loaded');
+        $rootScope.n_config.themes.choosed = theme;
+        $timeout(function(){
+            $('body').addClass('loaded');
+            $scope.$emit('showMessage', ['success', null, 'Theme \''+theme+'\' selected.']);
+        }, 700);
+    }
 }]);
+

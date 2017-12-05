@@ -5,50 +5,59 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="page-header">
-                <h1 id="forms">User Profile</h1>
+                <h4>{{n_product.name}} <span class="text-muted text-center" ng-if="n_product.sku != ''">({{n_product.sku}})</span></h4>
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-lg-3">
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <img class="profile-user-img img-responsive img-circle" src="../images/iconuser/m1.png" alt="User profile picture">
-                    <h3 class="profile-username text-center">{{n_product.name}}</h3>
-                    <p class="text-muted text-center" ng-if="n_product.sku != ''">({{n_product.sku}})</p>
-                </li>
-                <li class="list-group-item">
-                    <span class="badge">{{n_product.orders.total | number}}</span>
-                    Total order
-                </li>
-                <li class="list-group-item">
-                    <span class="badge">{{n_product.purchaseorders.total | number}}</span>
-                    Total purchaseorder
-                </li>
-                <li class="list-group-item">
-                    <span class="badge">{{n_product.orders.totalBuy | number}}</span>
-                    Total Buy
-                </li>
-                <li class="list-group-item">
-                    <span class="badge">{{n_product.orders.totalReturn | number}}</span>
-                    Total Refund
-                </li>
-            </ul>
-        </div>
-        <div class="col-lg-9">
+        <!--<div class="col-lg-3">-->
+            <!--<ul class="list-group">-->
+                <!--<li class="list-group-item">-->
+                    <!--<img class="profile-user-img img-responsive img-circle" src="../images/iconuser/m1.png" alt="User profile picture">-->
+                    <!--<h3 class="profile-username text-center">{{n_product.name}}</h3>-->
+                    <!--<p class="text-muted text-center" ng-if="n_product.sku != ''">({{n_product.sku}})</p>-->
+                <!--</li>-->
+                <!--<li class="list-group-item">-->
+                    <!--<span class="badge">{{n_product.orders.total | number}}</span>-->
+                    <!--Tổng hóa đơn nhập-->
+                <!--</li>-->
+                <!--<li class="list-group-item">-->
+                    <!--<span class="badge">{{n_product.orders.totalBuy | number}}</span>-->
+                    <!--Tổng lượng hàng bán (nhập)-->
+                <!--</li>-->
+                <!--<li class="list-group-item">-->
+                    <!--<span class="badge">{{n_product.orders.totalReturn | number}}</span>-->
+                    <!--Tổng lượng hàng trả (nhập)-->
+                <!--</li>-->
+                <!--<li class="list-group-item">-->
+                    <!--<span class="badge">{{n_product.purchaseorders.total | number}}</span>-->
+                    <!--Tổng hóa đơn xuất-->
+                <!--</li>-->
+                <!--<li class="list-group-item">-->
+                    <!--<span class="badge">{{n_product.purchaseorders.totalBuy | number}}</span>-->
+                    <!--Tổng lượng hàng bán (xuất)-->
+                <!--</li>-->
+                <!--<li class="list-group-item">-->
+                    <!--<span class="badge">{{n_product.purchaseorders.totalReturn | number}}</span>-->
+                    <!--Tổng lượng hàng trả (xuất)-->
+                <!--</li>-->
+
+            <!--</ul>-->
+        <!--</div>-->
+        <div class="col-lg-12">
             <ul class="nav nav-tabs">
-                <li ui-sref="product-tab-orders" ui-sref-active="active"><a href="javascript:void(0)">Orders</a></li>
-                <li ui-sref="product-tab-purchaseorders" ui-sref-active="active"><a href="javascript:void(0)">Purchaseorders</a></li>
-                <li ui-sref="product-tab-info" ui-sref-active="active"><a href="javascript:void(0)">Info</a></li>
-                <li ui-sref="product-tab-report" ui-sref-active="active"><a href="javascript:void(0)">Report</a></li>
+                <li ui-sref="product-tab-report" ui-sref-active="active"><a href="javascript:void(0)">Báo cáo</a></li>
+                <li ui-sref="product-tab-info" ui-sref-active="active"><a href="javascript:void(0)">Thông tin</a></li>
+                <li ui-sref="product-tab-orders" ui-sref-active="active"><a href="javascript:void(0)">Hóa đơn nhập</a></li>
+                <li ui-sref="product-tab-purchaseorders" ui-sref-active="active"><a href="javascript:void(0)">Hóa đơn xuất</a></li>
                 <p class="bs-component pull-right" style="margin-bottom: 0px">
-                    <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-danger">Back</a>
-                    <a href="javascript:void(0)" class="btn btn-danger" ng-click="deleteProduct(n_product.id, n_product.name)">Delete</a>
+                    <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-danger">Trở lại</a>
+                    <a href="javascript:void(0)" class="btn btn-danger" ng-click="deleteProduct(n_product.id, n_product.name)">Xóa</a>
                 </p>
             </ul>
             <div class="ui-view-product">
-                <ui-view ng-init="go('product-tab-orders')"></ui-view>
+                <ui-view ng-init="go('product-tab-report')"></ui-view>
             </div>
         </div>
     </div>

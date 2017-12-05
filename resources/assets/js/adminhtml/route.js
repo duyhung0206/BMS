@@ -6,7 +6,7 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
 
     $routeProvider.when('/dashboard', {
         templateUrl:'templates/adminhtml/dashboard/index.html',
-        controller:'userController',
+        controller:'dashboardController',
         authenticated:true
     });
 

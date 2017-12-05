@@ -18,12 +18,11 @@
                     <div class="col-lg-8">
                         <div class="radio" ng-repeat="theme in n_config.themes.list">
                             <label style="text-transform: capitalize">
-                                <input type="radio" name="optionsThemes" ng-checked="n_config.themes.choosed == theme" ng-click="n_config.themes.choosed = theme">
+                                <input type="radio" name="optionsThemes" ng-checked="n_config.themes.choosed == theme" ng-click="changeTheme(theme)">
                                 {{theme}}
                             </label>
                         </div>
-                        <link rel="stylesheet" ng-href="css/{{n_config.themes.choosed}}/bootstrap.min.css">
-                        <link rel="stylesheet" ng-href="css/custom_themes/{{n_config.themes.choosed}}.css">
+
                     </div>
                 </div>
                 <!--<div class="form-group">-->
@@ -45,7 +44,7 @@
             </fieldset>
             <div class="form-group">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Save config</button>
                 </div>
             </div>
         </form>

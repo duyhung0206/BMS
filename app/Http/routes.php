@@ -38,15 +38,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\OrderProduct;
 Route::get('test', function ()
 {
-//    Auth::logout();
-    OrderProduct::create([
-        'order_id' => 9,
-        'product_id' => 2,
-        'sku' => 'test',
-        'product_name' => 'test',
-        'type' => true,
-        'price' => 20.42,
-        'row_total' => 20.42
-    ]);
+    Auth::logout();
 });
 

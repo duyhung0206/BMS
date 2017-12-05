@@ -231,7 +231,6 @@ class ProductController extends Controller
         }else{
             return response('Product does not exist !', 422);
         }
-
     }
 
     /**
