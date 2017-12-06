@@ -3,58 +3,58 @@
         <div class="bs-component">
             <div class="row">
                 <div class="col-xs-4 col-lg-offset-6">
-                    <label for="search">Search</label>
-                    <input ng-model="search_order" id="search" class="form-control" placeholder="Filter text">
+                    <label for="search">Tìm kiếm</label>
+                    <input ng-model="search_order" id="search" class="form-control" placeholder="Nhập từ khóa cần tìm kiếm">
                 </div>
                 <div class="col-xs-2">
-                    <label for="search">Items per page</label>
+                    <label for="search">Số dòng/trang</label>
                     <input type="number" min="1" max="100" class="form-control" ng-init="pageSize_order = 10" ng-model="pageSize_order" value="{{pageSize_order}}">
                 </div>
             </div>
             <table class="table table-detail-purchaseorder">
-                <caption>Total {{total_order.length}} result(s)</caption>
+                <caption>Tìm thấy {{total_order.length}} kết quả</caption>
                 <thead>
                 <tr>
                     <th>
                         <a href="javascript:void(0)" ng-click="sortType = 'increment_id'; sortReverse = !sortReverse">
-                            Purchaseorder #
+                            #
                             <span ng-show="sortType == 'increment_id' && !sortReverse" class="fa fa-caret-down"></span>
                             <span ng-show="sortType == 'increment_id' && sortReverse" class="fa fa-caret-up"></span>
                         </a>
                     </th>
                     <th width="20%">
                         <a href="javascript:void(0)" ng-click="sortType = 'order_date'; sortReverse = !sortReverse">
-                            Purchased On
+                            Ngày đặt hàng
                             <span ng-show="sortType == 'order_date' && !sortReverse" class="fa fa-caret-down"></span>
                             <span ng-show="sortType == 'order_date' && sortReverse" class="fa fa-caret-up"></span>
                         </a>
                     </th>
                     <th width="20%">
                         <a href="javascript:void(0)" ng-click="sortType = 'grand_total'; sortReverse = !sortReverse">
-                            Total due
+                            Tổng đơn hàng
                             <span ng-show="sortType == 'grand_total' && !sortReverse" class="fa fa-caret-down"></span>
                             <span ng-show="sortType == 'grand_total' && sortReverse" class="fa fa-caret-up"></span>
                         </a>
                     </th>
                     <th width="20%">
                         <a href="javascript:void(0)" ng-click="sortType = 'total_paid'; sortReverse = !sortReverse">
-                            Total paid
+                            Đã trả
                             <span ng-show="sortType == 'total_paid' && !sortReverse" class="fa fa-caret-down"></span>
                             <span ng-show="sortType == 'total_paid' && sortReverse" class="fa fa-caret-up"></span>
                         </a>
                     </th>
                     <th width="10%">
                         <a href="javascript:void(0)" ng-click="sortType = 'status'; sortReverse = !sortReverse">
-                            Status
+                            Trạng thái
                             <span ng-show="sortType == 'status' && !sortReverse" class="fa fa-caret-down"></span>
                             <span ng-show="sortType == 'status' && sortReverse" class="fa fa-caret-up"></span>
                         </a>
                     </th>
-                    <th width="11%">Action</th>
+                    <th width="11%">Thao tác</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-show="!total_order.length"><td></td><td colspan="6">No data table</td></tr>
+                <tr ng-show="!total_order.length"><td></td><td colspan="6">Không tìm thấy kết quả</td></tr>
                 <tr dir-paginate-start="purchaseorder in n_supplier.orders.list | orderBy:sortType:sortReverse | filter:search_order | itemsPerPage: pageSize_order as total_order" current-page="currentPage" ng-init="purchaseorder.showDetail = false">
                     <td ng-click="purchaseorder.showDetail = !purchaseorder.showDetail">#{{purchaseorder.increment_id}}</td>
                     <td ng-click="purchaseorder.showDetail = !purchaseorder.showDetail">{{purchaseorder.order_date | date:'dd/MM/yyyy'}}</td>
@@ -62,20 +62,20 @@
                     <td ng-click="purchaseorder.showDetail = !purchaseorder.showDetail">{{purchaseorder.total_paid | currency:'':0}}</td>
                     <td ng-click="purchaseorder.showDetail = !purchaseorder.showDetail">{{purchaseorder.total_status}}</td>
                     <td>
-                        <a href="javascript:void(0)" ng-click="editPurchaseorder(purchaseorder.id)">Edit</a>
+                        <a href="javascript:void(0)" ng-click="editPurchaseorder(purchaseorder.id)">Chỉnh sửa</a>
                     </td>
                 </tr>
                 <tr dir-paginate-end ng-if="purchaseorder.showDetail">
                     <td colspan="6">
                         <div class="row">
-                            <table class="table table-hover">
+                            <table class="table table-hover table-no-border-top">
                                 <thead ng-if="purchaseorder.items.length > 0">
                                 <tr>
                                     <th>#</th>
-                                    <th>Product</th>
-                                    <th class="text-right">Qty</th>
-                                    <th class="text-right">Price</th>
-                                    <th class="text-right">Subtotal</th>
+                                    <th>Sản phẩm</th>
+                                    <th class="text-right">Số lượng</th>
+                                    <th class="text-right">Giá</th>
+                                    <th class="text-right">Tổng</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -92,14 +92,14 @@
                                     <td></td>
                                     <td width="35%"></td>
                                     <td width="20%" ></td>
-                                    <td width="20%"  class="border-top-td">Subtotal</td>
+                                    <td width="20%"  class="border-top-td">Tổng số phụ</td>
                                     <td width="20%"  class="border-top-td">{{purchaseorder.subtotal | currency:'': 0}}</td>
                                 </tr>
                                 <tr>
                                     <td></td>
                                     <td width="35%"></td>
                                     <td width="20%" ></td>
-                                    <td width="20%" >Total paid</td>
+                                    <td width="20%" >Đã trả</td>
                                     <td width="20%" >{{purchaseorder.total_paid | currency:'': 0}}</td>
                                 </tr>
                                 <tr ng-repeat="fee in purchaseorder.fees">
@@ -113,7 +113,7 @@
                                     <td></td>
                                     <td width="35%"></td>
                                     <td width="20%" ></td>
-                                    <td width="20%" >Grandtotal</td>
+                                    <td width="20%" >Còn lại</td>
                                     <td width="20%" >{{purchaseorder.grand_total | currency:'': 0}}</td>
                                 </tr>
                                 <tr>

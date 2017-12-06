@@ -59,7 +59,7 @@ class ProductController extends Controller
         if($request->input('supplier_id') == 0){
             $supplier = Supplier::where('name', $request->input('supplier_name'))->first();
             if($supplier != null){
-                return response($request->input('supplier_name').' exists !', 422);
+                return response($request->input('supplier_name').' đã tồn tại.', 422);
             }else{
                 if($request->input('create_new_supplier') == true){
                     $supplier = Supplier::create([
@@ -100,7 +100,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         if(!$product){
-            return response("Product has id $id don't exists !", 422);
+            return response("Sản phẩm không tồn tại.", 422);
         }
 
         /*get all info order*/
@@ -197,7 +197,7 @@ class ProductController extends Controller
         if($request->input('supplier_id') == 0){
             $supplier = Supplier::where('name', $request->input('supplier_name'))->first();
             if($supplier != null){
-                return response($request->input('supplier_name').' exists !', 422);
+                return response($request->input('supplier_name').' đã tồn tại.', 422);
             }else{
                 if($request->input('create_new_supplier') == true){
                     $supplier = Supplier::create([

@@ -6,11 +6,11 @@
             <div class="page-header">
                 <h1 id="forms">{{head_purchaseorder}}
                     <p class="bs-component pull-right">
-                        <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-danger">Back</a>
-                        <a href="javascript:void(0)" class="btn btn-danger" ng-if="!new_purchaseorder" ng-click="deletePurchaseorder()">Delete</a>
-                        <a href="javascript:void(0)" class="btn btn-primary">Preview</a>
-                        <a href="javascript:void(0)" class="btn btn-primary" ng-if="new_purchaseorder" ng-click="placePurchaseorder()">Submit purchaseorder</a>
-                        <a href="javascript:void(0)" class="btn btn-primary" ng-if="!new_purchaseorder" ng-click="savePurchaseorder()">Save purchaseorder</a>
+                        <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-danger">Trở lại</a>
+                        <a href="javascript:void(0)" class="btn btn-danger" ng-if="!new_purchaseorder" ng-click="deletePurchaseorder()">Xóa</a>
+                        <a href="javascript:void(0)" class="btn btn-primary">Xem trước</a>
+                        <a href="javascript:void(0)" class="btn btn-primary" ng-if="new_purchaseorder" ng-click="placePurchaseorder()">Tạo đơn hàng</a>
+                        <a href="javascript:void(0)" class="btn btn-primary" ng-if="!new_purchaseorder" ng-click="savePurchaseorder()">Lưu</a>
                     </p>
                 </h1>
             </div>
@@ -20,15 +20,15 @@
     <div class="row">
         <div class="col-lg-8">
             <div class="panel panel-default">
-                <div class="panel-heading">Items Purchaseordered
+                <div class="panel-heading">Danh sách sản phẩm
                     <p class="bs-component pull-right">
-                        <button type="button" class="btn btn-primary btn-xs" ng-init="show_note = false" ng-click="show_note = !show_note">Note</button>
-                        <button type="button" class="btn btn-primary btn-xs" ng-click="addPurchaseorderItem()">+ Add product</button>
+                        <button type="button" class="btn btn-primary btn-xs" ng-init="show_note = false" ng-click="show_note = !show_note">Ghi chú</button>
+                        <button type="button" class="btn btn-primary btn-xs" ng-click="addPurchaseorderItem()">+ Thêm sản phẩm</button>
                     </p>
                 </div>
                 <div class="panel-body">
                     <table class="table table-hover">
-                        <caption ng-if="show_error_purchaseorder_items"><p class="text-danger">Please check purchaseorder items</p></caption>
+                        <caption ng-if="show_error_purchaseorder_items"><p class="text-danger">Vui lòng kiểm tra lại thông tin</p></caption>
                         <thead>
                         <tr>
                             <th>
@@ -38,48 +38,45 @@
                             </th>
                             <th width="30%">
                                 <a href="javascript:void(0)">
-                                    Product
+                                    Sản phẩm
                                 </a>
                             </th>
                             <th width="20%">
                                 <a href="javascript:void(0)" ng-click="sortType = 'qty'; sortReverse = !sortReverse">
-                                    Qty
+                                    Số lượng
                                     <span ng-show="sortType == 'qty' && !sortReverse" class="fa fa-caret-down"></span>
                                     <span ng-show="sortType == 'qty' && sortReverse" class="fa fa-caret-up"></span>
                                 </a>
                             </th>
                             <th width="20%">
                                 <a href="javascript:void(0)" ng-click="sortType = 'price'; sortReverse = !sortReverse">
-                                    Price
+                                    Giá
                                     <span ng-show="sortType == 'price' && !sortReverse" class="fa fa-caret-down"></span>
                                     <span ng-show="sortType == 'price' && sortReverse" class="fa fa-caret-up"></span>
                                 </a>
                             </th>
                             <th width="20%">
                                 <a href="javascript:void(0)" ng-click="sortType = 'row_total'; sortReverse = !sortReverse">
-                                    Subtotal
+                                    Tổng
                                     <span ng-show="sortType == 'row_total' && !sortReverse" class="fa fa-caret-down"></span>
                                     <span ng-show="sortType == 'row_total' && sortReverse" class="fa fa-caret-up"></span>
                                 </a>
                             </th>
-                            <th width="5%">Action</th>
+                            <th width="5%"></th>
                         </tr>
                         </thead>
                         <tbody>
-                            <tr ng-if="n_purchaseorder.items.length == 0"><td></td><td colspan="6">No data table</td></tr>
+                            <tr ng-if="n_purchaseorder.items.length == 0"><td></td><td colspan="6">Không tìm thấy kết quả</td></tr>
                             <tr ng-repeat="item in n_purchaseorder.items| orderBy:sortType:sortReverse" ng-class="{true: 'danger', false: ''}[item.error == true]">
                                 <td><input type="checkbox" ng-checked="item.type" ng-click="item.type = !item.type"></td>
                                 <td ng-class="{true: 'refund', false: ''}[item.type == true]">
-                                    <!--<select class="form-control" ng-model="item.product_id" class="purchaseorder_product_id" ng-class="{true: 'refund', false: ''}[item.type == true]" convert-to-number>-->
-                                        <!--<option ng-repeat="product in products" value='{{product.id}}'>{{product.name}}</option>-->
-                                    <!--</select>-->
                                     <ui-select ng-model="item.product_id">
                                         <ui-select-match>{{$select.selected.name}}</ui-select-match>
                                         <ui-select-choices repeat="product.id as product in (products | filter: $select.search)">
                                             <div ng-bind="product.name"></div>
                                         </ui-select-choices>
                                         <ui-select-no-choice>
-                                            Dang!  We couldn't find any choices...
+                                            Vui lòng chọn sản phẩm.
                                         </ui-select-no-choice>
                                     </ui-select>
                                 </td>
@@ -92,7 +89,7 @@
                                 <td>
                                     <input input-currency type="text" class="form-control text-right" ng-class="{true: 'refund', false: ''}[item.type == true]" name="purchaseorder_product_rowtotal" ng-model="item.row_total">
                                 </td>
-                                <td><a href="javascript:void(0)" ng-click="removePurchaseorderItem($index)">Delete</a></td>
+                                <td><a href="javascript:void(0)" ng-click="removePurchaseorderItem($index)">Xóa</a></td>
                             </tr>
                         </tbody>
                         <tfoot ng-if="n_purchaseorder.items.length != 0">
@@ -114,7 +111,7 @@
         </div>
         <div class="col-lg-4 col-lg-offset-2" id="purchaseorder_note" ng-if="show_note">
             <div class="panel panel-default">
-                <div class="panel-heading">Note</div>
+                <div class="panel-heading">Ghi chú</div>
                 <div class="panel-body">
                     <div class="form-horizontal">
                         <fieldset>
@@ -133,19 +130,19 @@
             <div class="col-lg-12" style="padding-left: 0px;padding-right: 0px;">
                 <div class="row">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Account Information</div>
+                        <div class="panel-heading">Thông tin nhà cung cấp</div>
                         <div class="panel-body">
                             <div class="form-horizontal">
-                                <p class="text-danger" ng-if="show_error_purchaseorder_supplier">Please check account infomation</p>
+                                <p class="text-danger" ng-if="show_error_purchaseorder_supplier">Vui lòng kiểm tra lại thông tin</p>
                                 <fieldset>
                                     <div class="form-group">
-                                        <label for="order_date" class="col-lg-3 control-label">Order date</label>
+                                        <label for="order_date" class="col-lg-3 control-label">Ngày đặt hàng</label>
                                         <div class="col-lg-9">
                                             <input class="form-control" id="order_date" name="order_date" ng-model="n_purchaseorder.order_date">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="purchaseorder_supplier_id" class="col-lg-3 control-label">Supplier</label>
+                                        <label for="purchaseorder_supplier_id" class="col-lg-3 control-label">Nhà cung cấp</label>
                                         <div class="col-lg-9">
                                             <ui-select ng-model="n_purchaseorder.supplier_id" id="purchaseorder_supplier_id">
                                                 <ui-select-match>{{$select.selected.name}}</ui-select-match>
@@ -153,16 +150,13 @@
                                                     <div ng-bind="supplier.name"></div>
                                                 </ui-select-choices>
                                                 <ui-select-no-choice>
-                                                    Please select supplier to place purchaseorder !
+                                                    Vui lòng chọn nhà cung cấp
                                                 </ui-select-no-choice>
                                             </ui-select>
-                                            <!--<select class="form-control" name="purchaseorder_supplier_id" id="purchaseorder_supplier_id" ng-model="n_purchaseorder.supplier_id" convert-to-number>-->
-                                                <!--<option ng-repeat="supplier in suppliers" value='{{supplier.id}}' title="{{supplier.address}}">{{supplier.name}}</option>-->
-                                            <!--</select>-->
                                             <input ng-if="n_purchaseorder.supplier_id == 0" type="text" class="form-control" name="purchaseorder_supplier_name" id="purchaseorder_supplier_name" ng-model="n_purchaseorder.supplier_name">
                                             <div class="checkbox" ng-if="n_purchaseorder.supplier_id == 0">
                                                 <label>
-                                                    <input type="checkbox" name="create_new_supplier" id="create_new_supplier" ng-model="n_purchaseorder.create_new_supplier">Create new supplier
+                                                    <input type="checkbox" name="create_new_supplier" id="create_new_supplier" ng-model="n_purchaseorder.create_new_supplier">Tạo mới nhà cung cấp
                                                 </label>
                                             </div>
                                         </div>
@@ -179,25 +173,25 @@
             <div class="col-lg-12" style="padding-left: 0px;padding-right: 0px">
                 <div class="row">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Order Totals
+                        <div class="panel-heading">Thanh toán
                             <p class="bs-component pull-right">
-                                <button type="button" class="btn btn-primary btn-xs" ng-click="validatePurchaseorder()">Check order</button>
-                                <button type="button" class="btn btn-primary btn-xs" ng-click="recalculate()">Recalculate</button>
-                                <button type="button" class="btn btn-primary btn-xs" ng-click="addNewFee()" title="Add new fee">+</button>
+                                <button type="button" class="btn btn-primary btn-xs" ng-click="validatePurchaseorder()">Kiểm tra đơn hàng</button>
+                                <button type="button" class="btn btn-primary btn-xs" ng-click="recalculate()">Tính toán lại</button>
+                                <button type="button" class="btn btn-primary btn-xs" ng-click="addNewFee()" title="Thêm phí">+</button>
                             </p>
                         </div>
                         <div class="panel-body">
                             <div class="form-horizontal">
-                                <p class="text-danger" ng-if="show_error_purchaseorder_totals">Please check purchaseorder totals</p>
+                                <p class="text-danger" ng-if="show_error_purchaseorder_totals">Vui lòng kiểm tra lại thông tin</p>
                                 <fieldset>
                                     <div class="form-group">
-                                        <label class="col-lg-5 control-label">Subtotal</label>
+                                        <label class="col-lg-5 control-label">Tổng số phụ</label>
                                         <div class="col-lg-7 text-right">
                                             <label class="control-label label-currency" id="subtotal" name="subtotal">{{n_purchaseorder.subtotal | currency:'': 0}}</label>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="total_paid" class="col-lg-5 control-label">Paid</label>
+                                        <label for="total_paid" class="col-lg-5 control-label">Đã trả</label>
                                         <div class="col-lg-7">
                                             <input input-currency class="form-control text-right" id="total_paid" name="total_paid" ng-model="n_purchaseorder.total_paid" type="text">
                                         </div>
@@ -212,7 +206,7 @@
                                     </div>
                                     <div class="row partition"></div>
                                     <div class="form-group">
-                                        <label for="grand_total" class="col-lg-5 control-label">Grandtotal</label>
+                                        <label for="grand_total" class="col-lg-5 control-label">Còn lại</label>
                                         <div class="col-lg-7 text-right">
                                             <label class="control-label label-currency" id="grand_total" name="grand_total">{{n_purchaseorder.grand_total | currency:'': 0}}</label>
                                         </div>

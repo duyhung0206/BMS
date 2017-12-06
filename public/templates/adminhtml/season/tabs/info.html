@@ -2,59 +2,55 @@
     <fieldset>
         <div class="form-group"
              ng-class="{'has-error' : editSeasonForm.season_name.$invalid && formSubmitted}">
-            <label for="season_name" class="col-lg-3 control-label">Name</label>
+            <label for="season_name" class="col-lg-3 control-label">Tên</label>
             <div class="col-lg-6">
                 <input type="text" class="form-control" name="season_name" id="season_name"
                        ng-model="n_season.name" required>
-                <p ng-show="editSeasonForm.season_name.$invalid && formSubmitted" class="help-block">Name
-                    of the season is required</p>
+                <p ng-show="editSeasonForm.season_name.$invalid && formSubmitted" class="help-block">Vui lòng nhập tên</p>
             </div>
         </div>
         <div class="input-daterange input-group" id="season_datepicker">
             <div class="form-group"
                  ng-class="{'has-error' : editSeasonForm.start.$invalid && formSubmitted}">
-                <label for="season_start" class="col-lg-3 control-label">Start</label>
+                <label for="season_start" class="col-lg-3 control-label">Ngày bắt đầu</label>
                 <div class="col-lg-6">
                     <input class="form-control" rows="5" id="season_start" name="start"
                            ng-model="n_season.start" required>
-                    <p ng-show="editSeasonForm.start.$invalid && formSubmitted" class="help-block">Start
-                        date of the season is required</p>
+                    <p ng-show="editSeasonForm.start.$invalid && formSubmitted" class="help-block">Vui lòng chọn ngày bắt đầu</p>
                 </div>
             </div>
             <div class="form-group"
                  ng-class="{'has-error' : editSeasonForm.end.$invalid && formSubmitted}">
-                <label for="season_end" class="col-lg-3 control-label">End</label>
+                <label for="season_end" class="col-lg-3 control-label">Ngày kết thúc</label>
                 <div class="col-lg-6">
                     <input class="form-control" rows="5" id="season_end" name="end"
                            ng-model="n_season.end" required>
-                    <p ng-show="editSeasonForm.end.$invalid && formSubmitted" class="help-block">End date
-                        of the season is required</p>
+                    <p ng-show="editSeasonForm.end.$invalid && formSubmitted" class="help-block">Vui lòng chọn ngày kết thúc</p>
                 </div>
             </div>
         </div>
         <div class="form-group">
-            <label for="description" class="col-lg-3 control-label">Description</label>
+            <label for="description" class="col-lg-3 control-label">Miêu tả</label>
             <div class="col-lg-6">
-                                <textarea class="form-control" rows="5" id="description"
-                                          ng-model="n_season.description"></textarea>
+                <textarea class="form-control" rows="5" id="description" ng-model="n_season.description"></textarea>
             </div>
         </div>
         <div class="form-group"
              ng-class="{'has-error' : editSeasonForm.season_is_active.$invalid && formSubmitted}">
-            <label for="season_is_active" class="col-lg-3 control-label">Is active</label>
+            <label for="season_is_active" class="col-lg-3 control-label">Trạng thái</label>
             <div class="col-lg-6">
                 <select class="form-control" id="season_is_active" name="season_is_active"
                         ng-model="n_season.is_active" required convert-to-number>
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                    <option value="1">Bật</option>
+                    <option value="0">Tắt</option>
                 </select>
                 <p ng-show="editSeasonForm.season_is_active.$invalid && formSubmitted"
-                   class="help-block">Please select yes/no</p>
+                   class="help-block">Vui lòng chọn Bật/Tắt</p>
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-6 col-lg-offset-3">
-                <button class="btn btn-primary">Save</button>
+                <button class="btn btn-primary">Lưu</button>
             </div>
         </div>
     </fieldset>

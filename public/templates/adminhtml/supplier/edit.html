@@ -5,47 +5,47 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="page-header">
-                <h1 id="forms">User Profile</h1>
+                <h4>{{n_supplier.name}} <span class="text-muted text-center" ng-if="n_supplier.address != ''">({{n_supplier.address}})</span></h4>
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-lg-3">
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <img class="profile-user-img img-responsive img-circle" src="../images/iconuser/m1.png" alt="User profile picture">
-                    <h3 class="profile-username text-center">{{n_supplier.name}}</h3>
-                    <p class="text-muted text-center">{{n_supplier.address}}</p>
-                </li>
-                <li class="list-group-item">
-                    <span class="badge">{{n_supplier.orders.total | number}}</span>
-                    Total purchaseorder
-                </li>
-                <li class="list-group-item">
-                    <span class="badge">{{n_supplier.orders.totalBuy | number}}</span>
-                    Total Buy
-                </li>
-                <li class="list-group-item">
-                    <span class="badge">{{n_supplier.orders.totalReturn | number}}</span>
-                    Total Refund
-                </li>
-            </ul>
-        </div>
-        <div class="col-lg-9">
+        <!--<div class="col-lg-3">-->
+            <!--<ul class="list-group">-->
+                <!--<li class="list-group-item">-->
+                    <!--<img class="profile-user-img img-responsive img-circle" src="../images/iconuser/m1.png" alt="User profile picture">-->
+                    <!--<h3 class="profile-username text-center">{{n_supplier.name}}</h3>-->
+                    <!--<p class="text-muted text-center">{{n_supplier.address}}</p>-->
+                <!--</li>-->
+                <!--<li class="list-group-item">-->
+                    <!--<span class="badge">{{n_supplier.orders.total | number}}</span>-->
+                    <!--Total purchaseorder-->
+                <!--</li>-->
+                <!--<li class="list-group-item">-->
+                    <!--<span class="badge">{{n_supplier.orders.totalBuy | number}}</span>-->
+                    <!--Total Buy-->
+                <!--</li>-->
+                <!--<li class="list-group-item">-->
+                    <!--<span class="badge">{{n_supplier.orders.totalReturn | number}}</span>-->
+                    <!--Total Refund-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+        <div class="col-lg-12">
             <ul class="nav nav-tabs">
-                <li ui-sref="supplier-tab-orders" ui-sref-active="active"><a href="javascript:void(0)">Orders</a></li>
-                <li ui-sref="supplier-tab-info" ui-sref-active="active"><a href="javascript:void(0)">Info</a></li>
-                <li ui-sref="supplier-tab-products" ui-sref-active="active"><a href="javascript:void(0)">Product</a></li>
-                <li ui-sref="supplier-tab-report" ui-sref-active="active"><a href="javascript:void(0)">Report</a></li>
+                <li ui-sref="supplier-tab-report" ui-sref-active="active"><a href="javascript:void(0)">Báo cáo</a></li>
+                <li ui-sref="supplier-tab-info" ui-sref-active="active"><a href="javascript:void(0)">Thông tin</a></li>
+                <li ui-sref="supplier-tab-orders" ui-sref-active="active"><a href="javascript:void(0)">Đơn hàng nhập</a></li>
+                <li ui-sref="supplier-tab-products" ui-sref-active="active"><a href="javascript:void(0)">Sản phẩm</a></li>
                 <p class="bs-component pull-right" style="margin-bottom: 0px">
-                    <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-danger">Back</a>
-                    <a href="javascript:void(0)" class="btn btn-danger" ng-click="deleteSupplier(n_supplier.id, n_supplier.name)">Delete</a>
-                    <a href="javascript:void(0)" class="btn btn-primary">Create Purchaseorder</a>
+                    <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-danger">Trở lại</a>
+                    <a href="javascript:void(0)" class="btn btn-danger" ng-click="deleteSupplier(n_supplier.id, n_supplier.name)">Xóa</a>
+                    <a href="javascript:void(0)" class="btn btn-primary">Tạo đơn hàng</a>
                 </p>
             </ul>
             <div class="ui-view-supplier">
-                <ui-view ng-init="go('supplier-tab-orders')"></ui-view>
+                <ui-view ng-init="go('supplier-tab-report')"></ui-view>
             </div>
         </div>
     </div>

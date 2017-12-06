@@ -19,7 +19,7 @@ myApp.controller('customerController', ['$scope', '$rootScope', 'customerModel',
             data.n_customer.then(function(response) {
                 $scope.n_customer = response.data;
             }).catch(function(response) {
-                $scope.$emit('showMessage', ['danger', null, 'Customer has id ' + $route.current.params.id + ' don\'t exist !']);
+                $scope.$emit('showMessage', ['danger', null, 'Khách hàng không tồn tại.']);
                 $location.path('/customer');
             });
         }
@@ -64,7 +64,7 @@ myApp.controller('customerController', ['$scope', '$rootScope', 'customerModel',
                             note: '',
                             is_active: '1',
                         }
-                        $scope.$emit('showMessage', ['success', null, 'The customer \'' + response.data.name + '\' has been created.']);
+                        $scope.$emit('showMessage', ['success', null, 'Khách hàng mới đã được tạo.']);
                     }
                 })
                 .catch(function(response) {
@@ -75,7 +75,7 @@ myApp.controller('customerController', ['$scope', '$rootScope', 'customerModel',
                             messageError += '<br/>';
                         }
                     });
-                    messageError = messageError==''?'Error while process function !':messageError;
+                    messageError = messageError==''?'Lỗi xảy ra trong quá trình thực hiện: ':messageError;
                     $scope.$emit('showMessage', ['danger', null, messageError]);
                 });
             }else{
@@ -87,7 +87,7 @@ myApp.controller('customerController', ['$scope', '$rootScope', 'customerModel',
                 $scope.formSubmitted = false;
                 customerModel.saveCustomer($scope.n_customer)
                     .then(function(response) {
-                        $scope.$emit('showMessage', ['success', null, 'The customer has been saved.']);
+                        $scope.$emit('showMessage', ['success', null, 'Khách hàng được lưu.']);
                         $scope.n_customer = response.data;
                     })
                     .catch(function(response) {
@@ -113,7 +113,7 @@ myApp.controller('customerController', ['$scope', '$rootScope', 'customerModel',
                                 $location.path('/customer');
                             }
                             $scope.customers = response.data;
-                            $scope.$emit('showMessage', ['success', null, 'The customer has been deleted.']);
+                            $scope.$emit('showMessage', ['success', null, 'Khách hàng đã được xóa']);
                         })
                         .catch(function(response) {
                         }).finally(function () {

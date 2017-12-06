@@ -1,5 +1,5 @@
-myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data', '$route', '$location', '$filter', 'customerModel', 'orderModel',
-    function($scope, $rootScope, orderModel, data, $route, $location, $filter, customerModel, orderModel){
+myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data', '$route', '$location', '$filter', 'customerModel',
+    function($scope, $rootScope, orderModel, data, $route, $location, $filter, customerModel){
 
     var defaultValue = {
         n_order:{
@@ -137,7 +137,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                     $scope.n_order.fees.length == 0 &&
                     $scope.show_error_order_customer == false &&
                     $scope.n_order.total_paid == 0){
-                    $scope.$emit('showMessage', ['danger', null, 'Order don\'t have data. Please check order data again!']);
+                    $scope.$emit('showMessage', ['danger', null, 'Vui lòng kiểm tra lại thông tin đơn hàng.']);
                     return false;
                 }
 
@@ -152,10 +152,10 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                 if(this.validateOrder()){
                     orderModel.addNewOrder($scope.n_order)
                         .then(function(response) {
-                            $scope.$emit('showMessage', ['success', null, 'The order has been created.']);
+                            $scope.$emit('showMessage', ['success', null, 'Đơn hàng đã được tạo']);
                             if($scope.n_order.create_new_customer = true){
                                 customerModel.getAllCustomers().then(function(responseCustomer) {
-                                    responseCustomer.data.push({id:0, name:'Other'});
+                                    responseCustomer.data.push({id:0, name:'Khách hàng khác'});
                                     $scope.customers = responseCustomer.data;
                                     $scope.n_order.customer_id = (response.data.customer_id);
                                     $scope.loading_order_customer = false;
@@ -165,7 +165,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                             $location.path('/order/edit/' + response.data.id);
                         })
                         .catch(function(response) {
-                            $scope.$emit('showMessage', ['danger', 'Error', response.data]);
+                            $scope.$emit('showMessage', ['danger', null, response.data]);
                         }).finally(function () {
 
                     });
@@ -179,10 +179,10 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                 if(this.validateOrder()){
                     orderModel.saveOrder($scope.n_order)
                         .then(function(response) {
-                            $scope.$emit('showMessage', ['success', null, 'The order has been saved.']);
+                            $scope.$emit('showMessage', ['success', null, 'Đơn hàng đã được lưu']);
                             if($scope.n_order.create_new_customer = true){
                                 customerModel.getAllCustomers().then(function(responseCustomer) {
-                                    responseCustomer.data.push({id:0, name:'Other'});
+                                    responseCustomer.data.push({id:0, name:'Khách hàng khác'});
                                     $scope.customers = responseCustomer.data;
                                     $scope.n_order.customer_id = (response.data.customer_id);
                                     $scope.loading_order_customer = false;
@@ -202,7 +202,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
             deleteOrder: function () {
                 var order_id = $scope.n_order.id;
                 data = {
-                    titleDialog: 'Confirm delete order: #'+$scope.n_order.increment_id,
+                    titleDialog: 'Xác nhận xóa đơn hàng #'+$scope.n_order.increment_id,
                     messageDialog: null,
                     titleClose: null,
                     titleOk: null,
@@ -210,7 +210,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                         orderModel.deleteOrder(order_id)
                             .then(function(response) {
                                 $location.path('/order/view');
-                                $scope.$emit('showMessage', ['success', null, 'The order has been deleted.']);
+                                $scope.$emit('showMessage', ['success', null, 'Đơn hàng đã đc xóa.']);
                             })
                             .catch(function(response) {
 
@@ -240,7 +240,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
 
     if (data && data.products != undefined) {
         data.products.then(function(response) {
-            response.data.push({id:0, name:'Other'});
+            response.data.push({id:0, name:'Khách hàng khác'});
             $scope.products = response.data;
             $scope.loading_order_items = false;
         });
@@ -249,7 +249,7 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
 
     if (data && data.customers != undefined) {
         data.customers.then(function(response) {
-            response.data.push({id:0, name:'Other'});
+            response.data.push({id:0, name:'Khách hàng khác'});
             $scope.customers = response.data;
             $scope.loading_order_customer = false;
         });
@@ -278,13 +278,13 @@ myApp.controller('orderController', ['$scope', '$rootScope', 'orderModel', 'data
                 $scope.n_order.create_new_customer = true;
             }
             $('#order_date').datepicker("setDate",$scope.n_order.order_date);
-            $scope.head_order = 'Order #' + response.data.increment_id;
+            $scope.head_order = 'Đơn hàng #' + response.data.increment_id;
             $scope.new_order = false;
 
             $scope.recalculate();
         });
     }else{
-        $scope.head_order = 'New order';
+        $scope.head_order = 'Xuất hàng';
         $scope.new_order = true;
     }
 }]);

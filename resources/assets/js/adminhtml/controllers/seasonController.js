@@ -39,7 +39,7 @@ myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'da
                             description: '',
                             is_active: '1',
                         }
-                        Notification.success('The season has been created.');
+                        Notification.success('Tạo mùa vụ mới thành công.');
                     }
                 })
                 .catch(function(response) {
@@ -59,7 +59,7 @@ myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'da
         deleteSeason: function (seasonId, seasonName) {
 
             data = {
-                titleDialog: 'Confirm Delete Season: '+seasonName,
+                titleDialog: 'Xác nhận xóa '+seasonName,
                 messageDialog: null,
                 titleClose: null,
                 titleOk: null,
@@ -67,7 +67,7 @@ myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'da
                     seasonModel.deleteSeason(seasonId)
                         .then(function(response) {
                             $scope.seasons = response.data;
-                            Notification.success('The season has been deleted.');
+                            Notification.success('Mùa vụ đã được xóa.');
                         })
                         .catch(function(response) {
                         }).finally(function () {
@@ -92,7 +92,7 @@ myApp.controller('seasonController', ['$scope', '$rootScope', 'seasonModel', 'da
 
                         $('#season_start').datepicker('setDate', $scope.n_season.start);
                         $('#season_end').datepicker('setDate', $scope.n_season.end);
-                        $scope.$emit('showMessage', ['success', null, 'The season has been saved.']);
+                        $scope.$emit('showMessage', ['success', null, 'Mùa vụ đã được lưu.']);
                     })
                     .catch(function(response) {
                         $scope.$emit('showMessage', ['danger', null, response.data]);

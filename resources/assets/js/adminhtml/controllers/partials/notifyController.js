@@ -20,7 +20,6 @@ myApp.controller('notifyController', ['$scope', '$rootScope', '$timeout', 'Notif
 
     });
     $rootScope.$on('showMessage', function(event, args) {
-        console.log($rootScope.n_config);
         switch (args[0]){
             case 'danger':
                 Notification.error($.extend({message:args[2]}, $rootScope.n_config.notification));

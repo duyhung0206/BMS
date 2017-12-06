@@ -19,7 +19,7 @@ myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel',
             data.n_supplier.then(function(response) {
                 $scope.n_supplier = response.data;
             }).catch(function(response) {
-                $scope.$emit('showMessage', ['danger', null, 'Supplier has id ' + $route.current.params.id + ' don\'t exist !']);
+                $scope.$emit('showMessage', ['danger', null, 'Nhà cung cấp không tồn tại.']);
                 $location.path('/supplier');
             });
         }
@@ -65,7 +65,7 @@ myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel',
                             note: '',
                             is_active: '1',
                         }
-                        $scope.$emit('showMessage', ['success', null, 'The supplier has been created.']);
+                        $scope.$emit('showMessage', ['success', null, 'Nhà cung cấp đã được tạo.']);
                     }
                 })
                 .catch(function(response) {
@@ -76,7 +76,7 @@ myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel',
                             messageError += '<br/>';
                         }
                     });
-                    messageError = messageError==''?'Error while process function !':messageError;
+                    messageError = messageError==''?'Lỗi: ':messageError;
                     $scope.$emit('showMessage', ['danger', null, messageError]);
                 });
             }else{
@@ -88,7 +88,7 @@ myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel',
         },
         deleteSupplier: function (supplierId, supplierName) {
             data = {
-                titleDialog: 'Confirm Delete Supplier: '+supplierName,
+                titleDialog: 'Xác nhận xóa '+supplierName,
                 messageDialog: null,
                 titleClose: null,
                 titleOk: null,
@@ -99,7 +99,7 @@ myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel',
                                 $location.path('/supplier');
                             }
                             $scope.suppliers = response.data;
-                            $scope.$emit('showMessage', ['success', null, 'The supplier has been deleted.']);
+                            $scope.$emit('showMessage', ['success', null, 'Nhà cung cấp đã được xóa.']);
 
                         })
                         .catch(function(response) {
@@ -115,7 +115,7 @@ myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel',
                 $scope.formSubmitted = false;
                 supplierModel.saveSupplier($scope.n_supplier)
                     .then(function(response) {
-                        $scope.$emit('showMessage', ['success', null, 'The supplier has been saved.']);
+                        $scope.$emit('showMessage', ['success', null, 'Nhà cung cấp đã được lưu.']);
                         $scope.n_supplier = response.data;
                     })
                     .catch(function(response) {

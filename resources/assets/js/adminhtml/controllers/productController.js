@@ -71,13 +71,13 @@ myApp.controller('productController',
             data.n_product.then(function(response) {
                 $scope.n_product = response.data;
             }).catch(function(response) {
-                $scope.$emit('showMessage', ['danger', null, 'Product has id ' + $route.current.params.id + ' don\'t exist !']);
+                $scope.$emit('showMessage', ['danger', null, 'Sản phẩm không tồn tại.']);
                 $location.path('/product');
             });
         }
         if (data && data.suppliers != undefined) {
             data.suppliers.then(function(response) {
-                response.data.push({id:0,name:'Other'});
+                response.data.push({id:0,name:'Nhà cung cấp khác'});
                 $scope.suppliers = response.data;
             });
         }
@@ -91,7 +91,7 @@ myApp.controller('productController',
                 $scope.products = response.data;
                 if (data && data.suppliers != undefined) {
                     data.suppliers.then(function(response) {
-                        response.data.push({id:0,name:'Other'});
+                        response.data.push({id:0,name:'Nhà cung cấp khác'});
                         $scope.suppliers = response.data;
                     });
                 }
@@ -116,6 +116,8 @@ myApp.controller('productController',
     /*functions*/
     angular.extend($scope, {
         addNewProduct: function (addProductForm) {
+            console.log(addProductForm);
+            console.log(addProductForm.$valid);
             if(addProductForm.$valid){
                 $scope.formSubmitted = false;
                 productModel.addNewProduct($scope.n_product)
@@ -132,7 +134,7 @@ myApp.controller('productController',
                             note: '',
                             is_active: '1',
                         }
-                        $scope.$emit('showMessage', ['success', 'Success', 'Create product: ' + response.data.name + ' success !']);
+                        $scope.$emit('showMessage', ['success', 'Success', 'Sản phẩm ' + response.data.name + ' được tạo thành công.']);
                     }
                 })
                 .catch(function(response) {
@@ -143,7 +145,7 @@ myApp.controller('productController',
                             messageError += '<br/>';
                         }
                     });
-                    messageError = messageError==''?'Error while process function !':messageError;
+                    messageError = messageError==''?'Lỗi trong khi thực hiện':messageError;
                     $scope.$emit('showMessage', ['danger', null, messageError]);
                 });
             }else{
@@ -155,7 +157,7 @@ myApp.controller('productController',
         },
         deleteProduct: function (productId, productName) {
             data = {
-                titleDialog: 'Confirm Delete Product: '+productName,
+                titleDialog: 'Xác nhận xóa sản phẩm '+productName,
                 messageDialog: null,
                 titleClose: null,
                 titleOk: null,
@@ -166,7 +168,7 @@ myApp.controller('productController',
                                 $location.path('/product');
                             }
                             $scope.products = response.data;
-                            $scope.$emit('showMessage', ['success', null, 'The product has been deleted.']);
+                            $scope.$emit('showMessage', ['success', null, 'Sản phẩm đã được xóa.']);
                         })
                         .catch(function(response) {
 
@@ -182,10 +184,10 @@ myApp.controller('productController',
                 $scope.formSubmitted = false;
                 productModel.saveProduct($scope.n_product)
                     .then(function(response) {
-                        $scope.$emit('showMessage', ['success', null, 'The product has been saved.']);
+                        $scope.$emit('showMessage', ['success', null, 'Sản phẩm đã được lưu.']);
                         if($scope.n_product.create_new_supplier = true){
                             supplierModel.getAllSuppliers().then(function(responseSupplier) {
-                                responseSupplier.data.push({id:0, name:'Other'});
+                                responseSupplier.data.push({id:0, name:'Nhà cung cấp khác'});
                                 $scope.suppliers = responseSupplier.data;
                                 $scope.n_product.supplier_id = (response.data.supplier_id);
                                 $scope.n_product.create_new_supplier = false;

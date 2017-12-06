@@ -1,10 +1,10 @@
 <form class="form-horizontal" ng-submit="saveSupplier(editSupplierForm)" name="editSupplierForm" novalidate>
     <fieldset>
         <div class="form-group" ng-class="{'has-error' : editSupplierForm.supplier_name.$invalid && formSubmitted}">
-            <label for="supplier_name" class="col-lg-3 control-label">Name</label>
+            <label for="supplier_name" class="col-lg-3 control-label">Tên</label>
             <div class="col-lg-8">
                 <input type="text" class="form-control" name="supplier_name" id="supplier_name" ng-model="n_supplier.name" required>
-                <p ng-show="editSupplierForm.supplier_name.$invalid && formSubmitted" class="help-block">Name of the supplier is required</p>
+                <p ng-show="editSupplierForm.supplier_name.$invalid && formSubmitted" class="help-block">Vui lòng nhập tên</p>
             </div>
         </div>
         <div class="form-group" ng-class="{'has-error' : editSupplierForm.supplier_email.$invalid && formSubmitted}">
@@ -14,36 +14,36 @@
             </div>
         </div>
         <div class="form-group" ng-class="{'has-error' : editSupplierForm.supplier_phone.$invalid && formSubmitted}">
-            <label for="supplier_phone" class="col-lg-3 control-label">Phone</label>
+            <label for="supplier_phone" class="col-lg-3 control-label">Điện thoại</label>
             <div class="col-lg-8">
                 <input type="text" class="form-control" name="supplier_phone" id="supplier_phone" ng-model="n_supplier.phone">
             </div>
         </div>
         <div class="form-group">
-            <label for="address" class="col-lg-3 control-label">Address</label>
+            <label for="address" class="col-lg-3 control-label">Địa chỉ</label>
             <div class="col-lg-8">
                 <textarea class="form-control" rows="3" id="address" ng-model="n_supplier.address"></textarea>
             </div>
         </div>
         <div class="form-group">
-            <label for="note" class="col-lg-3 control-label">Note</label>
+            <label for="note" class="col-lg-3 control-label">Ghi chú</label>
             <div class="col-lg-8">
                 <textarea class="form-control" rows="5" id="note" ng-model="n_supplier.note"></textarea>
             </div>
         </div>
         <div class="form-group" ng-class="{'has-error' : editSupplierForm.supplier_is_active.$invalid && formSubmitted}">
-            <label for="supplier_is_active" class="col-lg-3 control-label">Is active</label>
+            <label for="supplier_is_active" class="col-lg-3 control-label">Trạng thái</label>
             <div class="col-lg-8">
                 <select class="form-control" id="supplier_is_active" name="supplier_is_active" ng-model="n_supplier.is_active" required  convert-to-number>
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                    <option value="1">Bật</option>
+                    <option value="0">Tắt</option>
                 </select>
-                <p ng-show="editSupplierForm.supplier_is_active.$invalid && formSubmitted" class="help-block">Please select yes/no</p>
+                <p ng-show="editSupplierForm.supplier_is_active.$invalid && formSubmitted" class="help-block">Vui lòng chọn Bật/Tắt</p>
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-8 col-lg-offset-3">
-                <button class="btn btn-primary">Save</button>
+                <button class="btn btn-primary">Lưu</button>
             </div>
         </div>
     </fieldset>

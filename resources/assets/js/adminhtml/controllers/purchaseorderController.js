@@ -1,5 +1,5 @@
-myApp.controller('purchaseorderController', ['$scope', '$rootScope', 'purchaseorderModel', 'data', '$route', '$location', '$filter', 'supplierModel', 'purchaseorderModel',
-    function($scope, $rootScope, purchaseorderModel, data, $route, $location, $filter, supplierModel, purchaseorderModel){
+myApp.controller('purchaseorderController', ['$scope', '$rootScope', 'purchaseorderModel', 'data', '$route', '$location', '$filter', 'supplierModel',
+    function($scope, $rootScope, purchaseorderModel, data, $route, $location, $filter, supplierModel){
 
     var defaultValue = {
         n_purchaseorder:{
@@ -137,7 +137,7 @@ myApp.controller('purchaseorderController', ['$scope', '$rootScope', 'purchaseor
                     $scope.n_purchaseorder.fees.length == 0 &&
                     $scope.show_error_purchaseorder_supplier == false &&
                     $scope.n_purchaseorder.total_paid == 0){
-                    $scope.$emit('showMessage', ['danger', null, 'Purchaseorder don\'t have data. Please check purchaseorder data again!']);
+                    $scope.$emit('showMessage', ['danger', null, 'Vui lòng kiểm tra lại thông tin đơn hàng.']);
                     return false;
                 }
 
@@ -152,10 +152,10 @@ myApp.controller('purchaseorderController', ['$scope', '$rootScope', 'purchaseor
                 if(this.validatePurchaseorder()){
                     purchaseorderModel.addNewPurchaseorder($scope.n_purchaseorder)
                         .then(function(response) {
-                            $scope.$emit('showMessage', ['success', null, 'The purchaseorder has been created.']);
+                            $scope.$emit('showMessage', ['success', null, 'Đơn hàng đã được tạo.']);
                             if($scope.n_purchaseorder.create_new_supplier = true){
                                 supplierModel.getAllSuppliers().then(function(responseSupplier) {
-                                    responseSupplier.data.push({id:0, name:'Other'});
+                                    responseSupplier.data.push({id:0, name:'Nhà cung cấp khác'});
                                     $scope.suppliers = responseSupplier.data;
                                     $scope.n_purchaseorder.supplier_id = (response.data.supplier_id);
                                     $scope.loading_purchaseorder_supplier = false;
@@ -165,7 +165,7 @@ myApp.controller('purchaseorderController', ['$scope', '$rootScope', 'purchaseor
                             $location.path('/purchaseorder/edit/' + response.data.id);
                         })
                         .catch(function(response) {
-                            $scope.$emit('showMessage', ['danger', 'Error', response.data]);
+                            $scope.$emit('showMessage', ['danger', null, response.data]);
                         }).finally(function () {
 
                     });
@@ -179,10 +179,10 @@ myApp.controller('purchaseorderController', ['$scope', '$rootScope', 'purchaseor
                 if(this.validatePurchaseorder()){
                     purchaseorderModel.savePurchaseorder($scope.n_purchaseorder)
                         .then(function(response) {
-                            $scope.$emit('showMessage', ['success', null, 'The purchaseorder has been saved.']);
+                            $scope.$emit('showMessage', ['success', null, 'Đơn hàng đã được lưu.']);
                             if($scope.n_purchaseorder.create_new_supplier = true){
                                 supplierModel.getAllSuppliers().then(function(responseSupplier) {
-                                    responseSupplier.data.push({id:0, name:'Other'});
+                                    responseSupplier.data.push({id:0, name:'Nhà cung cấp khác'});
                                     $scope.suppliers = responseSupplier.data;
                                     $scope.n_purchaseorder.supplier_id = (response.data.supplier_id);
                                     $scope.loading_purchaseorder_supplier = false;
@@ -200,7 +200,7 @@ myApp.controller('purchaseorderController', ['$scope', '$rootScope', 'purchaseor
             deletePurchaseorder: function () {
                 var purchaseorder_id = $scope.n_purchaseorder.id;
                 data = {
-                    titleDialog: 'Confirm delete purchaseorder: #'+$scope.n_purchaseorder.increment_id,
+                    titleDialog: 'Xác nhận xóa P.O #'+$scope.n_purchaseorder.increment_id,
                     messageDialog: null,
                     titleClose: null,
                     titleOk: null,
@@ -208,7 +208,7 @@ myApp.controller('purchaseorderController', ['$scope', '$rootScope', 'purchaseor
                         purchaseorderModel.deletePurchaseorder(purchaseorder_id)
                             .then(function(response) {
                                 $location.path('/purchaseorder/view');
-                                $scope.$emit('showMessage', ['success', null, 'The purchaseorder has been deleted.']);
+                                $scope.$emit('showMessage', ['success', null, 'Đơn hàng đã được xóa.']);
                             })
                             .catch(function(response) {
 
@@ -239,7 +239,7 @@ myApp.controller('purchaseorderController', ['$scope', '$rootScope', 'purchaseor
 
     if (data && data.products != undefined) {
         data.products.then(function(response) {
-            response.data.push({id:0, name:'Other'});
+            response.data.push({id:0, name:'Nhà cung cấp khác'});
             $scope.products = response.data;
             $scope.loading_purchaseorder_items = false;
         });
@@ -248,7 +248,7 @@ myApp.controller('purchaseorderController', ['$scope', '$rootScope', 'purchaseor
 
     if (data && data.suppliers != undefined) {
         data.suppliers.then(function(response) {
-            response.data.push({id:0, name:'Other'});
+            response.data.push({id:0, name:'Nhà cung cấp khác'});
             $scope.suppliers = response.data;
             $scope.loading_purchaseorder_supplier = false;
         });
@@ -282,11 +282,11 @@ myApp.controller('purchaseorderController', ['$scope', '$rootScope', 'purchaseor
 
             $scope.recalculate();
         }).catch(function (response) {
-            $scope.$emit('showMessage', ['danger', null, 'Purchaseorder has id ' + $route.current.params.id + ' don\'t exist !']);
+            $scope.$emit('showMessage', ['danger', null, 'Đơn hàng không tồn tại.']);
             $location.path('/purchaseorder/view');
         })
     }else{
-        $scope.head_purchaseorder = 'New purchaseorder';
+        $scope.head_purchaseorder = 'Nhập hàng';
         $scope.new_purchaseorder = true;
     }
 }]);

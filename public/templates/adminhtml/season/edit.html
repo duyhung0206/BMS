@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="page-header">
-                <h1 id="forms">Season</h1>
+                <h1 id="forms">Mùa vụ</h1>
             </div>
         </div>
     </div>
@@ -19,44 +19,44 @@
                 </li>
                 <li class="list-group-item">
                     <span class="badge">{{n_season.orders.total | number}}</span>
-                    Total order
+                    Tổng đơn hàng xuất
                 </li>
                 <li class="list-group-item">
                     <span class="badge">{{n_season.orders.totalBuy | number}}</span>
-                    Total Buy
+                    Tổng lượng hàng mua (xuất)
                 </li>
                 <li class="list-group-item">
                     <span class="badge">{{n_season.orders.totalReturn | number}}</span>
-                    Total Refund
+                    Tổng lượng hàng trả (xuất)
                 </li>
                 <li class="list-group-item">
                     <span class="badge">{{n_season.purchaseorders.total | number}}</span>
-                    Total purchaseorder
+                    Tổng đơn hàng nhập
                 </li>
                 <li class="list-group-item">
                     <span class="badge">{{n_season.purchaseorders.totalBuy | number}}</span>
-                    Total Buy
+                    Tổng lượng hàng mua (nhập)
                 </li>
                 <li class="list-group-item">
                     <span class="badge">{{n_season.purchaseorders.totalReturn | number}}</span>
-                    Total Refund
+                    Tổng lượng hàng trả (nhập)
                 </li>
 
             </ul>
         </div>
         <div class="col-lg-9">
             <ul class="nav nav-tabs">
-                <li ui-sref="season-tab-orders" ui-sref-active="active"><a href="javascript:void(0)">Orders</a></li>
-                <li ui-sref="season-tab-purchaseorders" ui-sref-active="active"><a href="javascript:void(0)">Purchaseorders</a></li>
-                <li ui-sref="season-tab-info" ui-sref-active="active"><a href="javascript:void(0)">Info</a></li>
-                <li ui-sref="season-tab-report" ui-sref-active="active"><a href="javascript:void(0)">Report</a></li>
+                <li ui-sref="season-tab-report" ui-sref-active="active"><a href="javascript:void(0)">Báo cáo</a></li>
+                <li ui-sref="season-tab-info" ui-sref-active="active"><a href="javascript:void(0)">Thông tin</a></li>
+                <li ui-sref="season-tab-orders" ui-sref-active="active"><a href="javascript:void(0)">Hóa đơn xuất</a></li>
+                <li ui-sref="season-tab-purchaseorders" ui-sref-active="active"><a href="javascript:void(0)">Hóa đơn nhập</a></li>
                 <p class="bs-component pull-right" style="margin-bottom: 0px">
-                    <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-danger">Back</a>
-                    <a href="javascript:void(0)" class="btn btn-danger" ng-click="deleteProduct(n_season.id, n_season.name)">Delete</a>
+                    <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-danger">Trở lại</a>
+                    <a href="javascript:void(0)" class="btn btn-danger" ng-click="deleteProduct(n_season.id, n_season.name)">Xóa</a>
                 </p>
             </ul>
             <div class="ui-view-season">
-                <ui-view ng-init="go('season-tab-orders')"></ui-view>
+                <ui-view ng-init="go('season-tab-report')"></ui-view>
             </div>
         </div>
     </div>
