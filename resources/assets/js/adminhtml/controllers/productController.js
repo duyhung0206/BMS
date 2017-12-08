@@ -14,57 +14,14 @@ myApp.controller('productController',
         pageSize_product: 10,
     });
 
-    $scope.myJson = {
-        "type": "bar",
-        "title": {
-            "text": ""
-        },
-        "plot": {
-            "value-box": {
-                "text": "%v"
-            },
-            "tooltip": {
-                "text": "%v"
-            }
-        },
-        "legend": {
-            "toggle-action": "hide",
-            "header": {
-                "text": "Chúc thích"
-            },
-            "item": {
-                "cursor": "pointer"
-            },
-            "draggable": true,
-            "drag-handler": "icon"
-        },
-        "scale-x": {
-            "values": [
-                "T1",
-                "T2",
-                "T3",
-                "T4",
-                "T5",
-                "T6",
-                "T7",
-                "T8",
-                "T9",
-                "T10",
-                "T11",
-                "T12"
-            ]
-        },
-        "series": [
-            {
-                "values": [3,6,9,3,6,9,3,6,9,3,6,9],
-                "text": "apples"
-            },
-            {
-                "values": [1,4,3,1,4,3,1,4,3,1,4,3],
-                "text": "oranges"
-            }
-        ]
-    };
+    // $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012','2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+    // $scope.series = ['Xuất hàng', 'Nhập hàng'];
+    // $scope.options = { legend: { display: true } };
+    // $scope.colors = ['#FF5252', '#0086E4'];
+    // $scope.data = [
+    //     [65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40],
+    //     [28, 48, 40, 19, 86, 27, 90, 28, 48, 40, 19, 86, 27, 90]
+    // ];
 
     if($route.current.params.id){
         if(data && data.n_product != undefined){
@@ -230,13 +187,13 @@ myApp.config(['$stateProvider',
             templateUrl: 'templates/adminhtml/product/tabs/purchaseorders.html'
         }
 
-        var reportState = {
-            name: 'product-tab-report',
-            templateUrl: 'templates/adminhtml/product/tabs/report.html'
+        var overviewState = {
+            name: 'product-tab-overview',
+            templateUrl: 'templates/adminhtml/product/tabs/overview.html'
         }
 
         $stateProvider.state(infoState);
         $stateProvider.state(ordersState);
         $stateProvider.state(purchaseordersState);
-        $stateProvider.state(reportState);
+        $stateProvider.state(overviewState);
     }]);

@@ -34,8 +34,6 @@
 	<script type="text/javascript" src="{{asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular/angular.min.js')}}"></script>
-	<script type="text/javascript" src="{{asset('bower_components/zingchart/client/zingchart.min.js')}}"></script>
-	<script type="text/javascript" src="{{asset('bower_components/ZingChart-AngularJS/src/zingchart-angularjs.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-animate/angular-animate.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-css/angular-css.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-loading-bar/build/loading-bar.js')}}"></script>
@@ -48,6 +46,9 @@
 	<script type="text/javascript" src="{{asset('bower_components/dirPagination/dirPagination.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/bootstrap-datepicker/js/locales/bootstrap-datepicker.vi.js')}}"></script>
+
+	<script type="text/javascript" src="{{asset('bower_components/chart.js/dist/Chart.js')}}"></script>
+	<script type="text/javascript" src="{{asset('bower_components/angular-chart.js/dist/angular-chart.js')}}"></script>
 
 	<script type="text/javascript" src="{{asset('js/adminhtml/app.js')}}"></script>
 	<script type="text/javascript" src="{{asset('js/adminhtml/controllers.js')}}"></script>

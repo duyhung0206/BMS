@@ -6,21 +6,21 @@
                     <fieldset>
                         <legend>BMS</legend>
                         <div class="form-group">
-                            <label for="inputEmail" class="col-lg-2 control-label">Email </label>
+                            <label for="inputEmail" class="col-lg-2 control-label">Tài khoản</label>
                             <div class="col-lg-10">
                                 <input type="text" class="form-control" id="inputEmail" placeholder="Email" ng-model="login.username">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputPassword" class="col-lg-2 control-label">Password </label>
+                            <label for="inputPassword" class="col-lg-2 control-label">Mật khẩu</label>
                             <div class="col-lg-10">
                                 <input type="password" class="form-control" id="inputPassword" placeholder="Password" ng-model="login.password">
-                                <p ng-show="login.error" class="text-danger">Invalid username or password</p>
+                                <p ng-show="login.error" class="text-danger">Tài khoản hoặc mật khẩu không đúng.</p>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-lg-10 col-lg-offset-2">
-                                <button type="submit" class="btn btn-success">Login</button>
+                                <button type="submit" class="btn btn-success">Đăng nhập</button>
                             </div>
                         </div>
                     </fieldset>

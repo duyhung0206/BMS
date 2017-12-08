@@ -12,7 +12,8 @@ bower install bootstrap-datepicker --save;
 bower install angular-ui-select --save;
 bower install angular-ui-notification --save;
 bower install angular-ui-route --save;
-bower install zingchart-angularjs --save;
+bower install angular-chart.js --save
+bower install chart.js --save;
 ```
 
 ```bash
