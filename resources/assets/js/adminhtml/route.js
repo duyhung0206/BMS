@@ -10,6 +10,12 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
         authenticated:true
     });
 
+    $routeProvider.when('/setting', {
+        templateUrl:'templates/adminhtml/setting/index.html',
+        controller:'settingController',
+        authenticated:true
+    });
+
     $routeProvider.when('/customer', {
         templateUrl:'templates/adminhtml/customer/index.html',
         controller:'customerController',

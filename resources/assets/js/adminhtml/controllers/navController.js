@@ -36,8 +36,8 @@ myApp.controller('navController', ['$scope', '$location', 'userModel', function(
             link: 'Mùa vụ',
             url: '/season'
         },{
-            link: 'Báo cáo',
-            url: '/report'
+            link: 'Cài đặt',
+            url: '/setting'
         }
         // ,{
         //     link: 'Customers',
