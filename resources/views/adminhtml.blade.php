@@ -21,7 +21,6 @@
 		<div id="loader"></div>
 		<div class="loader-section section-left"></div>
 		<div class="loader-section section-right"></div>
-
 	</div>
 
 	<div id="content" class="container" ng-controller="globalController">
@@ -30,12 +29,10 @@
 		<div ng-view></div>
 	</div>
 
-
 	<script type="text/javascript" src="{{asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular/angular.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-animate/angular-animate.js')}}"></script>
-	<script type="text/javascript" src="{{asset('bower_components/angular-css/angular-css.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-loading-bar/build/loading-bar.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-route/angular-route.min.js')}}"></script>
 	<script type="text/javascript" src="{{asset('bower_components/angular-cookies/angular-cookies.min.js')}}"></script>
