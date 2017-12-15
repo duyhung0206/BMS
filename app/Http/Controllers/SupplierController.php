@@ -74,16 +74,16 @@ class SupplierController extends Controller
         $supplier = Supplier::find($id);
 
         $purchaseorders = Purchaseorder::where('supplier_id', $id)->get();
-        $totalBuy = 0;
-        $totalReturn = 0;
+        $total_qty_ordered = 0;
+        $total_qty_refunded = 0;
         foreach ($purchaseorders as $key => $purchaseorder){
             $purchaseorderItems = PurchaseorderProduct::where('purchaseorder_id', $purchaseorder->id)->get();
             $purchaseorders[$key]->items = $purchaseorderItems;
             foreach ($purchaseorderItems as $item){
                 if($item->type != 1){
-                    $totalBuy += $item->qty;
+                    $total_qty_ordered += $item->qty;
                 }else{
-                    $totalReturn += $item->qty;
+                    $total_qty_refunded += $item->qty;
                 }
             }
             $purchaseorderFees = PurchaseorderAttribute::where('purchaseorder_id', $purchaseorder->id)->get();
@@ -92,8 +92,8 @@ class SupplierController extends Controller
         $supplier->orders = [
             'list' => $purchaseorders,
             'total' => $purchaseorders->count(),
-            'totalBuy' => $totalBuy,
-            'totalReturn' => $totalReturn,
+            'total_qty_ordered' => $total_qty_ordered,
+            'total_qty_refunded' => $total_qty_refunded,
         ];
 
         return $supplier;

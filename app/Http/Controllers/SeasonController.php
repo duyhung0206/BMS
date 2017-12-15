@@ -88,16 +88,16 @@ class SeasonController extends Controller
 
         /*get all info order*/
         $orders = Order::where('order_date', '>=', $startDate)->where('order_date', '<=', $endDate)->get();
-        $totalBuy = 0;
-        $totalReturn = 0;
+        $total_qty_ordered = 0;
+        $total_qty_refunded = 0;
         foreach ($orders as $key => $order){
             $orderItems = OrderProduct::where('order_id', $order->id)->get();
             $orders[$key]->items = $orderItems;
             foreach ($orderItems as $item){
                 if($item->type != 1){
-                    $totalBuy += $item->qty;
+                    $total_qty_ordered += $item->qty;
                 }else{
-                    $totalReturn += $item->qty;
+                    $total_qty_refunded += $item->qty;
                 }
             }
             $orderFees = OrderAttribute::where('order_id', $order->id)->get();
@@ -106,22 +106,22 @@ class SeasonController extends Controller
         $season->orders = [
             'list' => $orders,
             'total' => $orders->count(),
-            'totalBuy' => $totalBuy,
-            'totalReturn' => $totalReturn,
+            'total_qty_ordered' => $total_qty_ordered,
+            'total_qty_refunded' => $total_qty_refunded,
         ];
 
         /*get all info purchaseorder*/
         $purchaseorders = Purchaseorder::where('order_date', '>=', $startDate)->where('order_date', '<=', $endDate)->get();
-        $totalBuy = 0;
-        $totalReturn = 0;
+        $total_qty_ordered = 0;
+        $total_qty_refunded = 0;
         foreach ($purchaseorders as $key => $purchaseorder){
             $purchaseorderItems = PurchaseorderProduct::where('purchaseorder_id', $purchaseorder->id)->get();
             $purchaseorders[$key]->items = $purchaseorderItems;
             foreach ($purchaseorderItems as $item){
                 if($item->type != 1){
-                    $totalBuy += $item->qty;
+                    $total_qty_ordered += $item->qty;
                 }else{
-                    $totalReturn += $item->qty;
+                    $total_qty_refunded += $item->qty;
                 }
             }
             $purchaseorderFees = PurchaseorderAttribute::where('purchaseorder_id', $purchaseorder->id)->get();
@@ -131,8 +131,8 @@ class SeasonController extends Controller
         $season->purchaseorders = [
             'list' => $purchaseorders,
             'total' => $purchaseorders->count(),
-            'totalBuy' => $totalBuy,
-            'totalReturn' => $totalReturn,
+            'total_qty_ordered' => $total_qty_ordered,
+            'total_qty_refunded' => $total_qty_refunded,
         ];
 
         return $season;

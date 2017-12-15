@@ -117,7 +117,7 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
             data: function($route, productModel, supplierModel) {
                 return {
                     n_product: productModel.getDataProduct($route.current.params.id),
-                    suppliers: supplierModel.getAllSuppliers()
+                    n_suppliers: supplierModel.getAllSuppliers()
                 };
             }
         },

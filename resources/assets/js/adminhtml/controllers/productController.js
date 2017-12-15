@@ -1,6 +1,6 @@
 myApp.controller('productController',
-    ['$scope', '$rootScope', 'productModel', 'data', '$location', '$route', '$state', 'supplierModel',
-    function($scope, $rootScope, productModel, data, $location, $route, $state, supplierModel){
+    ['$scope', '$rootScope', 'productModel', 'data', '$location', '$route', '$state', 'supplierModel', 'seasonModel',
+    function($scope, $rootScope, productModel, data, $location, $route, $state, supplierModel, seasonModel){
     angular.extend($scope, {
         n_product:{
             sku: '',
@@ -9,33 +9,39 @@ myApp.controller('productController',
             supplier_id : 0,
             supplier_name: '',
             is_active: '1',
+            overview: {
+                season_id: 0
+            }
         },
         currentPage : 1,
         pageSize_product: 10,
     });
 
-    // $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012','2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-    // $scope.series = ['Xuất hàng', 'Nhập hàng'];
-    // $scope.options = { legend: { display: true } };
-    // $scope.colors = ['#FF5252', '#0086E4'];
-    // $scope.data = [
-    //     [65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40],
-    //     [28, 48, 40, 19, 86, 27, 90, 28, 48, 40, 19, 86, 27, 90]
-    // ];
-
     if($route.current.params.id){
         if(data && data.n_product != undefined){
             data.n_product.then(function(response) {
                 $scope.n_product = response.data;
+                $scope.n_product.selectReport = 0;
             }).catch(function(response) {
                 $scope.$emit('showMessage', ['danger', null, 'Sản phẩm không tồn tại.']);
                 $location.path('/product');
             });
         }
-        if (data && data.suppliers != undefined) {
-            data.suppliers.then(function(response) {
+        seasonModel.getAllSeasons().then(function(response) {
+            $scope.n_seasons = response.data;
+            $scope.n_seasons.unshift({
+                id: 0,
+                name: 'Tất cả'
+            });
+            $scope.n_seasons.push({
+                id: -1,
+                name: 'Chọn khoảng thời gian'
+            });
+        });
+        if (data && data.n_suppliers != undefined) {
+            data.n_suppliers.then(function(response) {
                 response.data.push({id:0,name:'Nhà cung cấp khác'});
-                $scope.suppliers = response.data;
+                $scope.n_suppliers = response.data;
             });
         }
         $scope.go = function (state) {

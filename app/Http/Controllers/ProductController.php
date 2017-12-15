@@ -109,16 +109,44 @@ class ProductController extends Controller
             $listOrder[] = $item->order_id;
         });
         $orders = Order::find($listOrder);
-        $totalBuy = 0;
-        $totalReturn = 0;
+
+        $total_qty_ordered = 0;
+        $total_amount_ordered = 0;
+        $total_qty_refunded = 0;
+        $total_amount_refunded = 0;
+        $total_paid = 0;
+
+        $customers = array();
+
         foreach ($orders as $key => $order){
             $orderItems = OrderProduct::where('order_id', $order->id)->get();
             $orders[$key]->items = $orderItems;
+            $total_paid += $order->total_paid;
+
+            if(!isset($customers[$order->customer_id])){
+                $customers[$order->customer_id] = array(
+                    "customer_id" => $order->customer_id,
+                    "customer_name" => $order->customer_name,
+                    "total_qty_ordered" => 0,
+                    "total_amount_ordered" => 0,
+                    "total_qty_refunded" => 0,
+                    "total_amount_refunded" => 0,
+                );
+            }
+
             foreach ($orderItems as $item){
                 if($item->type != 1){
-                    $totalBuy += $item->qty;
+                    $total_qty_ordered += $item->qty;
+                    $total_amount_ordered += $item->row_total;
+
+                    $customers[$order->customer_id]["total_qty_ordered"] += $item->qty;
+                    $customers[$order->customer_id]["total_amount_ordered"] += $item->row_total;
                 }else{
-                    $totalReturn += $item->qty;
+                    $total_qty_refunded += $item->qty;
+                    $total_amount_refunded += $item->row_total;
+
+                    $customers[$order->customer_id]["total_qty_refunded"] += $item->qty;
+                    $customers[$order->customer_id]["total_amount_refunded"] += $item->row_total;
                 }
             }
             $orderFees = OrderAttribute::where('order_id', $order->id)->get();
@@ -126,10 +154,14 @@ class ProductController extends Controller
         }
         $product->orders = [
             'list' => $orders,
-            'total' => $orders->count(),
-            'totalBuy' => $totalBuy,
-            'totalReturn' => $totalReturn,
+            'count_order' => $orders->count(),
+            'total_paid' => $total_paid,
+            'total_qty_ordered' => $total_qty_ordered,
+            'total_qty_refunded' => $total_qty_refunded,
+            'total_amount_ordered' => $total_amount_ordered,
+            'total_amount_refunded' => $total_amount_refunded,
         ];
+        $product->customers = $customers;
 
         /*get all info purchaseorder*/
         $listPurchaseorder = array();
@@ -137,16 +169,44 @@ class ProductController extends Controller
             $listPurchaseorder[] = $item->purchaseorder_id;
         });
         $purchaseorders = Purchaseorder::find($listPurchaseorder);
-        $totalBuy = 0;
-        $totalReturn = 0;
+
+        $total_qty_ordered = 0;
+        $total_amount_ordered = 0;
+        $total_qty_refunded = 0;
+        $total_amount_refunded = 0;
+        $total_paid = 0;
+
+        $suppliers = array();
+
         foreach ($purchaseorders as $key => $purchaseorder){
             $purchaseorderItems = PurchaseorderProduct::where('purchaseorder_id', $purchaseorder->id)->get();
             $purchaseorders[$key]->items = $purchaseorderItems;
+            $total_paid += $purchaseorder->total_paid;
+
+            if(!isset($suppliers[$purchaseorder->supplier_id])){
+                $suppliers[$purchaseorder->supplier_id] = array(
+                    "supplier_id" => $order->supplier_id,
+                    "supplier_name" => $order->supplier_name,
+                    "total_qty_ordered" => 0,
+                    "total_amount_ordered" => 0,
+                    "total_qty_refunded" => 0,
+                    "total_amount_refunded" => 0,
+                );
+            }
+
             foreach ($purchaseorderItems as $item){
                 if($item->type != 1){
-                    $totalBuy += $item->qty;
+                    $total_qty_ordered += $item->qty;
+                    $total_amount_ordered += $item->row_total;
+
+                    $suppliers[$purchaseorder->supplier_id]["total_qty_ordered"] += $item->qty;
+                    $suppliers[$purchaseorder->supplier_id]["total_amount_ordered"] += $item->row_total;
                 }else{
-                    $totalReturn += $item->qty;
+                    $total_qty_refunded += $item->qty;
+                    $total_amount_refunded += $item->row_total;
+
+                    $suppliers[$purchaseorder->supplier_id]["total_qty_refunded"] += $item->qty;
+                    $suppliers[$purchaseorder->supplier_id]["total_amount_refunded"] += $item->row_total;
                 }
             }
             $purchaseorderFees = PurchaseorderAttribute::where('purchaseorder_id', $purchaseorder->id)->get();
@@ -154,10 +214,15 @@ class ProductController extends Controller
         }
         $product->purchaseorders = [
             'list' => $purchaseorders,
-            'total' => $purchaseorders->count(),
-            'totalBuy' => $totalBuy,
-            'totalReturn' => $totalReturn,
+            'count_order' => $purchaseorders->count(),
+            'total_paid' => $total_paid,
+            'total_qty_ordered' => $total_qty_ordered,
+            'total_qty_refunded' => $total_qty_refunded,
+            'total_amount_ordered' => $total_amount_ordered,
+            'total_amount_refunded' => $total_amount_refunded,
         ];
+
+        $product->suppliers = $suppliers;
 
         return $product;
     }

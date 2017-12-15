@@ -76,16 +76,16 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
 
         $orders = Order::where('customer_id', $id)->get();
-        $totalBuy = 0;
-        $totalReturn = 0;
+        $total_qty_ordered = 0;
+        $total_qty_refunded = 0;
         foreach ($orders as $key => $order){
             $orderItems = OrderProduct::where('order_id', $order->id)->get();
             $orders[$key]->items = $orderItems;
             foreach ($orderItems as $item){
                 if($item->type != 1){
-                    $totalBuy += $item->qty;
+                    $total_qty_ordered += $item->qty;
                 }else{
-                    $totalReturn += $item->qty;
+                    $total_qty_refunded += $item->qty;
                 }
             }
             $orderFees = OrderAttribute::where('order_id', $order->id)->get();
@@ -94,8 +94,8 @@ class CustomerController extends Controller
         $customer->orders = [
             'list' => $orders,
             'total' => $orders->count(),
-            'totalBuy' => $totalBuy,
-            'totalReturn' => $totalReturn,
+            'total_qty_ordered' => $total_qty_ordered,
+            'total_qty_refunded' => $total_qty_refunded,
         ];
 
         return $customer;
