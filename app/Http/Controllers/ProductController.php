@@ -10,7 +10,8 @@ use App\Models\Supplier;
 use App\Models\Order;
 use App\Models\Purchaseorder;
 use App\Models\Product;
-
+use App\Models\Season;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
@@ -96,8 +97,40 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
+        $select_period = $default_period = 0;
+        $report_start = $report_end = null;
+        $startDate = null;
+        $endDate = null;
+        if($request->has('period')){
+            $period = json_decode($request->input('period'));
+            $select_period = $period->select_period;
+            switch ($select_period){
+                case 0:
+                    break;
+                case -1:
+                    $startDate = isset($period->report_start) ? ($period->report_start == ""? null:$period->report_start): null;
+                    $endDate = isset($period->report_end) ? ($period->report_end == ""? null:$period->report_end): null;
+
+                    if($startDate != null){
+                        $report_start = $startDate;
+                        $startDate = DateTime::createFromFormat('d/m/Y', $startDate)->format('Y-m-d');
+                    }
+                    if($endDate != null){
+                        $report_end = $endDate;
+                        $endDate = DateTime::createFromFormat('d/m/Y', $endDate)->format('Y-m-d');
+                    }
+
+                    break;
+                default:
+                    $season = Season::find($select_period);
+                    $startDate = $season->start;
+                    $endDate = $season->end;
+                    break;
+            }
+        }
+
         $product = Product::find($id);
         if(!$product){
             return response("Sản phẩm không tồn tại.", 422);
@@ -108,8 +141,14 @@ class ProductController extends Controller
         OrderProduct::where('product_id', $id)->select('order_id')->get()->map(function($item) use(&$listOrder) {
             $listOrder[] = $item->order_id;
         });
-        $orders = Order::find($listOrder);
-
+        $orders = Order::whereIn('id', $listOrder);
+        if($startDate != null){
+            $orders = $orders->where('order_date', '>=', date($startDate));
+        }
+        if($endDate != null){
+            $orders = $orders->where('order_date', '<=', date($endDate));
+        }
+        $orders = $orders->get();
         $total_qty_ordered = 0;
         $total_amount_ordered = 0;
         $total_qty_refunded = 0;
@@ -223,6 +262,10 @@ class ProductController extends Controller
         ];
 
         $product->suppliers = $suppliers;
+
+        $product->select_period = $select_period;
+        $product->report_start = $report_start;
+        $product->report_end = $report_end;
 
         return $product;
     }

@@ -5,22 +5,24 @@
                 <div class="form-group">
                     <label for="select" class="col-lg-2 control-label">Khoảng thời gian</label>
                     <div class="col-lg-10">
-                        <select class="form-control" id="select" ng-model="n_product.selectReport" convert-to-number>
+                        <select class="form-control" id="select" ng-model="n_product.select_period" convert-to-number>
                             <option ng-repeat="season in n_seasons" value="{{season.id}}">{{season.name}}</option>
                         </select>
                     </div>
                 </div>
-                <div class="form-group" ng-if="n_product.selectReport == -1">
-                    <div class="col-lg-5 col-lg-offset-2">
-                        <input type="text" class="form-control" placeholder="Ngày bắt đầu">
-                    </div>
-                    <div class="col-lg-5">
-                        <input type="text" class="form-control" placeholder="Ngày kết thúc">
+                <div class="input-daterange input-group" id="period_datepicker">
+                    <div class="form-group" ng-show="n_product.select_period == -1">
+                        <div class="col-lg-5 col-lg-offset-2">
+                            <input type="text" class="form-control" ng-model="n_product.report_start" placeholder="Ngày bắt đầu">
+                        </div>
+                        <div class="col-lg-5">
+                            <input type="text" class="form-control" ng-model="n_product.report_end" placeholder="Ngày kết thúc">
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        <button type="submit" class="btn btn-primary">Hiển thị</button>
+                        <button type="button" ng-click="selectPeriod()" class="btn btn-primary">Hiển thị</button>
                     </div>
                 </div>
             </fieldset>

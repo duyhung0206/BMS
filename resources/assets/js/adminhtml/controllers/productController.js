@@ -9,9 +9,6 @@ myApp.controller('productController',
             supplier_id : 0,
             supplier_name: '',
             is_active: '1',
-            overview: {
-                season_id: 0
-            }
         },
         currentPage : 1,
         pageSize_product: 10,
@@ -21,7 +18,6 @@ myApp.controller('productController',
         if(data && data.n_product != undefined){
             data.n_product.then(function(response) {
                 $scope.n_product = response.data;
-                $scope.n_product.selectReport = 0;
             }).catch(function(response) {
                 $scope.$emit('showMessage', ['danger', null, 'Sản phẩm không tồn tại.']);
                 $location.path('/product');
@@ -47,6 +43,8 @@ myApp.controller('productController',
         $scope.go = function (state) {
             $state.go(state);
         }
+
+
     }else{
         /*Getting all the products*/
         if (data && data.products != undefined) {
@@ -171,7 +169,44 @@ myApp.controller('productController',
         editOrder: function (OrderId) {
             $location.path('/order/edit/' + OrderId);
         },
+        selectPeriod: function () {
+            var period = {
+                select_period: $scope.n_product.select_period,
+                report_start: $scope.n_product.report_start,
+                report_end: $scope.n_product.report_end,
+            };
+
+            productModel.getDataProduct($scope.n_product.id, period).then(function(response) {
+                $scope.n_product = response.data;
+                $scope.$emit('showMessage', ['success', null, 'Truy xuất thông tin thành công.']);
+            }).catch(function(response) {
+                $scope.$emit('showMessage', ['danger', null, 'Sản phẩm không tồn tại.']);
+                $location.path('/product');
+            });
+        },
+        selectSeason: function (season) {
+            console.log(season);
+            if(season.id == 0 || season.id == -1){
+                return;
+            }
+
+            $scope.n_product.report_start = season.start;
+            $scope.n_product.report_end = season.end;
+        }
     });
+
+    $scope.$on('$viewContentLoaded', function(){
+        $('#period_datepicker').datepicker({
+            format: "dd/mm/yyyy",
+            orientation: "bottom auto",
+            language: "vi",
+            todayHighlight: true,
+            todayBtn: true,
+            clearBtn: true,
+            autoclose: true
+        });
+    });
+
 }]);
 
 
