@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\Setting;
+use App\Models\Season;
 
 use App\Models\Order;
 use App\Models\OrderProduct;
@@ -70,33 +72,113 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
+        $select_period = $default_period = Setting::where('path', 'period_default')->first()->value;
+        $report_start = $report_end = null;
+        $startDate = null;
+        $endDate = null;
+        if($request->has('period')){
+            $period = json_decode($request->input('period'));
+            $select_period = $period->select_period;
+            switch ($select_period){
+                case 0:
+                    break;
+                case -1:
+                    $startDate = isset($period->report_start) ? ($period->report_start == ""? null:$period->report_start): null;
+                    $endDate = isset($period->report_end) ? ($period->report_end == ""? null:$period->report_end): null;
+
+                    if($startDate != null){
+                        $report_start = $startDate;
+                        $startDate = DateTime::createFromFormat('d/m/Y', $startDate)->format('Y-m-d');
+                    }
+                    if($endDate != null){
+                        $report_end = $endDate;
+                        $endDate = DateTime::createFromFormat('d/m/Y', $endDate)->format('Y-m-d');
+                    }
+
+                    break;
+                default:
+                    $season = Season::find($select_period);
+                    $startDate = $season->start;
+                    $endDate = $season->end;
+                    break;
+            }
+        }else{
+            $season = Season::find($select_period);
+            $startDate = $season->start;
+            $endDate = $season->end;
+        }
+
         /*get info customer*/
         $customer = Customer::find($id);
 
-        $orders = Order::where('customer_id', $id)->get();
+        $orders = Order::where('customer_id', $id);
+        if($startDate != null){
+            $orders = $orders->where('order_date', '>=', date($startDate));
+        }
+        if($endDate != null){
+            $orders = $orders->where('order_date', '<=', date($endDate));
+        }
+        $orders = $orders->get();
+
         $total_qty_ordered = 0;
         $total_qty_refunded = 0;
+        $total_amount_ordered = 0;
+        $total_amount_refunded = 0;
+        $total_paid = 0;
+        $grand_total = 0;
+
+        $products = array();
         foreach ($orders as $key => $order){
             $orderItems = OrderProduct::where('order_id', $order->id)->get();
             $orders[$key]->items = $orderItems;
+            $total_paid += $order->total_paid;
+            $grand_total += $order->grand_total;
             foreach ($orderItems as $item){
+                if(!isset($products[$item->product_id])){
+                    $products[$item->product_id] = array(
+                        "product_id" => $item->product_id,
+                        "product_name" => $item->product_name,
+                        "sku" => $item->sku,
+                        "total_qty_ordered" => 0,
+                        "total_amount_ordered" => 0,
+                        "total_qty_refunded" => 0,
+                        "total_amount_refunded" => 0,
+                    );
+                }
                 if($item->type != 1){
                     $total_qty_ordered += $item->qty;
+                    $total_amount_ordered += $item->row_total;
+
+                    $products[$item->product_id]["total_qty_ordered"] += $item->qty;
+                    $products[$item->product_id]["total_amount_ordered"] += $item->row_total;
                 }else{
                     $total_qty_refunded += $item->qty;
+                    $total_amount_refunded += $item->row_total;
+
+                    $products[$item->product_id]["total_qty_refunded"] += $item->qty;
+                    $products[$item->product_id]["total_amount_refunded"] += $item->row_total;
                 }
             }
             $orderFees = OrderAttribute::where('order_id', $order->id)->get();
             $orders[$key]->fees = $orderFees;
         }
+        $customer->products = $products;
         $customer->orders = [
             'list' => $orders,
-            'total' => $orders->count(),
+            'total_paid' => $total_paid,
+            'grand_total' => $grand_total,
+            'count_order' => $orders->count(),
             'total_qty_ordered' => $total_qty_ordered,
             'total_qty_refunded' => $total_qty_refunded,
+            'total_amount_ordered' => $total_amount_ordered,
+            'total_amount_refunded' => $total_amount_refunded,
         ];
+
+        $customer->select_period = $select_period;
+        $customer->report_start = $report_start;
+        $customer->report_end = $report_end;
 
         return $customer;
     }
@@ -145,7 +227,7 @@ class CustomerController extends Controller
                     'customer_name' => $customer->name
                 ]);
             }
-            return response($this->show($customer->id), 201);
+            return response($this->show($request, $customer->id), 201);
         }else{
             return response('Customer does not exist !', 422);
         }

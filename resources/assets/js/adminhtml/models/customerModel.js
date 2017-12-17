@@ -28,13 +28,14 @@ myApp.factory('customerModel', ['$http', function($http){
                 method: 'DELETE'
             });
         },
-        getDataCustomer: function (customerId) {
+        getDataCustomer: function (customerId, period) {
             return $http({
                 headers:{
                     'Content-Type':'application/json'
                 },
                 url: baseUrl + 'customer/'+ customerId,
-                method: 'GET'
+                method: 'GET',
+                params: {period: period}
             });
         },
         saveCustomer: function (CustomerData) {

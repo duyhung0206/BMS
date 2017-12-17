@@ -29,13 +29,14 @@ myApp.factory('supplierModel', ['$http', function($http){
                 method: 'DELETE'
             });
         },
-        getDataSupplier: function (supplierId) {
+        getDataSupplier: function (supplierId, period) {
             return $http({
                 headers:{
                     'Content-Type':'application/json'
                 },
                 url: baseUrl + 'supplier/'+ supplierId,
-                method: 'GET'
+                method: 'GET',
+                params: {period: period}
             });
         },
         saveSupplier: function (SupplierData) {

@@ -204,7 +204,7 @@
                                         <div class="col-lg-1"><button type="button" class="btn btn-primary btn-xs" ng-click="removeFee($index)" title="Remove this fee">-</button></div>
                                         <div class="col-lg-4"><input class="form-control" name="fee_label" ng-model="fee.title"></div>
                                         <div class="col-lg-7">
-                                            <input class="form-control text-right" id="fee[{{$index}}]" input-currency name="fee_value" ng-model="fee.value" type="text">
+                                            <input class="form-control text-right" id="fee[{{$index+1}}]" input-currency name="fee_value" ng-model="fee.value" type="text">
                                         </div>
                                     </div>
                                     <div class="row partition"></div>

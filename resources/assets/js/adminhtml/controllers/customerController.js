@@ -1,5 +1,5 @@
-myApp.controller('customerController', ['$scope', '$rootScope', 'customerModel', 'data', '$location', '$route', '$state',
-    function($scope, $rootScope, customerModel, data, $location, $route, $state){
+myApp.controller('customerController', ['$scope', '$rootScope', 'customerModel', 'data', '$location', '$route', '$state', 'seasonModel',
+    function($scope, $rootScope, customerModel, data, $location, $route, $state, seasonModel){
     angular.extend($scope, {
         n_customer:{
             name: '',
@@ -23,6 +23,19 @@ myApp.controller('customerController', ['$scope', '$rootScope', 'customerModel',
                 $location.path('/customer');
             });
         }
+
+        seasonModel.getAllSeasons().then(function(response) {
+            $scope.n_seasons = response.data;
+            $scope.n_seasons.unshift({
+                id: 0,
+                name: 'Tất cả'
+            });
+            $scope.n_seasons.push({
+                id: -1,
+                name: 'Chọn khoảng thời gian'
+            });
+        });
+
         $scope.go = function (state) {
             $state.go(state);
         }
@@ -126,6 +139,33 @@ myApp.controller('customerController', ['$scope', '$rootScope', 'customerModel',
         editOrder: function (OrderId) {
             $location.path('/order/edit/' + OrderId);
         },
+        selectPeriod: function () {
+            var period = {
+                select_period: $scope.n_customer.select_period,
+                report_start: $scope.n_customer.report_start,
+                report_end: $scope.n_customer.report_end,
+            };
+
+            customerModel.getDataCustomer($scope.n_customer.id, period).then(function(response) {
+                $scope.n_customer = response.data;
+                $scope.$emit('showMessage', ['success', null, 'Truy xuất thông tin thành công.']);
+            }).catch(function(response) {
+                $scope.$emit('showMessage', ['danger', null, 'Khách hàng không tồn tại.']);
+                $location.path('/customer');
+            });
+        }
+    });
+
+    $scope.$on('$viewContentLoaded', function(){
+        $('#period_datepicker').datepicker({
+            format: "dd/mm/yyyy",
+            orientation: "bottom auto",
+            language: "vi",
+            todayHighlight: true,
+            todayBtn: true,
+            clearBtn: true,
+            autoclose: true
+        });
     });
 }]);
 

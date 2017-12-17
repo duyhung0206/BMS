@@ -130,6 +130,10 @@ class ProductController extends Controller
                     $endDate = $season->end;
                     break;
             }
+        }else{
+            $season = Season::find($select_period);
+            $startDate = $season->start;
+            $endDate = $season->end;
         }
 
         $product = Product::find($id);
@@ -150,6 +154,7 @@ class ProductController extends Controller
             $orders = $orders->where('order_date', '<=', date($endDate));
         }
         $orders = $orders->get();
+
         $total_qty_ordered = 0;
         $total_amount_ordered = 0;
         $total_qty_refunded = 0;
@@ -208,7 +213,15 @@ class ProductController extends Controller
         PurchaseorderProduct::where('product_id', $id)->select('purchaseorder_id')->get()->map(function($item) use(&$listPurchaseorder) {
             $listPurchaseorder[] = $item->purchaseorder_id;
         });
-        $purchaseorders = Purchaseorder::find($listPurchaseorder);
+
+        $purchaseorders = Purchaseorder::whereIn('id', $listPurchaseorder);
+        if($startDate != null){
+            $purchaseorders = $purchaseorders->where('order_date', '>=', date($startDate));
+        }
+        if($endDate != null){
+            $purchaseorders = $purchaseorders->where('order_date', '<=', date($endDate));
+        }
+        $purchaseorders = $purchaseorders->get();
 
         $total_qty_ordered = 0;
         $total_amount_ordered = 0;
@@ -225,8 +238,8 @@ class ProductController extends Controller
 
             if(!isset($suppliers[$purchaseorder->supplier_id])){
                 $suppliers[$purchaseorder->supplier_id] = array(
-                    "supplier_id" => $order->supplier_id,
-                    "supplier_name" => $order->supplier_name,
+                    "supplier_id" => $purchaseorder->supplier_id,
+                    "supplier_name" => $purchaseorder->supplier_name,
                     "total_qty_ordered" => 0,
                     "total_amount_ordered" => 0,
                     "total_qty_refunded" => 0,
@@ -336,7 +349,7 @@ class ProductController extends Controller
                 'is_active' => $request->input('is_active')
             ]);
 
-            return response($this->show($product->id), 201);
+            return response($this->show($product->id, null), 201);
         }else{
             return response('Product does not exist !', 422);
         }

@@ -1,5 +1,5 @@
-myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel', 'data', '$route', '$location', '$state',
-    function($scope, $rootScope, supplierModel, data, $route, $location, $state){
+myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel', 'data', '$route', '$location', '$state', 'seasonModel',
+    function($scope, $rootScope, supplierModel, data, $route, $location, $state, seasonModel){
     angular.extend($scope, {
         n_supplier:{
             name: '',
@@ -26,6 +26,18 @@ myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel',
         $scope.go = function (state) {
             $state.go(state);
         }
+
+        seasonModel.getAllSeasons().then(function(response) {
+            $scope.n_seasons = response.data;
+            $scope.n_seasons.unshift({
+                id: 0,
+                name: 'Tất cả'
+            });
+            $scope.n_seasons.push({
+                id: -1,
+                name: 'Chọn khoảng thời gian'
+            });
+        });
     }else{
         /*Getting all the suppliers*/
         if (data && data.suppliers != undefined) {
@@ -35,17 +47,6 @@ myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel',
             });
         }
     }
-
-
-    $('#supplier_datepicker').datepicker({
-        format: "dd/mm/yyyy",
-        orientation: "bottom auto",
-        language: "vi",
-        todayHighlight: true,
-        todayBtn: true,
-        clearBtn: true,
-        autoclose: true
-    });
 
     /*functions*/
     angular.extend($scope, {
@@ -127,7 +128,34 @@ myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel',
         },
         editPurchaseorder: function (PurchaseorderId) {
             $location.path('/purchaseorder/edit/' + PurchaseorderId);
+        },
+        selectPeriod: function () {
+            var period = {
+                select_period: $scope.n_supplier.select_period,
+                report_start: $scope.n_supplier.report_start,
+                report_end: $scope.n_supplier.report_end,
+            };
+
+            supplierModel.getDataSupplier($scope.n_supplier.id, period).then(function(response) {
+                $scope.n_supplier = response.data;
+                $scope.$emit('showMessage', ['success', null, 'Truy xuất thông tin thành công.']);
+            }).catch(function(response) {
+                $scope.$emit('showMessage', ['danger', null, 'Nhà cung cấp không tồn tại.']);
+                $location.path('/supplier');
+            });
         }
+    });
+
+    $scope.$on('$viewContentLoaded', function(){
+        $('#period_datepicker').datepicker({
+            format: "dd/mm/yyyy",
+            orientation: "bottom auto",
+            language: "vi",
+            todayHighlight: true,
+            todayBtn: true,
+            clearBtn: true,
+            autoclose: true
+        });
     });
 }]);
 

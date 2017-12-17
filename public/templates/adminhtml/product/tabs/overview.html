@@ -120,7 +120,7 @@
                         <td colspan="5">Không tìm thấy dữ liệu</td>
                     </tr>
                     <tr ng-repeat="customer in n_product.customers">
-                        <td>{{$index}}</td>
+                        <td>{{$index+1}}</td>
                         <td>{{customer.customer_name}}</td>
                         <td class="text-right">{{customer.total_qty_ordered | number}}</td>
                         <td class="text-right">{{customer.total_amount_ordered | number}}</td>
@@ -160,7 +160,7 @@
                         <td colspan="5">Không tìm thấy dữ liệu</td>
                     </tr>
                     <tr ng-repeat="supplier in n_product.suppliers">
-                        <td>{{$index}}</td>
+                        <td>{{$index+1}}</td>
                         <td>{{supplier.supplier_name}}</td>
                         <td class="text-right">{{supplier.total_qty_ordered | number}}</td>
                         <td class="text-right">{{supplier.total_amount_ordered | number}}</td>

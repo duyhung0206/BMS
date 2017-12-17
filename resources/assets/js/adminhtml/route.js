@@ -35,7 +35,7 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
         resolve: {
             data: function($route, customerModel) {
                 return {
-                    n_customer: customerModel.getDataCustomer($route.current.params.id),
+                    n_customer: customerModel.getDataCustomer($route.current.params.id, null),
                 };
             }
         },
@@ -61,7 +61,7 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
         resolve: {
             data: function($route, supplierModel) {
                 return {
-                    n_supplier: supplierModel.getDataSupplier($route.current.params.id),
+                    n_supplier: supplierModel.getDataSupplier($route.current.params.id, null),
                 };
             }
         },

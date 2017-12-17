@@ -183,15 +183,6 @@ myApp.controller('productController',
                 $scope.$emit('showMessage', ['danger', null, 'Sản phẩm không tồn tại.']);
                 $location.path('/product');
             });
-        },
-        selectSeason: function (season) {
-            console.log(season);
-            if(season.id == 0 || season.id == -1){
-                return;
-            }
-
-            $scope.n_product.report_start = season.start;
-            $scope.n_product.report_end = season.end;
         }
     });
 

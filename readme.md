@@ -17,5 +17,6 @@ bower install chart.js --save;
 ```
 
 ```bash
-npm install laravel-elixir --save-dev
+npm install laravel-elixir --save-dev;
+npm install gulp -g
 ```
