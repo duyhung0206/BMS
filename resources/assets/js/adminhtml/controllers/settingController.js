@@ -1,43 +1,55 @@
-myApp.controller('settingController', ['$scope', '$rootScope', 'Notification', 'seasonModel', 'userModel', '$timeout',
-    function($scope, $rootScope, Notification, seasonModel, userModel, $timeout){
-
-    $rootScope.n_config = {
-        notification:{
-            delay: 7000,
-            startTop: 70,
-            startRight: 10,
-            verticalSpacing: 10,
-            horizontalSpacing: 10,
-            positionX: 'left',
-            positionY: 'top',
-            replaceMessage: true
-        },
-        themes: {
-            choosed: 'paper',
-            list: ['lumen', 'paper', 'united', 'superhero']
+myApp.controller('settingController', ['$scope', '$rootScope', 'Notification', 'seasonModel', 'settingModel', '$timeout', 'userModel',
+    function($scope, $rootScope, Notification, seasonModel, settingModel, $timeout, userModel){
+        if(!userModel.getAuthStatus() || $rootScope.n_config == undefined){
+            $rootScope.n_config = {
+                themes: {
+                    list: ['lumen', 'paper', 'united', 'superhero']
+                },
+                period_default: 0,
+                theme_default: 'paper',
+            };
+            settingModel.getAllSettings().then(function(response) {
+                response.data.forEach(function (config) {
+                    switch (config.path){
+                        case 'period_default':
+                            $rootScope.n_config.period_default = config.value;
+                            break;
+                        case 'theme_default':
+                            $rootScope.n_config.theme_default = config.value;
+                            break;
+                    }
+                })
+            });
+        }else{
+            /*Getting all the seasons*/
+            seasonModel.getAllSeasons().then(function(response) {
+                $scope.seasons = response.data;
+                $scope.seasons.unshift({
+                    id: 0,
+                    name: 'Tất cả'
+                })
+            });
         }
-    };
 
-    $timeout(function(){
-        $('body').addClass('loaded');
-    }, 700);
-
-    /*Getting all the seasons*/
-    seasonModel.getAllSeasons().then(function(response) {
-        $scope.seasons = response.data;
-        $scope.seasons.unshift({
-            id: 0,
-            name: 'All'
-        })
-    });
-
-    $scope.changeTheme = function (theme) {
-        $('body').removeClass('loaded');
-        $rootScope.n_config.themes.choosed = theme;
-        $timeout(function(){
-            $('body').addClass('loaded');
-            $scope.$emit('showMessage', ['success', null, 'Theme \''+theme+'\' selected.']);
-        }, 700);
-    }
-}]);
+        $scope.changeTheme = function (theme) {
+            $('body').removeClass('loaded');
+            $rootScope.n_config.theme_default = theme;
+            this.saveSetting();
+            $timeout(function(){
+                $('body').addClass('loaded');
+                $timeout(function(){
+                    $scope.$emit('showMessage', ['success', null, 'Theme \''+theme+'\' selected.']);
+                }, 1000);
+            }, 700);
+        }
+        
+        $scope.saveSetting = function (editSettingForm) {
+            settingModel.saveSetting($rootScope.n_config)
+            .then(function(response) {
+                $scope.$emit('showMessage', ['success', null, 'Lưu cài đặt thành công.']);
+            })
+            .catch(function(response) {
+            });
+        }
+    }]);
 

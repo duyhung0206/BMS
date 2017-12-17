@@ -1,4 +1,5 @@
-myApp.controller('userController', ['$scope', 'userModel', '$location', function($scope, userModel, $location){
+myApp.controller('userController', ['$scope', 'userModel', '$location',
+    function($scope, userModel, $location){
 
     /*variables*/
     angular.extend($scope, {
@@ -8,7 +9,6 @@ myApp.controller('userController', ['$scope', 'userModel', '$location', function
             error: false
         }
     });
-
     /*functions*/
     angular.extend($scope,{
         doLogin: function(loginForm){
@@ -20,6 +20,7 @@ myApp.controller('userController', ['$scope', 'userModel', '$location', function
                 function() {
                     $scope.login.error = true;
                     $location.path('/dashboard');
+
                 }
             ).catch(function(response) {
                 $scope.login.error = false;

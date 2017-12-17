@@ -17,6 +17,7 @@ Route::group(['prefix' => 'admin'], function () {
     });
 
     Route::post('auth', 'UserController@checkAuth');
+    Route::resource('setting', 'SettingController');
 
     Route::group(['middleware' => 'auth-api'], function () {
         Route::resource('season', 'SeasonController');
@@ -30,6 +31,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('order', 'OrderController');
 
         Route::resource('purchaseorder', 'PurchaseorderController');
+
 //        Route::post('order/show/{orderId}', 'OrderController@show');
     });
 });

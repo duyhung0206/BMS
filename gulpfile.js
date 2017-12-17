@@ -31,6 +31,7 @@ elixir(function(mix) {
         'adminhtml/models/customerModel.js',
         'adminhtml/models/supplierModel.js',
         'adminhtml/models/productModel.js',
+        'adminhtml/models/settingModel.js',
         'adminhtml/models/orderModel.js',
         'adminhtml/models/purchaseorderModel.js',
     ], 'public/js/adminhtml/models.js');

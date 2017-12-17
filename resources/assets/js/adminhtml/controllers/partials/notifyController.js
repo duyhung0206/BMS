@@ -19,13 +19,25 @@ myApp.controller('notifyController', ['$scope', '$rootScope', '$timeout', 'Notif
         }
 
     });
+
+    $rootScope.notification = {
+        delay: 7000,
+        startTop: 70,
+        startRight: 10,
+        verticalSpacing: 10,
+        horizontalSpacing: 10,
+        positionX: 'left',
+        positionY: 'top',
+        replaceMessage: true
+    }
+
     $rootScope.$on('showMessage', function(event, args) {
         switch (args[0]){
             case 'danger':
-                Notification.error($.extend({message:args[2]}, $rootScope.n_config.notification));
+                Notification.error($.extend({message:args[2]}, $rootScope.notification));
                 break;
             case 'success':
-                Notification.success($.extend({message:args[2]}, $rootScope.n_config.notification));
+                Notification.success($.extend({message:args[2]}, $rootScope.notification));
                 break;
         }
         //$scope.showMessage(args[0], args[1], args[2]);

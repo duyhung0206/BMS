@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\Purchaseorder;
 use App\Models\Product;
 use App\Models\Season;
+use App\Models\Setting;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -99,7 +100,7 @@ class ProductController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $select_period = $default_period = 0;
+        $select_period = $default_period = Setting::where('path', 'period_default')->first()->value;
         $report_start = $report_end = null;
         $startDate = null;
         $endDate = null;

@@ -211,7 +211,8 @@ myApp.config(['$routeProvider', '$locationProvider',function($routeProvider, $lo
     $routeProvider.otherwise('/');
 }]);
 
-myApp.run(['$rootScope', '$location', 'userModel', function($rootScope, $location, userModel){
+myApp.run(['$rootScope', '$location', 'userModel', '$timeout',
+    function($rootScope, $location, userModel, $timeout){
     $rootScope.$on('$routeChangeStart', function(event, next, current){
         if(next.$$route.authenticated){
             if(!userModel.getAuthStatus()){
@@ -224,5 +225,9 @@ myApp.run(['$rootScope', '$location', 'userModel', function($rootScope, $locatio
                 $location.path('/dashboard');
             }
         }
+
+        $timeout(function(){
+            $('body').addClass('loaded');
+        }, 700);
     });
 }]);
