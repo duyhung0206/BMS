@@ -131,9 +131,11 @@ class ProductController extends Controller
                     break;
             }
         }else{
-            $season = Season::find($select_period);
-            $startDate = $season->start;
-            $endDate = $season->end;
+            if($select_period != 0){
+                $season = Season::find($select_period);
+                $startDate = $season->start;
+                $endDate = $season->end;
+            }
         }
 
         $product = Product::find($id);

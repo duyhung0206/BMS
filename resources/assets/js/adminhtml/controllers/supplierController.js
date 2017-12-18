@@ -136,6 +136,7 @@ myApp.controller('supplierController', ['$scope', '$rootScope', 'supplierModel',
                 report_end: $scope.n_supplier.report_end,
             };
 
+            console.log(period);
             supplierModel.getDataSupplier($scope.n_supplier.id, period).then(function(response) {
                 $scope.n_supplier = response.data;
                 $scope.$emit('showMessage', ['success', null, 'Truy xuất thông tin thành công.']);

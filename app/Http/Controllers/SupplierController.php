@@ -13,7 +13,7 @@ use App\Models\PurchaseorderProduct;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Season;
-
+use DateTime;
 use Illuminate\Support\Facades\Validator;
 
 class SupplierController extends Controller
@@ -104,9 +104,11 @@ class SupplierController extends Controller
                     break;
             }
         }else{
-            $season = Season::find($select_period);
-            $startDate = $season->start;
-            $endDate = $season->end;
+            if($select_period != 0){
+                $season = Season::find($select_period);
+                $startDate = $season->start;
+                $endDate = $season->end;
+            }
         }
 
         /*get info customer*/
