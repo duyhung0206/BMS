@@ -36,10 +36,14 @@ Route::group(['prefix' => ''], function () {
     });
 });
 
-use Illuminate\Support\Facades\Auth;
-use App\Models\OrderProduct;
-Route::get('test', function ()
-{
-    Auth::logout();
-});
+//use Illuminate\Support\Facades\Auth;
+//use App\Models\OrderProduct;
+//Route::get('test', function ()
+//{
+//    Auth::logout();
+//});
+
+Route::any('{query}',
+    function() { return redirect('/'); })
+    ->where('query', '.*');
 
