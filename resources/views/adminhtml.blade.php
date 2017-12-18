@@ -11,7 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('bower_components/angular-ui-select/dist/select.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('bower_components/angular-ui-notification/dist/angular-ui-notification.css')}}">
 	<script type="text/javascript">
-        var baseUrl = "{{url('/')}}/admin/";
+        var baseUrl = "{{url('/')}}/";
         var csrfToken = "{{csrf_token()}}";
 	</script>
 
