@@ -177,7 +177,7 @@ class SeasonController extends Controller
         $total_paid = 0;
         $grand_total = 0;
 
-        $supplier = array();
+        $suppliers = array();
 
         foreach ($purchaseorders as $key => $purchaseorder){
             $purchaseorderItems = PurchaseorderProduct::where('purchaseorder_id', $purchaseorder->id)->get();
